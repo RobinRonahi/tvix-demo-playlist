@@ -14,12 +14,17 @@
 
 (function () {
 
-  // ----- Key Map -----
+  // ----- Samsung 6 TV 9 Compatible Key Map -----
   var hasTvKey = (typeof window !== "undefined" && typeof window.tvKey !== "undefined");
+  var isSamsungTV = (typeof window.SamsungTVOptimizer !== "undefined" && window.SamsungTVOptimizer.isSamsungTV);
+  var isSamsung6TV9 = (typeof window.SamsungTVOptimizer !== "undefined" && window.SamsungTVOptimizer.isSamsung6TV9);
+  
   var KEY = hasTvKey ? window.tvKey : {
     UP: 38, DOWN: 40, LEFT: 37, RIGHT: 39, ENTER: 13, RETURN: 10009,
     UP_ALT: 38, DOWN_ALT: 40, LEFT_ALT: 37, RIGHT_ALT: 39,
-    ENTER_ALT: 13, ENTER_ALT2: 13, RETURN_ALT: 27
+    ENTER_ALT: 13, ENTER_ALT2: 13, RETURN_ALT: 27,
+    // Samsung 6 TV 9 specific keys
+    BACK: 461, EXIT: 10182, HOME: 10073
   };
 
   // ----- Globals -----
@@ -466,19 +471,33 @@
           keyCode: e.keyCode,
           focused_part: this.keys.focused_part,
           menu_selection: this.keys.menu_selection,
-          route: current_route
+          route: current_route,
+          isSamsung6TV9: isSamsung6TV9
         });
+        
+        // Samsung 6 TV 9 specific key handling
+        if (isSamsung6TV9 && typeof window.SamsungTVOptimizer !== "undefined") {
+          var handled = window.SamsungTVOptimizer.handleSamsung6TV9Keys(e);
+          if (handled) return;
+        }
+        
         if (current_route !== 'home-page' && current_route !== 'top-menu-page') {
           if (typeof updateRoute === 'function') updateRoute('home-page', 'menu_selection');
           current_route = 'top-menu-page';
         }
         if (this.is_drawing) return;
+        
         var isUp     = (e.keyCode === KEY.UP || e.keyCode === KEY.UP_ALT);
         var isDown   = (e.keyCode === KEY.DOWN || e.keyCode === KEY.DOWN_ALT);
         var isLeft   = (e.keyCode === KEY.LEFT || e.keyCode === KEY.LEFT_ALT);
         var isRight  = (e.keyCode === KEY.RIGHT || e.keyCode === KEY.RIGHT_ALT);
         var isEnter  = (e.keyCode === KEY.ENTER || e.keyCode === KEY.ENTER_ALT || e.keyCode === KEY.ENTER_ALT2);
         var isReturn = (e.keyCode === KEY.RETURN || e.keyCode === KEY.RETURN_ALT);
+        
+        // Samsung 6 TV 9 specific keys
+        var isBack   = (e.keyCode === KEY.BACK);
+        var isExit   = (e.keyCode === KEY.EXIT);
+        var isHome   = (e.keyCode === KEY.HOME);
 
         if (isRight) {
           this.handleMenuLeftRight(1);
@@ -491,12 +510,21 @@
         } else if (isEnter) {
           if (this.keys.focused_part === "menu_selection") this.handleMenuClick();
           else if (this.keys.focused_part === "bottom_buttons") this.handleBottomButtonClick();
-        } else if (isReturn) {
+        } else if (isReturn || isBack || isExit) {
           this.goBack();
+        } else if (isHome) {
+          // Samsung 6 TV 9 HOME key - ensure we're on home page
+          this.keys.menu_selection = 0;
+          this.keys.focused_part = "menu_selection";
+          this.hoverMenuItem(0);
         }
       } catch (error) {
         hideLoadingDots();
         console.error('Top Menu HandleKey error:', error);
+        // Samsung 6 TV 9 error recovery
+        if (isSamsung6TV9 && typeof window.SamsungTVOptimizer !== "undefined") {
+          window.SamsungTVOptimizer.performEmergencyRecovery();
+        }
       }
     },
 
