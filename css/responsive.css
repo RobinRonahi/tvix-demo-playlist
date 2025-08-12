@@ -1,0 +1,179 @@
+@media screen and (max-width:1281px){
+#trial-issue-container{padding:24px 18px}
+.loading-issue-item{padding:20px 28px;width:720px;right:10%}
+.loading-issue-message-container{padding:18px 18px}
+.loading-issue-text{font-size:20px}
+.loading-issue-device-info-container{margin-bottom:12px}
+.loading-issue-btn-container{margin-top:18px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap}
+.loading-issue-btn{min-width:148px;font-size:16px;padding:10px 16px;border-radius:10px}
+
+/* Logo alanı */
+#loading-issue-logo-container{left:10%}
+.loading-issue-logo-container{margin-bottom:10px}
+.loading-issue-logo{height:100px}
+
+/* Zamanlayıcı ve içerik alanları */
+.page-timer-container{font-size:22px;top:24px;left:24px}
+.stream-page-content-part{height:540px}
+
+/* Üst menü */
+#home-page-contents-wrapper{padding:18px 26px}
+#top-menu-logo-container{height:60px;width:10%}
+#top-menus-container{width:90%}
+.menu-item{padding:5px 12px;margin-right:5px}
+.menu-item-txt{font-size:18px}
+
+/* Ana sayfa başlık/öğeleri */
+.home-page-section{margin-bottom:10px}
+.home-page-section-title{font-size:24px}
+.latest-movie-item-container{padding:3px 5px}
+.latest-movie-item-icon-container{height:236px}
+.latest-movie-item-title-wrapper{font-size:16px;height:48px}
+
+/* Kanal sayfası üst kategori çubuğu */
+.channel-page-category-item{font-size:20px;padding:8px 16px}
+.channel-page-title{padding:12px;margin-bottom:12px;padding-bottom:6px;font-size:28px}
+#channel-page-right-part{padding-left:18px}
+.channel-menu-item{padding:4px 10px;font-size:19px;padding-right:28px}
+.channel-menu-item .channel-number{width:64px}
+.channel-menu-item .channel-icon{width:28px;max-height:22px}
+
+/* Player ve alt bilgi */
+#channel-page .player-container{height:256px}
+#channel-page-bottom-container{padding:10px}
+.channel-page-bottom-item{font-size:13px;margin:0 8px}
+
+/* Fullscreen bilgi */
+.full-screen-channel-logo-wrapper{height:56px}
+.full-screen-channel-name{font-size:25px}
+#full-screen-information{padding:18px 22px}
+.full-screen-program-title-wrapper{font-size:19px}
+.full-screen-program-desc{font-size:16px}
+
+/* Fullscreen EPG overlay responsive */
+.fullscreen-epg-container{flex-direction:column;gap:20px;text-align:center}
+.fullscreen-channel-info{justify-content:center;min-width:unset}
+.fullscreen-channel-logo{width:60px;height:45px}
+.fullscreen-channel-details h3{font-size:22px}
+.fullscreen-channel-name{font-size:20px}
+.fullscreen-channel-number{font-size:16px}
+.fullscreen-program-info{border-left:none;border-top:2px solid rgba(116,185,255,.3);padding-left:0;padding-top:20px;max-width:90%}
+.fullscreen-program-title{font-size:20px}
+.fullscreen-program-time{font-size:16px}
+.fullscreen-program-description{font-size:14px}
+
+/* Canlı kanal butonları (yan yana, küçük) */
+#live-channel-button-container{bottom:10px;right:10px}
+.channel-action-btn{font-size:18px;padding:8px 14px;border-radius:10px}
+
+/* Arama */
+.search-container{margin:10px 0;font-size:22px}
+.search-input{font-size:20px;padding:6px 6px 6px 46px}
+
+/* VOD / Seri menüleri */
+#vod-series-menus-container{height:510px}
+.vod-series-category-item{padding:5px 16px;font-size:20px}
+#vod-series-title-part{margin:12px 0}
+#vod-series-search-icon{font-size:26px}
+#vod-series-current-category{width:35%;font-size:22px}
+
+/* Ayarlar listesi */
+.setting-menu-item-container{padding:0 10px;margin:6px 0}
+.setting-menu-item-icon-container{width:46px}
+.setting-menu-item-text{font-size:18px}
+.setting-menu-item-text-wrapper{width:240px}
+
+/* Playlist */
+#playlist-select-section{width:95%}
+.playlist-icon-wrapper{width:56px;height:56px;padding:10px}
+.playlist-item-wrapper{font-size:20px;padding:18px 14px}
+#playlist-items-container{position:relative;margin-top:18px;height:380px}
+#notification-title{font-size:32px}
+#notification-content{font-size:22px;font-weight:400}
+
+/* Ebeveyn kontrol */
+#parent-control-modal-title{font-size:32px}
+.parent-modal-input-item-container{font-size:24px}
+.parent-modal-input-wrapper input{padding:12px 10px;font-size:20px}
+.modal-btn-1{padding:5px 18px!important;font-size:22px!important;border-radius:10px!important;border:2px solid #ccc!important}
+.parent-control-modal-button{width:180px}
+
+/* Kategori gizleme */
+.hide-category-modal-option{padding:5px 16px}
+.hide-category-checkbox+label{font-size:24px;padding-left:40px}
+.hide-category-checkbox+label:before{width:22px;height:22px}
+.hide-category-checkbox+label:after{top:8px;left:6px;width:10px;height:14px}
+
+/* Hesap öğeleri ve menüler */
+.user-account-item-wrapper{font-size:26px}
+.modal-operation-menu-type-3{font-size:22px;padding:8px 18px}
+#theme-modal-body{max-height:440px}
+
+/* Çıkış modal */
+#exit-app-title{font-size:32px!important}
+
+/* VOD kartları */
+.vod-series-menu-item-container img{height:190px}
+.vod-series-menu-item-container{padding:5px 6px}
+.vod-series-menu-item{border-radius:7px}
+.vod-series-menu-item-container.active .vod-series-menu-item{transform:scale(1.03)}
+.vod-series-menu-item-title-wrapper{font-size:16px;height:48px}
+.vod-series-action-btn{font-size:20px;padding:6px 16px}
+.vod-series-summary-name{font-size:21px}
+.vod-summary-information-right-part{width:900px}
+.vod-summary-item{font-size:22px}
+
+/* Sezon/episode listeleri */
+.season-item-container{font-size:20px;padding:5px 10px}
+#season-items-container{padding:0}
+#seasons-part{padding:10px 0}
+#episodes-part{padding:10px}
+#series-summary-episode-items-container{height:335px}
+.episode-item-wrapper{font-size:20px;margin-bottom:5px;height:118px;padding-left:150px}
+.episode-item-img-wrapper{width:138px}
+.episode-item-title{font-size:22px}
+.episode-item-desc{margin-top:0;font-size:15px}
+
+/* Login sayfası metin/btn — ince ve yan yana */
+#login-page-note-1{font-size:28px;text-align:center}
+#login-page-note-2-container{margin-top:24px;padding:24px;margin-bottom:24px}
+.login-note-2-txt{padding:4px 0}
+.login-button{font-size:16px;display:inline-flex;width:auto;min-width:148px;padding:10px 14px;margin:6px 8px;border-radius:10px}
+
+/* Playlist sayfası */
+#playlist-page-container{width:960px}
+#playlist-error{font-size:22px}
+.playlist-state{right:5px;top:5px;border-radius:16px;font-size:14px;padding:5px;letter-spacing:1.1px}
+
+/* Kanal sayfası metinleri */
+#channel-page .stream-page-content-part{height:540px}
+#channel-title{font-size:28px;margin:0}
+#next-program-container{padding:8px 0}
+.next-program-item{font-size:18px}
+
+/* Arama sonuç yüksekliği */
+.search-content-container{height:540px}
+
+/* Özet/kapak görselleri */
+.vod-summary-information-left-part{width:340px}
+.vod-summary-image-wrapper img{width:80%;max-height:360px;min-height:330px}
+.vod-summary-image-wrapper.series-summary-image-wrapper{transform:translate(-50%,-20%)}
+.rating{font-size:19px}
+.rating-mark{margin-left:5px;font-size:22px}
+#series-summary-image-wrapper{width:25%;bottom:228px}
+#vod-summary-description,#series-summary-description{margin-top:10px;font-size:20px;line-height:26px;-webkit-line-clamp:9;line-clamp:9}
+#series-summary-description{-webkit-line-clamp:4;line-clamp:4}
+#season-episodes-container{margin-top:14px;height:330px}
+#vod-series-video-title-container span{font-size:21px}
+#vod-series-video-controls-wrapper{padding-bottom:18px}
+#vod-series-progress-container{padding:18px 0}
+.vod-series-player-bottom-label-container{right:28px}
+.video-control-icon{font-size:18px}
+.video-control-icon i{width:38px;height:38px;line-height:34px}
+#vod-series-video-title-container{margin-top:10px}
+#setting-page-left-part{width:30%}
+.setting-menu-item-wrapper{padding:6px 10px}
+.setting-item-section-title{font-size:36px;margin-bottom:18px}
+.setting-menu-item-icon{height:36px}
+#setting-page-right-part{width:70%;padding:0 18px}
+}

@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Samsung TV Player - IPTV Application"/>
+    <meta name="author" content="Samsung TV Player Team">
+    <meta name="app-version" content="1.0.0">
+    <meta name="samsung:app-version" content="1.0.0">
+    <meta name="samsung:app-type" content="web">
+    <meta name="samsung:hybrid-app" content="false">
+    <meta name="samsung:web-application" content="true">
+    <meta name="samsung:cordova-app" content="false">
+    <meta name="samsung:phonegap-app" content="false">
+    <meta name="samsung:native-app" content="false">
+    <meta name="tizen:app-type" content="web">
+    <meta name="tv-version" content="2025">
+    <meta name="tv:api-version" content="6.0.0">
+    <meta name="tv:samsung-api-version" content="6.0.0">
+    <meta name="tv:ui-version" content="tv-samsung-6.0.0">
+    <meta name="samsung:performance-mode" content="fast">
+    <meta name="samsung:hardware-acceleration" content="enabled">
+    <meta name="theme-color" content="#0f1419">
+    <meta name="color-scheme" content="dark">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title data-word_code="app_title"></title>
+    <!-- Optimize CSS Loading -->
+    <link rel="stylesheet" href="css/libs/bootstrap4.4.1.min.css"/>
+    <link rel="stylesheet" href="css/libs/fontawesome-5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="css/libs/magic-check-master/css/magic-check.css">
+    <link rel="stylesheet" href="css/fonts/antonio/font.css"/>
+    <link rel="stylesheet" href="css/fonts/Roboto/stylesheet.css"/>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/variables.css"/>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <!-- Feature CSS -->
+    <link rel="stylesheet" href="css/guide.css">
+    <link rel="stylesheet" href="css/homepage.css">
+    <!-- Language System CSS -->
+    <link rel="stylesheet" href="css/language-selector.css">
+    <link rel="stylesheet" href="css/vod_series_summary.css">
+    <link rel="stylesheet" href="css/vod_series_player_page.css">
+    <link rel="stylesheet" href="css/channel_page.css?v=2025-07-30-modern-search-v2.0">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/movie_grid.css">
+    <link rel="stylesheet" href="css/catchup.css">
+    <link rel="stylesheet" href="css/catchup_detail.css">
+    <link rel="stylesheet" href="css/rating.css">
+    <link rel="stylesheet" href="css/playlist.css">
+    <link rel="stylesheet" href="css/vod_series.css">
+    <link rel="stylesheet" href="css/setting_page.css">
+    <link rel="stylesheet" href="css/theme-system.css">
+    <link rel="stylesheet" href="css/homepage-themes.css">
+    <link rel="stylesheet" href="css/category_page.css">
+    <link rel="stylesheet" href="css/series_page.css">
+    <!-- Top 10 CSS removed for optimization -->
+    <link rel="stylesheet" href="css/flags.css">
+    
+    <!-- Samsung TV Optimizations -->
+    <script>
+        // Samsung TV Performance Initialization
+        if (typeof window.tizen !== 'undefined') {
+            // Samsung Tizen TV detected
+            console.log('Samsung Tizen TV detected - Initializing optimizations');
+            
+            // Enable hardware acceleration
+            if (window.tizen.systeminfo) {
+                window.tizen.systeminfo.getPropertyValue('DISPLAY', function(display) {
+                    console.log('Samsung TV Display Info:', display);
+                });
+            }
+            
+            // Pre-load Samsung TV utilities
+            window.samsungTVReady = true;
+        }
+        
+        // Early Samsung TV detection for CSS optimization
+        document.documentElement.classList.add('samsung-tv-optimized');
+    </script>
+</head>
+<body class="animate-fade-in">
+    <div id="loading-page" class="height-100 text-center">
+        <div class="loader-image-container">
+            <img id="loading-logo-image" src="images/logo.png" alt="Gala Player Pro">
+            <!-- Hafif GIF loader -->
+            <div class="gif-loader-container hide">
+                <img src="images/loader.gif" alt="Loading..." class="loading-gif">
+            </div>
+            <div class="modern-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div id="loading-text" data-word_code="loading"></div>
+            <div id="loading-subtitle" data-word_code="app_subtitle"></div>
+        </div>
+        <div id="loading-issue-container">
+            <div id="network-issue-container" class="loading-issue-item hide">
+                <div class="loading-issue-logo-container">
+                    <div class="issue-gala-player-text" data-word_code="gala_player"></div>
+                </div>
+                <div id="network-issue-content-wrapper" class="loading-issue-message-container">
+                    <div class="loading-issue-text">
+                        <span data-word_code="network_error_message"></span><br>
+                        <span data-word_code="network_error_instruction"></span>
+                    </div>
+                </div>
+                <div id="network-issue-btns-container" class="loading-issue-btn-container">
+                    <div class="btn network-issue-btn loading-issue-btn bg-focus-1"
+                         onmouseenter="login_page.hoverNetworkIssueBtn(0)"
+                         onclick="login_page.reloadApp()"
+                         data-word_code="retry"
+                    >
+                        <span data-word_code="retry"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="expired-issue-container" class="loading-issue-item hide">
+                <div class="loading-issue-logo-container">
+                    <div class="issue-gala-player-text" data-word_code="gala_player"></div>
+                </div>
+                <div class="loading-issue-message-container">
+                    <div class="loading-issue-text">
+                        <span data-word_code="trial_expired"></span><br>
+                        <span data-word_code="activation_message"></span>
+                    </div>
+                    <div class="loading-issue-device-info-container device-info-table">
+                        <div class="device-info-row">
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-label" data-word_code="device_id"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-value login-text-color-1 mac-address"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="device-status-badge expired-license" id="license-status-badge-expired"></span>
+                                <span class="device-status-text" data-word_code="expired_license"></span>
+                            </div>
+                        </div>
+                        <div class="device-info-row">
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-label" data-word_code="device_key"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-value login-text-color-1 device-key"></span>
+                            </div>
+                            <div class="device-info-cell"></div>
+                        </div>
+                    </div>
+                    <div class="loading-more-info-container">
+                        <div class="loading-more-info-item">
+                            <span class="loading-more-info-item-label" data-word_code="more_info_at"></span>
+                            <span class="loading-more-info-item-text login-text-color-1">https://galaplayer.com</span>
+                        </div>
+                        <div class="loading-more-info-item">
+                            <span class="loading-more-info-item-label" data-word_code="or_by"></span>
+                            <span class="loading-more-info-item-text login-text-color-1 support-email">info@galaplayer.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading-issue-btn-container">
+                    <div class="btn expired-issue-btn loading-issue-btn bg-focus-1"
+                         onmouseenter="login_page.hoverExpiredIssueBtn(0)"
+                         onclick="login_page.reloadApp()"
+                         data-word_code="check_license"
+                    >
+                    </div>
+                </div>
+            </div>
+            <div id="no-playlist-issue-container" class="loading-issue-item hide">
+                <div class="loading-issue-logo-container">
+                    <div class="issue-gala-player-text" data-word_code="gala_player"></div>
+                </div>
+                <div class="loading-issue-message-container">
+                    <div class="loading-issue-text">
+                        <strong data-word_code="playlist_not_found"></strong>
+                        <br>
+                        <span data-word_code="upload_playlist_instruction"></span> <span class="login-page-link login-text-color-1">https://galaplayer.com/mylist</span>
+                        <br><span data-word_code="continue_demo_content"></span>
+                    </div>
+                    <div class="loading-issue-device-info-container device-info-table">
+                        <div class="device-info-row">
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-label" data-word_code="device_id"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-value login-text-color-1 mac-address"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="device-status-badge demo-license" id="license-status-badge"></span>
+                                <span class="device-status-text" data-word_code="license_status"></span>
+                            </div>
+                        </div>
+                        <div class="device-info-row">
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-label" data-word_code="device_key"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-value login-text-color-1 device-key"></span>
+                            </div>
+                            <div class="device-info-cell"></div>
+                        </div>
+                    </div>
+                    <div class="loading-more-info-container">
+                        <div class="loading-more-info-item">
+                            <span class="loading-more-info-item-label" data-word_code="more_info_at"></span>
+                            <span class="loading-more-info-item-text login-text-color-1">https://galaplayer.com</span>
+                        </div>
+                        <div class="loading-more-info-item">
+                            <span class="loading-more-info-item-label" data-word_code="or_by"></span>
+                            <span class="loading-more-info-item-text login-text-color-1 support-email">info@galaplayer.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading-issue-btn-container">
+                    <div class="btn no-playlist-btn loading-issue-btn bg-focus-1"
+                         onmouseenter="login_page.hoverNoPlaylistBtn(0)"
+                         onclick="login_page.reloadApp()"
+                         data-word_code="reload"
+                    >
+                        <span class="home-refresh-btn">⟳</span>
+                    </div>
+                    <div class="no-playlist-btn loading-issue-btn bg-focus-1 btn"
+                         onmouseenter="login_page.hoverNoPlaylistBtn(1)"
+                         onclick="login_page.continueDemoPlaylist()"
+                         data-word_code="continue_demo_list"
+                    >
+                        <img src="images/tv-icon.png" alt="TV" class="home-tv-icon">
+                    </div>
+                </div>
+            </div>
+            <div id="trial-issue-container" class="loading-issue-item hide">
+                <div class="loading-issue-logo-container">
+                    <div class="issue-gala-player-text" data-word_code="gala_player"></div>
+                </div>
+                <div class="loading-issue-message-container">
+                    <div class="loading-issue-text">
+                        <span data-word_code="trial_ending_message"></span> <span class="expire-date">2022-03-24</span>
+                        <br>
+                        <span data-word_code="activate_device_message"></span> <span class="login-page-link login-text-color-1">https://galaplayer.com/activation</span>
+                        <span data-word_code="continue_trial_message"></span>
+                    </div>
+                    <div class="loading-issue-device-info-container device-info-table">
+                        <div class="device-info-row">
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-label" data-word_code="device_id"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-value login-text-color-1 mac-address"</span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="device-status-badge trial-license" id="license-status-badge-trial-days"</span>
+                                <span class="device-status-text" data-word_code="license_trial"></span>
+                            </div>
+                        </div>
+                        <div class="device-info-row">
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-label" data-word_code="device_key"></span>
+                            </div>
+                            <div class="device-info-cell">
+                                <span class="loading-issue-info-item-value login-text-color-1 device-key"></span>
+                            </div>
+                            <div class="device-info-cell"></div>
+                        </div>
+                    </div>
+                    <div class="loading-more-info-container">
+                        <div class="loading-more-info-item">
+                            <span class="loading-more-info-item-label" data-word_code="more_info_at"></span>
+                            <span class="loading-more-info-item-text login-text-color-1">https://galaplayer.com</span>
+                        </div>
+                        <div class="loading-more-info-item">
+                            <span class="loading-more-info-item-label" data-word_code="or_by"></span>
+                            <span class="loading-more-info-item-text login-text-color-1 support-email">info@galaplayer.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="loading-issue-btn-container">
+                    <div class="btn trial-issue-btn loading-issue-btn bg-focus-1"
+                         onmouseenter="login_page.hoverTrialIssueBtn(0)"
+                         onclick="login_page.reloadApp()"
+                         data-word_code="reload"
+                    >
+                    </div>
+                    <div class="trial-issue-btn loading-issue-btn bg-focus-1 btn"
+                         onmouseenter="login_page.hoverTrialIssueBtn(1)"
+                         onclick="login_page.continueTrial()"
+                         data-word_code="continue_demo_list"
+                    >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <div id="app" class="app-hidden">
+        <div id="page-container-1" class="height-100">
+            <div class="main-logo-container">
+                <img src="images/logo.png" alt="Gala Player Pro" class="main-logo-image">
+                <div class="main-logo-text" data-word_code="gala_player"></div>
+            </div>
+            <div id="main-menu-container">
+                <div class="menu-grid">
+                    <div class="menu-item-container">
+                    <div class="menu-item bg-focus-1"
+                        onclick="top_menu_page.onMenuItemClick(0)"
+                        onmouseenter="top_menu_page.hoverMenuItem(0)"
+                        >
+                            <div class="menu-item-icon">
+                                <img src="images/tv-icon.png" data-word_code="live_tv" class="menu-icon-img">
+                            </div>
+                        </div>
+                        <div class="menu-item-label" data-word_code="live_tv"></div>
+                    </div>
+                    <div class="menu-item-container">
+                    <div class="menu-item bg-focus-1"
+                        onclick="top_menu_page.onMenuItemClick(1)"
+                        onmouseenter="top_menu_page.hoverMenuItem(1)"
+                        >
+                            <div class="menu-item-icon">
+                                <img src="images/movie-icon.png" data-word_code="movies" class="menu-icon-img">
+                            </div>
+                        </div>
+                        <div class="menu-item-label" data-word_code="movies"></div>
+                    </div>
+                    <div class="menu-item-container">
+                    <div class="menu-item bg-focus-1"
+                        onclick="top_menu_page.onMenuItemClick(2)"
+                        onmouseenter="top_menu_page.hoverMenuItem(2)"
+                        >
+                            <div class="menu-item-icon">
+                                <img src="images/series-icon.png" data-word_code="series" class="menu-icon-img">
+                            </div>
+                        </div>
+                        <div class="menu-item-label" data-word_code="series"></div>
+                    </div>
+                    <div class="menu-item-container">
+                    <div class="menu-item bg-focus-1"
+                        onclick="top_menu_page.onMenuItemClick(3)"
+                        onmouseenter="top_menu_page.hoverMenuItem(3)"
+                        >
+                            <div class="menu-item-icon">
+                                <img src="images/settings-icon.png" data-word_code="settings" class="menu-icon-img">
+                            </div>
+                        </div>
+                        <div class="menu-item-label" data-word_code="settings"></div>
+                    </div>
+                    <div class="menu-item-container">
+                    <div class="menu-item bg-focus-1"
+                        onclick="top_menu_page.onMenuItemClick(4)"
+                        onmouseenter="top_menu_page.hoverMenuItem(4)"
+                        >
+                            <div class="menu-item-icon">
+                                <img src="images/power-icon.png" data-word_code="exit" class="menu-icon-img">
+                            </div>
+                        </div>
+                        <div class="menu-item-label" data-word_code="exit"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Right Clock -->
+            <div class="top-right-clock homepage-only" id="top-right-clock">
+                <div class="clock-time" id="current-time-right"></div>
+            </div>
+
+            <!-- Bottom Bar with Device Info and Actions -->
+            <div id="home-mac-address-container">
+                <div class="bottom-bar-left">
+                    <span data-word_code="device_id">TV MAC Adresi:</span>
+                    <span class="home-device-info-value mac-address" id="main-mac-address"></span>
+                </div>
+                
+                <div class="bottom-bar-center">
+                    <button class="bottom-action-btn" onclick="refreshPlaylist()" data-word_code="update_list_text">
+                        <span class="home-refresh-btn">⟳</span>
+                        <span data-word_code="update_list_text">Liste Güncelle</span>
+                    </button>
+                    
+                    <button class="bottom-action-btn" onclick="openPlaylistPopup()" data-word_code="change_playlist_text">
+                        <span class="home-refresh-btn">≡</span>
+                        <span data-word_code="change_playlist_text">Playlist Değiştir</span>
+                    </button>
+                </div>
+                
+                <div class="bottom-bar-right">
+                    <span class="app-version" data-word_code="app_version_full">Gala Player Pro V2</span>
+                </div>
+            </div>
+            
+            <!-- Playlist Selection Popup -->
+            <div id="playlist-selection-popup" class="playlist-popup hide">
+                <div class="playlist-popup-overlay"></div>
+                <div class="playlist-popup-content">
+                    <div class="playlist-popup-header">
+                        <h3 data-word_code="change_playlist">Playlist Değiştir</h3>
+                        <button class="playlist-popup-close" onclick="closePlaylistPopup()">
+                            <span class="modal-close-span">×</span>
+                        </button>
+                    </div>
+                    <div class="playlist-popup-body">
+                        <div class="playlist-list-container" id="playlist-list-container">
+                            <!-- Playlist options will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="playlist-popup-footer">
+                        <button class="playlist-popup-btn secondary" onclick="closePlaylistPopup()">
+                            <span data-word_code="cancel">İptal</span>
+                        </button>
+                        <button class="playlist-popup-btn primary" onclick="goToPlaylistSettings()">
+                            <span data-word_code="settings">Ayarlar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="page-type-1 hide" id="home-page">
+                <div class="home-page-content">
+                    <div class="home-section" id="latest-movies-section">
+                        <div class="home-section-header">
+                            <div class="home-section-title" data-word_code="latest_movies"></div>
+                        </div>
+                        <div class="home-content-container" id="latest_movies_container"></div>
+                    </div>
+                    
+                    <div class="home-section" id="latest-series-section">
+                        <div class="home-section-header">
+                            <div class="home-section-title" data-word_code="latest_series"></div>
+                        </div>
+                        <div class="home-content-container" id="latest_series_container"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-type-1 hide" id="vod-series-page">
+                <div class="vod-series-header">
+                    <div class="header-left">
+                        <div class="back-to-home-icon" onclick="vod_series_page.goBackToCategory()">
+                            <span class="search-back-span">←</span>
+                            <span data-word_code="back"></span>
+                        </div>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-icon-wrapper" id="vod-series-search-icon-wrapper">
+                            <span class="search-button-span">[Search]</span>
+                        </div>
+                        <input type="text" id="vod-series-search-input" class="search-input" 
+                               data-word_code="search_placeholder" onkeyup="vod_series_page.searchValueChange()">
+                    </div>
+                </div>
+                <div class="stream-page-content-part">
+                    <div id="vod-series-categories-container">
+                        <!-- Categories header removed -->
+                    </div>
+                    <div class="vod-series-content-area">
+                        <div class="vod-series-content-header">
+                            <div id="vod-series-current-category" data-word_code="latest_uploads"></div>
+                            <div class="vod-series-content-stats"></div>
+                        </div>
+                        <div id="vod-series-menus-container"></div>
+                    </div>
+                </div>
+                
+                <div id="vod-series-contents-part" class="stream-page-content-part">
+                    <div id="vod-series-categories-container" class="side-bar left-side-bar bordered vod-categories-container">
+                        <div class="categories-section-header">
+                            <div class="categories-section-title" data-word_code="categories"></div>
+                            <div class="categories-section-subtitle" data-word_code="browse_by_genre"></div>
+                        </div>
+                    </div>
+                    <div id="vod-series-menus-container" class="vod-series-content-area">
+                        <div class="vod-series-content-header">
+                            <div id="vod-series-current-category" data-word_code="all_movies"></div>
+                            <div class="vod-series-content-stats">
+                                <span class="movies-count-info">
+                                    <span class="movies-count-number" id="movies-count">0></span> <span data-word_code="movies_available"></span>
+                                ></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="channel-page" class="page-type-1 hide">
+                <div id="channel-page-contents-part" class="stream-page-content-part">
+                    <div id="channel-page-left-part" class="side-bar left-side-bar">
+                        <div id="channel-categories-wrapper" >
+                        </div>
+                        <div id="channel-page-menus-wrapper">
+                        </div>
+                    </div>
+                    <div class="right-container" id="channel-page-right-part">
+                        <div class="player-container" id="channel-page-video">
+                            <!-- Samsung IPTV Player will be initialized here -->
+                            <div class="video-loader">
+                                <img src="images/loader.gif">
+                            </div>
+                            <div class="video-error">
+                                <img src="images/no_signal.jpg">
+                            </div>
+                        </div>
+                        <div class="channel-information-container">
+                            <p id="channel-title"></p>
+                            
+                            <!-- Modern EPG Tablosu -->
+                            <div class="modern-epg-container" id="modern-epg-container">
+                                <div class="epg-header">
+                                    <div class="epg-title" data-word_code="program_guide"></div>
+                                    <div class="epg-live-indicator">
+                                        <span data-word_code="live"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="epg-current-program" id="epg-current-program">
+                                    <div class="current-program-indicator">
+                                        <span class="now-playing-badge" data-word_code="now_playing"></span>
+                                    </div>
+                                    <div class="current-program-info">
+                                        <div class="current-program-title" id="current-program-title"></div>
+                                        <div class="current-program-time" id="current-program-time"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="epg-upcoming-programs" id="epg-upcoming-programs">
+                                    <div class="upcoming-programs-list" id="upcoming-programs-list">
+                                        <!-- Upcoming programs will be loaded here -->
+                                    </div>
+                                </div>
+                                
+                                <!-- EPG Action Section -->
+                                <div class="epg-action-section">
+                                    <!-- Left Group: Buttons -->
+                                    <div class="action-buttons-left">
+                                        <div class="action-btn favorite-btn" onclick="channel_page.addOrRemoveFav()">
+                                            <i class="fa fa-heart"></i>
+                                            <span data-word_code="favorite"></span>
+                                        </div>
+                                        <div class="action-btn home-btn" onclick="channel_page.goToHomepage()">
+                                            <i class="fa fa-home"></i>
+                                            <span data-word_code="home"></span>
+                                        </div>
+                                        <div class="action-btn movies-btn" onclick="channel_page.goToMoviesPage()">
+                                            <i class="fa fa-film"></i>
+                                            <span data-word_code="movies"></span>
+                                        </div>
+                                        <div class="action-btn series-btn" onclick="channel_page.goToSeriesPage()">
+                                            <i class="fa fa-tv"></i>
+                                            <span data-word_code="series"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Modern Search System -->
+                                    <div class="modern-search-container">
+                                        <div class="modern-search-input-container" id="modern-search-input-container">
+                                            <input type="text" 
+                                                   class="modern-search-input" 
+                                                   id="modern-search-input" 
+                                                   data-word_code="search_channel_placeholder"
+                                                   oninput="channel_page.modernSearchChannels(this.value)"
+                                                   onkeydown="channel_page.handleModernSearchKeydown(event)"
+                                                   onfocus="channel_page.showModernSearch()"
+                                                   onblur="channel_page.hideModernSearchDelay()"
+                                                   autocomplete="off"
+                                                   autocorrect="off"
+                                                   autocapitalize="off"
+                                                   spellcheck="false">
+                                            <div class="modern-search-results" id="modern-search-results"></div>
+                                        </div>
+                                        
+                                        <button class="modern-search-button" 
+                                                id="modern-search-button"
+                                                tabindex="0"
+                                                onclick="channel_page.toggleModernSearch()"
+                                                onmouseenter="channel_page.previewModernSearch()"
+                                                onmouseleave="channel_page.hidePreviewModernSearch()"
+                                                onfocus="channel_page.previewModernSearch()"
+                                                onblur="channel_page.hidePreviewModernSearch()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="typed-channel-number"></div>
+                </div>
+                
+                <!-- REMOVED: Old simple search window - Using new modern system -->
+            </div>
+            <div id="setting-page" class="page-type-1 hide animate-fade">
+                <!-- Modern Header with Home Button -->
+                <div class="settings-header">
+                    <div class="back-to-home-button settings-home-icon" onclick="setting_page.goBackToHome()" onmouseenter="setting_page.hoverHomeButton()">
+                        <i class="fas fa-home"></i>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="settings-content">
+                    <div id="setting-page-left-part" class="settings-sidebar">
+                        <div id="setting-menus-container">
+                            <!-- Kullanıcı Hesabı - Yukarı taşındı (index 0) -->
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(0)"
+                                     onmouseenter="setting_page.hoverSettingMenu(0)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-user small-menu-item" alt="User"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="user_account">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(1)"
+                                     onmouseenter="setting_page.hoverSettingMenu(1)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-eye-slash setting-menu-icon" alt="Hide Categories"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="hide_live_category">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(2)"
+                                     onmouseenter="setting_page.hoverSettingMenu(2)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-film setting-menu-icon" alt="Movies"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="hide_vod_category">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(3)"
+                                     onmouseenter="setting_page.hoverSettingMenu(3)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-tv setting-menu-icon" alt="Series"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="hide_series_category">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(4)"
+                                     onmouseenter="setting_page.hoverSettingMenu(4)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-language setting-menu-icon" alt="Language"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="change_language">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(5)"
+                                     onmouseenter="setting_page.hoverSettingMenu(5)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-list setting-menu-icon" alt="Playlist"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="playlist_management">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(6)"
+                                     onmouseenter="setting_page.hoverSettingMenu(6)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-palette setting-menu-icon" alt="Theme"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="theme_settings">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Yetişkin Kontrolü - Aşağı taşındı (index 7) -->
+                            <div class="setting-menu-item-container">
+                                <div class="setting-menu-item-wrapper bg-focus-1"
+                                     onclick="setting_page.handleMenuClick(7)"
+                                     onmouseenter="setting_page.hoverSettingMenu(7)"
+                                >
+                                    <div class="setting-menu-item-icon-container">
+                                        <i class="fas fa-shield-alt setting-menu-icon" alt="Parent Control"></i>
+                                    </div>
+                                    <div class="setting-menu-item-text-wrapper">
+                                        <div class="setting-menu-item-text" data-word_code="parent_control">
+                                        </div>
+                                    </div>
+                                    <div class="setting-menu-item-arrow">
+                                        <span class="menu-arrow">›</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="setting-page-right-part" class="settings-main-content">
+
+                    <div class="setting-item-section-container" id="parent-control-section">
+                        <div class="setting-item-section-title" data-word_code="parent_control">
+                            
+                        </div>
+                        
+                        <div class="parent-control-modern-container">
+                            <div class="parent-control-info-card">
+                                <div class="info-card-icon">
+                                    [Lock]
+                                </div>
+                                <div class="info-card-content">
+                                    <h3 data-word_code="security_password"></h3>
+                                    <p data-word_code="security_password_desc"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="parent-control-form-wrapper">
+                                <div class="password-input-group">
+                                    <div class="input-field-modern">
+                                        <label for="current_parent_password">
+                                            
+                                            <span data-word_code="current_password"></span>
+                                        </label>
+                                        <input 
+                                            class="modern-password-input" 
+                                            id="current_parent_password" 
+                                            type="password" 
+                                            placeholder="****" 
+                                            maxlength="4"
+                                            onmouseenter="setting_page.hoverParentControl(0)"
+                                            onclick="setting_page.clickParentControl(0)"
+                                        >
+                                        <div class="input-border-line"></div>
+                                    </div>
+                                    
+                                    <div class="input-field-modern">
+                                        <label for="new_parent_password">
+                                            ➕
+                                            <span data-word_code="new_password"></span>
+                                        </label>
+                                        <input 
+                                            class="modern-password-input" 
+                                            id="new_parent_password" 
+                                            type="password" 
+                                            placeholder="****" 
+                                            maxlength="4"
+                                            onmouseenter="setting_page.hoverParentControl(1)"
+                                            onclick="setting_page.clickParentControl(1)"
+                                        >
+                                        <div class="input-border-line"></div>
+                                    </div>
+                                    
+                                    <div class="input-field-modern">
+                                        <label for="new_parent_password_confirm">
+                                            ✅
+                                            <span data-word_code="confirm_password"></span>
+                                        </label>
+                                        <input 
+                                            class="modern-password-input" 
+                                            id="new_parent_password_confirm" 
+                                            type="password" 
+                                            placeholder="****" 
+                                            maxlength="4"
+                                            onmouseenter="setting_page.hoverParentControl(2)"
+                                            onclick="setting_page.clickParentControl(2)"
+                                        >
+                                        <div class="input-border-line"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="parent-control-status" id="parent-control-status">
+                                    <div class="status-message" id="parent-account-valid-error"></div>
+                                    <div class="status-message success display-none" id="parent-account-success"></div>
+                                </div>
+                                
+                                <div class="modern-button-group">
+                                    <button class="modern-btn modern-btn-primary parent-account-item"
+                                            onmouseenter="setting_page.hoverParentControl(3)"
+                                            onclick="setting_page.clickParentControl(3)">
+                                        
+                                        <span data-word_code="save"></span>
+                                    </button>
+                                    <button class="modern-btn modern-btn-secondary parent-account-item"
+                                            onmouseenter="setting_page.hoverParentControl(4)"
+                                            onclick="setting_page.clickParentControl(4)">
+                                        
+                                        <span data-word_code="cancel"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item-section-container" id="hide-category-section">
+                        <div class="setting-item-section-title" data-word_code="hide_categories">
+                        </div>
+                        <div class="hide-category-description">
+                            <p data-word_code="hide_categories_desc"></p>
+                            <div class="category-stats">
+                                <span class="stat-item">
+                                    
+                                    <span id="total-categories-count">0></span> <span data-word_code="categories_text"></span>
+                                ></span>
+                                <span class="stat-separator">|></span>
+                                <span class="stat-item">
+                                    [Show]
+                                    <span id="visible-categories-count">0></span> <span data-word_code="visible"></span>
+                                ></span>
+                                <span class="stat-separator">|></span>
+                                <span class="stat-item">
+                                    🙈
+                                    <span id="hidden-categories-count">0></span> <span data-word_code="hidden"></span>
+                                ></span>
+                            </div>
+                        </div>
+                        <div class="setting-item-section-contents-wrapper">
+                            <div class="setting-item-section-items-container" id="hide-modal-categories-container">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item-section-container" id="language-select-section">
+                        <div class="setting-item-section-title" data-word_code="change_language">
+                        </div>
+                        <div class="setting-item-section-contents-wrapper">
+                            <div class="setting-item-section-items-container" id="select-language-body">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item-section-container" id="user-account-section">
+                        <div class="setting-item-section-title" data-word_code="user_account">
+                        </div>
+                        <div class="setting-item-section-contents-wrapper">
+                            <div class="user-account-item-wrapper text-color-1">
+                                <div class="user-account-label " data-word_code="device_id"></div>
+                                <div class="user-account-value login-text-color-1 mac-address" id="user-account-mac-address"></div>
+                            </div>
+                            <div class="user-account-item-wrapper text-color-1">
+                                <div class="user-account-label " data-word_code="expire_date"></div>
+                                <div class="user-account-value login-text-color-1 expire-date" id="user-account-expire-date"></div>
+                            </div>
+                            <div class="user-account-item-wrapper text-color-1">
+                                <div class="user-account-label " data-word_code="app_status"></div>
+                                <div class="user-account-value login-text-color-1" id="user-account-is_trial"></div>
+                            </div>
+                            <div class="loading-more-info-container">
+                                <div class="loading-more-info-item text-color-1">
+                                    <span class="loading-more-info-item-label" data-word_code="more_info_at"></span>
+                                    <span class="loading-more-info-item-text login-text-color-1">https://galaplayer.com</span>
+                                </div>
+                                <div class="loading-more-info-item text-color-1">
+                                    <span class="loading-more-info-item-label" data-word_code="or_by"></span>
+                                    <span class="loading-more-info-item-text login-text-color-1 support-email">info@galaplayer.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Playlist Management Section -->
+                    <div class="setting-item-section-container" id="playlist-management-section">
+                        <div class="setting-item-section-title" data-word_code="playlist_management">
+                        </div>
+                        <div class="setting-item-section-contents-wrapper">
+                            <!-- Current Playlist Info - Clean & Simple -->
+                            <div class="current-playlist-info-clean">
+                                <div class="current-playlist-name-clean" id="current-playlist-name-clean" data-word_code="loading">
+                                </div>
+                                <div class="current-playlist-counts-clean">
+                                    <span class="count-item-clean">
+                                        <span class="count-number-clean" id="current-channels-count-clean">0</span>
+                                        <span class="count-label-clean" data-word_code="total_channels"></span>
+                                    </span>
+                                    <span class="count-separator-clean">•</span>
+                                    <span class="count-item-clean">
+                                        <span class="count-number-clean" id="current-movies-count-clean">0</span>
+                                        <span class="count-label-clean" data-word_code="total_movies"></span>
+                                    </span>
+                                    <span class="count-separator-clean">•</span>
+                                    <span class="count-item-clean">
+                                        <span class="count-number-clean" id="current-series-count-clean">0</span>
+                                        <span class="count-label-clean" data-word_code="total_series"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Clean Playlists Grid - Just 4 cards -->
+                            <div class="playlists-clean-container">
+                                <div class="playlists-clean-grid" id="playlists-clean-grid">
+                                    <!-- Clean playlist cards will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-item-section-container" id="theme-settings-section">
+                        <div class="setting-item-section-title" data-word_code="theme_settings">
+                        </div>
+                        <div class="setting-item-section-contents-wrapper">
+                            <div class="theme-title" data-word_code="professional_theme_system"></div>
+                            <div class="theme-description animate-fade-in">
+                                <span data-word_code="theme_description"></span>
+                            </div>
+                            <div id="theme-description" class="theme-description animate-fade-in theme-description-italic">
+                                <span data-word_code="professional_theme_options"></span>
+                            </div>
+                            <div class="theme-selection-container" id="theme-options-container">
+                                <!-- Tema seçenekleri JavaScript tarafından eklenecek -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Trailer Modal -->
+    <div id="series-trailer-modal" class="series-trailer-modal hide">
+        <div class="trailer-modal-content">
+            <button class="trailer-close-button" onclick="series_summary_page.hideTrailerModal()">X</button>
+            <iframe id="series-trailer-iframe" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    
+    <!-- VOD Summary Page -->
+    <div id="vod-summary-page" class="height-100 position-relative hide">
+        <img class="vod-series-background-img" onerror="hideImg(this)">
+        <div class="vod-series-background-img-overlay"></div>
+        
+        <!-- Back Button -->
+        <div class="summary-back-button" onclick="vod_summary_page.goBack()">
+            
+            <span data-word_code="back_to_movies"></span>
+        </div>
+        
+        <div class="vod-series-summary-page-contents-container">
+            <!-- Back Button -->
+            <div class="summary-back-button" id="vod-summary-back-button" onclick="goBackToCategory()">
+                
+                <span class="back-text" data-word_code="back"></span>
+            </div>
+            
+            <!-- Kategori Bağlamı Gösterici -->
+            <div class="category-context-display" id="category-context-display">
+                <span id="current-category-name" data_word_code="current_movies"></span>
+            </div>
+            
+            <div class="vod-summary-information-container">
+                <div class="vod-summary-information-left-part">
+                    <div class="vod-summary-image-wrapper">
+                        <img onerror="this.src='images/default_movie.png'">
+                        <!-- Film ismi banner'ın sağında -->
+                        <div class="vod-series-summary-name" id="vod-banner-title">
+                            <h2 id="vod-banner-movie-name"></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="vod-summary-information-right-part">
+                    <div class="vod-summary-contents-wrapper-1">
+                        <div id="vod-summary-action-container" class="vod-series-action-container">
+                            <button id="vod-watch-trailer-button" data-word_code="watch_trailer"
+                                    class="btn vod-action-btn vod-series-action-btn bg-focus-1"
+                                    onmouseenter="vod_summary_page.hoverButton(0)"
+                                    onclick="vod_summary_page.showTrailerVideo()">
+                                
+                            </button>
+                            <button id="vod-watch-movie-button"
+                                    class="btn vod-action-btn vod-series-action-btn bg-focus-1"
+                                    data-word_code="watch_movie"
+                                    onmouseenter="vod_summary_page.hoverButton(1)"
+                                    onclick="vod_summary_page.showMovie()">
+                                <img src="images/movie-icon.png" alt="Movie" class="movie-icon-small">
+                            </button>
+                            <button id="vod-add-favourite-button"
+                                    class="btn vod-action-btn vod-series-action-btn bg-focus-1"
+                                    data-action="add"
+                                    onmouseenter="vod_summary_page.hoverButton(2)"
+                                    onclick="vod_summary_page.toggleFavourite()" data-word_code="add_to_favorite">
+                                
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Film ismi direktör bölümünün üstünde -->
+                    <div class="movie-title-above-details">
+                        <h2 id="vod-summary-name-details"></h2>
+                    </div>
+                    
+                    <p id="vod-summary-description"></p>
+                    <div id="vod-information-wrapper-1">
+                        <div class="vod-summary-item">
+                            <span class="vod-summary-item-label" data-word_code="release_date"></span>
+                            <span class="vod-summary-item-text" id="vod-summary-release-date"</span>
+                        </div>
+                        <div class="vod-summary-item">
+                            <span class="vod-summary-item-label" data-word_code="genre"></span>
+                            <span class="vod-summary-item-text" id="vod-summary-release-genre"</span>
+                        </div>
+                        <div class="vod-summary-item">
+                            <span class="vod-summary-item-label" data-word_code="duration"></span>
+                            <span class="vod-summary-item-text" id="vod-summary-release-length"</span>
+                        </div>
+                        <div class="vod-summary-item">
+                            <span class="vod-summary-item-label" data-word_code="age"></span>
+                            <span class="vod-summary-item-text" id="vod-summary-release-age"</span>
+                        </div>
+                        <div class="vod-summary-item">
+                            <span class="vod-summary-item-label" data-word_code="director"></span>
+                            <span class="vod-summary-item-text" id="vod-summary-release-director"</span>
+                        </div>
+                        <div class="vod-summary-item">
+                            <span class="vod-summary-item-label" data-word_code="cast"></span>
+                            <span class="vod-summary-item-text" id="vod-summary-release-cast"</span>
+                        </div>
+                        <div class="vod-series-rating-container" id="vod-rating-container">
+                            <div class="rating">
+                                <div class="rating-upper rating-full-width">
+                                    <span>★></span><span>★></span><span>★></span><span>★></span><span>★></span>
+                                    <span>★></span><span>★></span><span>★></span><span>★></span><span>★></span>
+                                </div>
+                                <div class="rating-lower">
+                                    <span>★></span><span>★></span><span>★></span><span>★></span><span>★></span>
+                                    <span>★></span><span>★></span><span>★></span><span>★></span><span>★></span>
+                                </div>
+                            </div>
+                            <div class="rating-mark" id="vod-rating-mark">4.5</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Category Title Strip -->
+            <div class="category-title-strip">
+                <h3 id="category-title-strip-text" data-word_code="more_from_category"></h3>
+            </div>
+            
+            <!-- Similar Movies Section -->
+            <div class="similar-movies-section">
+                <!-- Similar Movies Container - Modern TV-friendly design -->
+                <div id="similar-movies-container" class="similar-movies-container">
+                    <!-- Similar movies will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Series Summary Page - Modern TV-Friendly Design -->
+    <div id="series-summary-page" class="height-100 position-relative hide">
+        <!-- Background and Overlay -->
+        <img class="series-background-img" onerror="hideImg(this)">
+        <div class="series-background-overlay"></div>
+        
+        <!-- Header Section (Professional Design) -->
+        <div class="series-page-header">
+            <button class="series-back-button" onclick="series_summary_page.goBack()">
+                
+                <span data-word_code="back"></span>
+            </button>
+            <div class="series-header-content">
+                <img id="series-header-poster" class="series-header-poster" src="" data_word_code="series_poster" onerror="this.src='images/default_movie.png'">
+                <div class="series-header-info">
+                    <h1 id="series-main-title" class="series-title" data_word_code="series_title"></h1>
+                    <div class="series-meta">
+                        <span id="series-year" class="series-meta-item">2024></span>
+                        <span class="series-meta-separator">•></span>
+                        <span id="series-genre" class="series-meta-item">Drama></span>
+                        <span class="series-meta-separator">•></span>
+                        <div class="series-rating-display">
+                            ★
+                            <span id="series-rating-value">4.5></span>
+                        </div>
+                    </div>
+                    <p id="series-description" class="series-description" data-word_code="series_description"></p>
+                    <div class="series-header-actions">
+                        <div class="action-button action-button-primary" onclick="series_summary_page.playFirstEpisode()">
+                            <i class="fas fa-play"></i>
+                            <span data-word_code="play_first_episode"></span>
+                        </div>
+                        <div class="action-button action-button-secondary" onclick="series_summary_page.toggleFavorite()">
+                            <i class="fas fa-heart"></i>
+                            <span id="series-favorite-text" data-word_code="add_to_favorites"></span>
+                        </div>
+                        <div class="action-button action-button-trailer" onclick="series_summary_page.showTrailer()">
+                            <i class="fas fa-video"></i>
+                            <span data-word_code="watch_trailer"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="series-main-content">
+            <!-- Left Sidebar: Seasons -->
+            <div class="series-seasons-sidebar">
+                <div class="seasons-header">
+                    <h3 class="seasons-title">
+                        
+                        <span data-word_code="seasons"></span>
+                    </h3>
+                    <div class="seasons-count">
+                        <span id="total-seasons-count">0></span> <span data-word_code="seasons_count"></span>
+                    </div>
+                </div>
+                <div id="seasons-list-container" class="seasons-list">
+                    <!-- Seasons will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Right Content: Episodes -->
+            <div class="series-episodes-area">
+                <div class="episodes-header">
+                    <h3 class="episodes-title">
+                        
+                        <span data-word_code="episodes"></span>
+                    </h3>
+                    <div class="episodes-info">
+                        <span id="current-season-name" data-word_code="select_season"></span>
+                        <span class="episodes-separator">•></span>
+                        <span id="episodes-count" data-word_code="episodes_count"></span>
+                    </div>
+                </div>
+                <div id="episodes-list-container" class="episodes-list">
+                    <div class="no-season-selected">
+                        <img src="images/tv-icon.png" alt="TV" class="tv-icon-medium">
+                        <p data-word_code="select_season_instruction"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Removed duplicate action buttons - already present in header -->
+    </div>
+    
+    <!-- VOD Series Player Page -->
+    <div id="vod-series-player-page" class="height-100 position-relative hide">
+        <!-- Modern Playback UI -->
+        <div class="playback-header">
+            <div class="back-to-player-button" onclick="vod_series_player_page.goBack()">
+                
+            </div>
+            <div class="playback-title" id="playback-title"></div>
+        </div>
+        <div class="playback-banner">
+            <img id="playback-banner" src="" onerror="this.src='images/default_movie.png'">
+        </div>
+        <div class="player-container">
+                <!-- Samsung TV Tizen AVPlayer - Optimize edilmiş -->
+                <object class="position-absolute samsung-avplayer" id="vod-series-player-video" 
+                        type="application/avplayer">
+                    <param name="AUTOPLAY" value="true">
+                    <param name="PROGRESSIVE_DOWNLOAD" value="true">
+                    <param name="SAMSUNG_INFOLINK_TV_MODE" value="true">
+                </object>
+                <!-- HTML5 Video fallback -->
+                <video class="position-absolute html5-player" id="vod-series-player-video-lg" 
+                       preload="metadata">
+                </video>
+                <div class="video-loader">
+                    <img src="images/loader.gif">
+                </div>
+                <div class="subtitle-container text-center position-absolute">
+                </div>
+                <div class="video-error">
+                    <img src="images/no_signal.jpg">
+                </div>
+                <div id="vod-series-video-controls-container">
+                    <div id="vod-series-progress-controls-container">
+                        <div id="vod-series-progress-container">
+                            <span id="vod-series-video-current-time" class="video-time video-current-time text-left">00:00></span>
+                            <div id="vod-series-video-progressbar-container">
+                                <div id="vod-series-video-progressbar-wrapper">
+                                    <div class="progress-amount" id="vod-series-video-progress"></div>
+                                </div>
+                            </div>
+                            <span id="vod-series-video-duration" class="video-time text-right video-total-time text-right">00:00></span>
+                        </div>
+                        <div id="vod-series-video-controls-wrapper">
+                            <div class="video-control-icon text-center is-prev">
+                                <i class="fas fa-step-backward" 
+                                   onmouseenter="vod_series_player_page.hoverVideoControlIcon(0)"
+                                   onclick="vod_series_player_page.showNextVideo(-1)"
+                                   title="Previous"></i>
+                            </div>
+                            <div class="video-control-icon text-center is-rew">
+                                <i class="fas fa-backward" 
+                                   onmouseenter="vod_series_player_page.hoverVideoControlIcon(1)"
+                                   onclick="vod_series_player_page.seekTo(-30)"
+                                   title="Rewind 30s"></i>
+                            </div>
+                            <div class="video-control-icon text-center is-center">
+                                <i class="fas fa-pause player-play-pause-icon" 
+                                   data-action_type="pause"
+                                   onmouseenter="vod_series_player_page.hoverVideoControlIcon(2)"
+                                   onclick="vod_series_player_page.playPauseVideo()"
+                                   title="Pause/Play"></i>
+                            </div>
+                            <div class="video-control-icon text-center is-ff">
+                                <i class="fas fa-forward" 
+                                   onmouseenter="vod_series_player_page.hoverVideoControlIcon(3)"
+                                   onclick="vod_series_player_page.seekTo(30)"
+                                   title="Forward 30s"></i>
+                            </div>
+                            <div class="video-control-icon text-center is-next">
+                                <i class="fas fa-step-forward" 
+                                   onmouseenter="vod_series_player_page.hoverVideoControlIcon(4)"
+                                   onclick="vod_series_player_page.showNextVideo(1)"
+                                   title="Next"></i>
+                            </div>
+
+                            <div class="vod-series-player-bottom-label-container">
+                                <div class="video-control-icon text-center is-cc">
+                                    <i class="fas fa-closed-captioning" 
+                                       onmouseenter="vod_series_player_page.hoverVideoControlIcon(5)"
+                                       onclick="vod_series_player_page.showSubtitleAudioModal('TEXT')"
+                                       title="Subtitle"></i>
+                                </div>
+                                <div class="video-control-icon is-audio"
+                                     onmouseenter="vod_series_player_page.hoverVideoControlIcon(6)"
+                                     onclick="vod_series_player_page.showSubtitleAudioModal('AUDIO')"
+                                >
+                                    <i class="fas fa-volume-up" 
+                                       title="Audio"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Status Bar removed for cleaner UI -->
+                    <!--<div id="vod-series-category-title">Category Title</div>-->
+                </div>
+                <!-- Yeni profesyonel meta bar: başlık + episode + altyazı / ses bilgisi -->
+                <div id="vod-series-video-meta" class="vod-meta-bar">
+                    <div class="vod-meta-title" id="vod-meta-title"></div>
+                    <div class="vod-meta-extra" id="vod-meta-extra"></div>
+                </div>
+                <!-- Track Selection Modal -->
+                <div id="track-selection-modal" class="track-modal hide">
+                    <div class="track-modal-content">
+                        <div class="track-modal-title" id="track-modal-title"></div>
+                        <div class="track-items" id="track-items"></div>
+                        <div class="track-hint" id="track-hint">OK = Seç / Geri = Kapat</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="subtitle-selection-modal" data-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered1 modal-lg" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title modal-title-text-3" id="subtitle-modal-title" data-word_code="subtitle"></h5>
+                        </div>
+                        <div class="modal-body p-0" id="subtitle-modal-body">
+                            <div id="subtitle-selection-container">
+                            </div>
+                            <div class="modal-button-wrapper modal-button-spacing">
+                                <div class="modal-button-half">
+                                    <button type="button" class="btn modal-btn-2 subtitle-item"
+                                            onclick="vod_series_player_page.cancelSubtitle()" data-word_code="cancel"
+                                            onmouseenter="vod_series_player_page.hoverSubtitle(-2)"
+                                    >
+                                        <span data-word_code="cancel"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-button-half-right">
+                                    <button type="button" class="btn modal-btn-2 subtitle-item"
+                                            onmouseenter="vod_series_player_page.hoverSubtitle(-1)"
+                                            onclick="vod_series_player_page.confirmSubtitle()" data-word_code="ok"
+                                    >
+                                        <span data-word_code="ok"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="trailer-player-page" class="height-100 position-relative display-none">
+            <div id="trailer-player">
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="parent-confirm-modal" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered1 modal-xl" >
+            <div class="modal-content modal-bg-cyan">
+                <div class="modal-header">
+                    <h5 class="modal-title modal-title-text-2 modal-title-large" data-word_code="parent_control"></h5>
+                </div>
+                <div class="modal-body p-20" style="padding:20px 20px;">
+                    <div class="parent-modal-input-container">
+                        <div class="parent-modal-input-item-container">
+                            <div class="parent-modal-label-wrapper">
+                                <label data-word_code="parent_pass"></label>
+                            </div>
+                            <div class="parent-modal-input-wrapper parent-confirm-item">
+                                <input class="form-control" id="parent-confirm-password" type="password" value="" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="" style="margin-top:-15px">
+                            <div class="parent-modal-label-wrapper">
+                            </div>
+                            <div class="parent-modal-input-wrapper">
+                                <span class="invalid-feedback" id="parent-confirm-password-error" data-word_code="password_error">
+                                ></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="button" class="btn modal-btn-1 parent-confirm-modal-button parent-confirm-item"
+                                onclick="confirmParentPassword()" data-word_code="ok"
+                                style="width:150px;"
+                        >
+                            <span data-word_code="ok"></span>
+                        </button>
+                        <button type="button" class="btn modal-btn-1 parent-confirm-modal-button parent-confirm-item" data-word_code="cancel"
+                                onclick="cancelParentPassword()"
+                                style="width:150px; margin-left:5px;"
+                        >
+                            <span data-word_code="cancel"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="turn-off-modal" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered1 modal-lg" >
+            <div class="modal-content modern-exit-modal">
+                <div class="modal-body">
+                    <div class="exit-modal-header">
+                        <div class="exit-icon">
+                            <img src="images/power-icon.png" alt="Exit" width="60" height="60" style="filter: brightness(0) invert(1);">
+                        </div>
+                        <div class="exit-modal-title" data-word_code="exit_app"></div>
+                    </div>
+                    <div class="exit-modal-description" data-word_code="exit_message"></div>
+                    <div class="modal-button-wrapper">
+                        <button type="button" class="btn btn-cancel" data-word_code="stay_app"
+                                onmouseenter="turn_off_page.hoverMenuItem(0)"
+                                onclick="turn_off_page.handleMenuClick()">
+                            <span data-word_code="stay_app"></span>
+                        </button>
+                        <button type="button" class="btn btn-exit" data-word_code="exit_now"
+                                onmouseenter="turn_off_page.hoverMenuItem(1)"
+                                onclick="turn_off_page.handleMenuClick()">
+                            <div class="btn-content">
+                                <img src="images/power-icon.png" alt="Exit" width="18" height="18" style="filter: brightness(0) invert(1); margin-right: 8px;">
+                                <span data-word_code="exit_now"></span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="epg-loading-modal">
+        <div id="epg-loading-modal-content">
+            <div id="epg-loading-modal-content-text" data-word_code="epg_loading">
+            </div>
+            <div id="loading-content-progress-bar">
+                <div id="loading-content-progress-amount">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">
+        <div class="toast-body" id="toast-body" data-word_code="toast_message">
+        </div>
+    </div>
+    <div id="loader" class="vertical-center" style="display: none">
+        <div class="load-container load7">
+            <div class="loader">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Channel Info Modal -->
+    <div class="channel-info-modal" id="channel-info-modal" style="display: none;">
+        <div class="channel-info-modal-overlay"></div>
+        <div class="channel-info-modal-content">
+            <div class="channel-info-header">
+                <div class="channel-info-logo">
+                    <img src="" alt="" onerror="this.style.display='none';">
+                </div>
+                <div class="channel-info-details">
+                    <h2 class="channel-info-title"></h2>
+                    <p class="channel-info-number"></p>
+                    <p class="channel-info-category"></p>
+                </div>
+                <button class="channel-info-close" onclick="channel_page.hideChannelInfoModal()">
+                    X
+                </button>
+            </div>
+            <div class="channel-info-body">
+                <div class="channel-info-section">
+                    <h3><img src="images/tv-icon.png" alt="TV" style="width: 16px; height: 16px; filter: brightness(0) invert(1); margin-right: 8px;"> <span data-word_code="program_info"></span></h3>
+                    <div class="channel-program-list" id="channel-program-list">
+                        <div class="loading-programs" data-word_code="loading_programs"></div>
+                    </div>
+                </div>
+                <div class="channel-info-actions">
+                    <button class="channel-info-btn favorite-btn" onclick="channel_page.addOrRemoveFav()">
+                        
+                        <span data-word_code="add_to_favorites"></span>
+                    </button>
+                    <button class="channel-info-btn play-btn" onclick="channel_page.hideChannelInfoModal()">
+                        
+                        <span data-word_code="continue_watching"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Core Libraries -->
+    <script src="js/libs/jquery.3.4.1.min.js"></script>
+    <script src="js/libs/bootstrap.4.4.1.min.js"></script>
+    <script src="js/libs/moment.js"></script>
+    <script src="js/libs/rangeslider.js"></script>
+    <script src="js/libs/crypto-js-4.1.1.min.js"></script>
+    
+    <!-- External Services -->
+    <script src="https://www.youtube.com/iframe_api" async></script>
+
+    <!-- Model & Data Layer -->
+    <script src="js/Models/VodModel.js"></script>
+    <script src="js/Models/LiveModel.js"></script>
+    <script src="js/Models/SeriesModel.js"></script>
+    
+    <!-- Language Management System -->
+    <script src="js/language-manager-v2.js"></script>
+    
+    <!-- Initialize Language System -->
+    <script>
+        // Initialize language system on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.LanguageManager) {
+                window.LanguageManager.init();
+            }
+        });
+    </script>
+    
+    <!-- Core Functions -->
+    <script src="js/settings.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/time_helper.js"></script>
+    
+    <!-- Samsung TV Controllers -->
+    <script src="js/keyTizen.js"></script>
+    <script src="js/key_operations.js"></script>
+    
+    <!-- Media Player System -->
+    <script src="js/mediaPlayer.js"></script>
+    
+    <!-- Uygulama modülleri -->
+    <script src="js/login_operation.js"></script>
+    <script src="js/home_operation.js"></script>
+    <script src="js/playlist.js"></script>
+    <script src="js/channel_operation.js?v=2025-07-25-1.3"></script>
+    <script src="js/vod_summary.js"></script>
+    <script src="js/vod_series_player.js"></script>
+    <script src="js/trailer.js"></script>
+    <script src="js/series_summary.js"></script>
+    <script src="js/vod_series_page.js"></script>
+    <script src="js/setting_page.js"></script>
+    <script src="js/turn_off_page.js"></script>
+    <script src="js/parent_confirm_page.js"></script>
+    <script src="js/top_menu.js"></script>
+    <!-- Memory Optimizer - Samsung TV Performance -->
+    <script src="js/memory_optimizer.js"></script>
+    <!-- Main Application -->
+    <script src="js/main.js"></script>
+    <!-- Fullscreen EPG Overlay -->
+    <div class="fullscreen-epg-overlay" style="display: none;">
+        <div class="fullscreen-epg-container">
+            <div class="fullscreen-channel-info">
+                <div class="fullscreen-channel-logo">
+                    <img src="" alt="">
+                </div>
+                <div class="fullscreen-channel-details">
+                    <h3 class="fullscreen-channel-name"></h3>
+                    <span class="fullscreen-channel-number"></span>
+                </div>
+            </div>
+            <div class="fullscreen-program-info">
+                <div class="fullscreen-current-program">
+                    <div class="fullscreen-program-title"></div>
+                    <div class="fullscreen-program-time"></div>
+                    <div class="fullscreen-program-description"></div>
+                </div>
+            </div>
+            <div class="fullscreen-action-buttons">
+                <div class="action-bar-btn favorite-toggle" onclick="channel_page.addOrRemoveFav()" title="Add/Remove Favorites">
+                    <span class="action-bar-icon"></span>
+                    <span class="action-bar-text" data-word_code="favorite">FAV</span>
+                </div>
+                <!-- Kanal değiştirme düğmeleri tam ekranda gizlendi - müşteri talebi -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Info Toast Template (moved from main.js) -->
+    <div id="quick-info-toast" class="quick-info-toast" style="display: none;">
+        <div class="toast-content">
+            <div class="toast-icon">
+                <span style="font-size: 18px; color: white;"></span>
+            </div>
+            <div class="toast-info">
+                <div class="toast-title"></div>
+                <div class="toast-details"></div>
+            </div>
+            <div class="toast-status">
+                <div class="status-dot"></div>
+                <span class="toast-status-text"></span>
+            </div>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+
+    <!-- Home Page Functions for Samsung TV Optimization -->
+    <script>
+        // Home page content rendering functions
+        window.homeContentLoaded = function(kind, movies) {
+            var container_id = kind === 'vod' ? '#latest_movies_container' : '#latest_series_container';
+            var img_key = kind === 'vod' ? 'stream_icon' : 'cover';
+            var html = '';
+            
+            if(movies && movies.length > 0) {
+                movies.forEach(function(item, index) {
+                    html += '<div class="latest-movie-item-container">' +
+                            '<div class="latest-movie-item-wrapper" data-index="' + index + '"' +
+                            ' onmouseenter="home_page.hoverLatestMovie(\'' + kind + '\',' + index + ')"' +
+                            ' onclick="home_page.handleMenuClick()">' +
+                            '<div class="latest-movie-item-icon-container">' +
+                            '<img class="latest-movie-item-icon" src="' + item[img_key] + '"' +
+                            ' onerror="this.src=\'images/default_movie.png\'">' +
+                            '</div>' +
+                            '<div class="latest-movie-item-title-container">' +
+                            '<div class="latest-movie-item-title-wrapper sub-bg-focus-1">' +
+                            '<div class="latest-movie-item-title">' + item.name + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                });
+            } else {
+                // Show empty placeholders for Samsung TV consistency
+                for(var i = 0; i < 7; i++) {
+                    html += '<div class="latest-movie-item-container">' +
+                            '<div class="latest-movie-item-wrapper empty">' +
+                            '</div>' +
+                            '</div>';
+                }
+            }
+            
+            $(container_id).html(html);
+        };
+        
+        // Update focus for Samsung TV navigation
+        window.updateHomeMovieFocus = function(kind, index) {
+            var container_id = kind === 'vod' ? '#latest_movies_container' : '#latest_series_container';
+            
+            // Remove previous focus
+            $(container_id).find('.latest-movie-item-wrapper').removeClass('active');
+            
+            // Add focus to current item
+            $(container_id).find('.latest-movie-item-wrapper[data-index="' + index + '"]').addClass('active');
+        };
+        
+        // Modern Search Fallback Functions
+        if (!window.channel_page) {
+            window.channel_page = {};
+        }
+        
+        // Search toggle function
+        window.channel_page.toggleModernSearch = function() {
+            const container = document.getElementById('modern-search-input-container');
+            const button = document.getElementById('modern-search-button');
+            const input = document.getElementById('modern-search-input');
+            
+            if (container && button) {
+                const isActive = container.classList.contains('active');
+                if (isActive) {
+                    container.classList.remove('active');
+                    button.classList.remove('active');
+                } else {
+                    container.classList.add('active');
+                    button.classList.add('active');
+                    if (input) input.focus();
+                }
+            }
+        };
+        
+        // Show search on focus
+        window.channel_page.showModernSearch = function() {
+            const container = document.getElementById('modern-search-input-container');
+            const button = document.getElementById('modern-search-button');
+            if (container && button) {
+                container.classList.add('active');
+                button.classList.add('active');
+            }
+        };
+        
+        // Hide search with delay
+        window.channel_page.hideModernSearchDelay = function() {
+            setTimeout(() => {
+                const container = document.getElementById('modern-search-input-container');
+                const button = document.getElementById('modern-search-button');
+                const results = document.getElementById('modern-search-results');
+                if (container && button) {
+                    container.classList.remove('active');
+                    button.classList.remove('active');
+                }
+                if (results) {
+                    results.style.display = 'none';
+                }
+            }, 200);
+        };
+        
+        // Preview on hover/focus - Samsung TV için optimize
+        window.channel_page.previewModernSearch = function() {
+            const container = document.getElementById('modern-search-input-container');
+            const button = document.getElementById('modern-search-button');
+            if (container && button && !container.classList.contains('active')) {
+                // Samsung TV için hızlı önizleme
+                container.style.width = '280px';
+                container.style.opacity = '0.8';
+                container.style.transform = 'translateX(0)';
+                container.style.pointerEvents = 'auto';
+                
+                // Buton efekti
+                button.classList.add('tv-focus');
+            }
+        };
+        
+        // Hide preview - Samsung TV için optimize
+        window.channel_page.hidePreviewModernSearch = function() {
+            const container = document.getElementById('modern-search-input-container');
+            const button = document.getElementById('modern-search-button');
+            if (container && button && !container.classList.contains('active')) {
+                // Hızlı geri çekilme
+                container.style.width = '0px';
+                container.style.opacity = '0';
+                container.style.transform = 'translateX(20px)';
+                container.style.pointerEvents = 'none';
+                
+                // Buton efekti temizle
+                button.classList.remove('tv-focus');
+            }
+        };
+        
+        // NOT: modernSearchChannels fonksiyonu channel_operation.js dosyasında zaten tanımlı
+        // HTML'de override etmeye gerek yok - var olan fonksiyon kullanılacak
+        
+        // Handle keydown events - Samsung TV uyumlu
+        window.channel_page.handleModernSearchKeydown = function(event) {
+            const keyCode = event.keyCode || event.which;
+            
+            // Samsung TV RETURN tuşu (geri tuşu) = 10009
+            // Samsung TV EXIT tuşu = 10182
+            // PC için ESC = 27
+            if (event.key === 'Escape' || keyCode === 10009 || keyCode === 10182 || keyCode === 27) {
+                window.channel_page.hideModernSearchDelay();
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        };
+        
+        // Initialize search events when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for search functionality
+            const searchButton = document.getElementById('modern-search-button');
+            const searchInput = document.getElementById('modern-search-input');
+            
+            if (searchButton) {
+                searchButton.addEventListener('click', window.channel_page.toggleModernSearch);
+                searchButton.addEventListener('mouseenter', window.channel_page.previewModernSearch);
+                searchButton.addEventListener('mouseleave', window.channel_page.hidePreviewModernSearch);
+                // Samsung TV için focus eventi
+                searchButton.addEventListener('focus', window.channel_page.previewModernSearch);
+                searchButton.addEventListener('blur', window.channel_page.hidePreviewModernSearch);
+            }
+            
+            if (searchInput) {
+                searchInput.addEventListener('focus', window.channel_page.showModernSearch);
+                searchInput.addEventListener('blur', window.channel_page.hideModernSearchDelay);
+                searchInput.addEventListener('input', function(e) {
+                    window.channel_page.modernSearchChannels(e.target.value);
+                });
+                searchInput.addEventListener('keydown', window.channel_page.handleModernSearchKeydown);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+/* ==== GLOBAL THEME VARIABLES – TIZEN 6/9 SAFE (minified style) ==== */
+/* Structure mirrors vod_series.css philosophy: semantic tokens, theme variants, focus/TV states, motion, utilities. */
+:root{--theme-original-iptv-bg:#1a1a2e;--theme-royal-purple-bg:#2d1b3d;/* Legacy core colors (kept for compatibility) */--primary-color:#0f1419;--secondary-color:#1a2433;--accent-color:#3282b8;--accent-hover-color:#4fa4de;--text-color:#fff;--text-muted:#a0a0a0;--border-color:#1e3854;--focus-color:#3282b8;--focus-hover-color:#4fa4de;--menu-bg:rgba(26,36,51,.9);--card-bg:rgba(15,20,25,.8);--header-bg:rgba(10,15,20,.85);--footer-bg:rgba(10,15,20,.85);--gradient-start:#0f1419;--gradient-end:#1d2d44;--shadow-color:rgba(0,0,0,.5);--success-color:#28a745;--danger-color:#dc3545;--warning-color:#ffc107;--info-color:#17a2b8;--accent-color-rgb:50,130,184;/* New semantic + design system tokens */--brand:#ff5a36;--brand-2:#e03c1f;--accent:var(--accent-color);--ring-strong:0 0 0 3px rgba(116,185,255,.6);--ring-accent:0 0 0 3px rgba(var(--accent-color-rgb),.7);--panel-bg:rgba(255,255,255,.05);--panel-bg-strong:rgba(255,255,255,.08);--panel-border:rgba(255,255,255,.12);--panel-radius:14px;--card-radius:16px;--focus-radius:10px;--elevation-1:0 4px 12px rgba(0,0,0,.25);--elevation-2:0 8px 24px rgba(0,0,0,.35);--elevation-accent:0 6px 22px rgba(255,90,54,.5);--transition-speed:.25s;--transition-fast:.15s;--transition-slow:.4s;--easing-standard:cubic-bezier(.4,0,.2,1);--easing-emph:cubic-bezier(.3,0,.3,1);--focus-scale:1.05;--focus-translate:-6px;--backdrop-gradient:linear-gradient(135deg,var(--gradient-start) 0%,var(--gradient-end) 100%);--danger-glow:0 0 0 3px rgba(220,53,69,.5);--success-glow:0 0 0 3px rgba(40,167,69,.5)}
+/* THEME VARIANTS (inherit semantic tokens for background context) */
+body.theme-original_iptv,body.theme-original_iptv *{--current-bg-color:var(--theme-original-iptv-bg)}
+body.theme-original_iptv{background:linear-gradient(135deg,var(--theme-original-iptv-bg) 0%,#16213e 100%)!important;background-color:var(--theme-original-iptv-bg)!important}
+body.theme-original_iptv #setting-page,body.theme-original_iptv #home-page,body.theme-original_iptv #main-page,body.theme-original_iptv .main-container,body.theme-original_iptv .page-container{background:linear-gradient(135deg,var(--theme-original-iptv-bg) 0%,#16213e 100%)!important;background-color:var(--theme-original-iptv-bg)!important}
+body.theme-royal_purple,body.theme-royal_purple *{--current-bg-color:var(--theme-royal-purple-bg)}
+body.theme-royal_purple{background:linear-gradient(135deg,var(--theme-royal-purple-bg) 0%,#4a2d5b 100%)!important;background-color:var(--theme-royal-purple-bg)!important}
+body.theme-royal_purple #setting-page,body.theme-royal_purple #home-page,body.theme-royal_purple #main-page,body.theme-royal_purple .main-container,body.theme-royal_purple .page-container{background:linear-gradient(135deg,var(--theme-royal-purple-bg) 0%,#4a2d5b 100%)!important;background-color:var(--theme-royal-purple-bg)!important}
+/* GLOBAL TRANSITIONS */
+body,body *,#setting-page,#home-page,#main-page,.main-container,.page-container{transition:background .6s ease-in-out,background-color .6s ease-in-out;color:var(--text-color)}
+/* UTILITY BACKGROUNDS */
+.bg-primary{background-color:var(--primary-color)}.bg-secondary{background-color:var(--secondary-color)}.bg-accent{background-color:var(--accent-color)}.bg-focus{background-color:var(--focus-color)}.bg-card{background-color:var(--card-bg)}.bg-gradient{background:var(--backdrop-gradient)}
+/* TEXT UTILITIES */
+.text-color{color:var(--text-color)}.text-muted{color:var(--text-muted)}.text-accent{color:var(--accent-color)}
+/* COLOR ALIASES */
+.bg-color-1{background:var(--primary-color)}.bg-color-2{background:var(--secondary-color)}.bg-color-3{background:var(--accent-color)}.text-color-1{color:var(--text-color)}
+/* FOCUS STATE HELPERS */
+.bg-focus-1{background-color:var(--focus-color)}.bg-focus-1:hover,.bg-focus-1:focus{background-color:var(--focus-hover-color);transition:background-color var(--transition-fast) var(--easing-standard)}
+/* ANIMATION HELPERS */
+.animate-fade{transition:opacity var(--transition-speed) var(--easing-standard)}.animate-scale{transition:transform var(--transition-speed) var(--easing-standard)}.animate-pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+.animate-slide-in{animation:slideIn .5s forwards}
+@keyframes slideIn{0%{transform:translateX(-20px);opacity:0}100%{transform:translateX(0);opacity:1}}
+.animate-fade-in{animation:fadeIn .5s forwards}
+@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}
+/* REDUCED MOTION SUPPORT */
+@media (prefers-reduced-motion:reduce){.animate-fade,.animate-scale,.animate-pulse,.animate-slide-in,.animate-fade-in{animation:none!important;transition:none!important}}
+/* TV FOCUS / REMOTE INTERACTION STATES */
+.tv-focus-glow:focus,.tv-focus-glow.active{box-shadow:var(--ring-accent)}
+.tv-focus-scale:focus,.tv-focus-scale.active{transform:scale(var(--focus-scale))}
+.tv-focus-border:focus,.tv-focus-border.active{border:2px solid var(--accent-color)}
+.tv-focus-elevate:focus,.tv-focus-elevate.active{transform:translateY(var(--focus-translate));box-shadow:var(--elevation-2),var(--ring-accent)}
+/* GENERIC .tv-focus alias (for unifying future components) */
+.tv-focus:focus-visible,.tv-focus.tv-focus-active{outline:0;box-shadow:var(--ring-strong)}
+/* STATE GLOWS */
+.state-success:focus-visible{box-shadow:var(--success-glow)}.state-danger:focus-visible{box-shadow:var(--danger-glow)}
+/* ELEVATION HELPERS */
+.elevation-1{box-shadow:var(--elevation-1)}.elevation-2{box-shadow:var(--elevation-2)}.elevation-accent{box-shadow:var(--elevation-accent)}
+/* PANEL / CARD HELPERS */
+.panel-surface{background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:var(--panel-radius);backdrop-filter:blur(6px)}
+.card-surface{background:var(--card-bg);border:1px solid var(--panel-border);border-radius:var(--card-radius);box-shadow:var(--elevation-1)}
+/* INTERACTIVE HOVER / ACTIVE */
+.hover-raise:hover{transform:translateY(-6px);box-shadow:var(--elevation-2)}.accent-outline{border:1px solid rgba(var(--accent-color-rgb),.6)}
+/* LEGACY CLASS BACKWARD COMPAT (no visual changes) */
+.tv-focus-glow,.tv-focus-scale,.tv-focus-border,.bg-focus-1,.bg-primary,.bg-secondary,.bg-accent,.bg-card,.text-accent{will-change:transform,box-shadow}

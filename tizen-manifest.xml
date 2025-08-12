@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest xmlns="http://tizen.org/ns/packages" api-version="9.0" package="com.galaplayer.protv" version="1.0.3">
+    <profile name="tv-samsung"/>
+    <ui-application appid="com.galaplayer.protv.GalaTV" exec="index.html" multiple="false" nodisplay="false" taskmanage="true" type="webapp">
+        <label>Gala Player Pro</label>
+        <label xml:lang="en">Gala Player Pro</label>
+        <icon>app_launcher.png</icon>
+        <metadata key="http://samsung.com/tv/metadata/use.preview" value="false"/>
+        <metadata key="http://samsung.com/tv/metadata/prefer.index" value="index.html"/>
+        <splash-screens>
+            <splash-screen app-control-operation="" dpi="xhdpi" indicator-display="false" orientation="landscape" src="app_launcher.png" type="img"/>
+        </splash-screens>
+    </ui-application>
+    <privileges>
+        <privilege>http://developer.samsung.com/privilege/avplay</privilege>
+        <privilege>http://tizen.org/privilege/internet</privilege>
+        <privilege>http://tizen.org/privilege/tv.inputdevice</privilege>
+        <privilege>http://tizen.org/privilege/application.launch</privilege>
+    </privileges>
+    <feature name="http://tizen.org/feature/screen.size.all">true</feature>
+</manifest>

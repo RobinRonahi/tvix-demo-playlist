@@ -1,0 +1,390 @@
+/* ========== VOD SERIES PLAYER – Tizen Safe, Fullscreen & Ordered Controls ========== */
+:root{
+  /* Kırmızı marka paleti */
+  --brand:#FF0000;                 /* ana kırmızı */
+  --brand-weak:rgba(255,0,0,.16);
+  --panel:rgba(15,18,26,.82);
+  --panel-b:rgba(255,255,255,.18);
+  --text:#fff;
+  --muted:#c8d0dc;
+}
+
+/* --- SAHNE & KATMANLAR - TAM EKRAN ZORLAMASI ------------------------------------ */
+#vod-series-player-page{
+  position:fixed !important; 
+  top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+  width:100vw !important; height:100vh !important;
+  background:#000 !important; overflow:hidden !important; z-index:9999 !important;
+  margin:0 !important; padding:0 !important;
+}
+
+/* Video/obj konteynerleri en altta, tam ekran cover - SAMSUNG TV İÇİN */
+#vod-series-player-video,
+#vod-series-player-video-lg{
+  position:fixed !important; 
+  top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+  width:100vw !important; height:100vh !important; 
+  z-index:10001 !important;
+  background:#000 !important;
+  margin:0 !important; padding:0 !important;
+  border:none !important;
+  box-sizing:border-box !important;
+}
+
+/* İçerideki <video> / <object> da cover ve tam ekran - SAMSUNG TV ZORLAMASI */
+#vod-series-player-video video,
+#vod-series-player-video object,
+#vod-series-player-video-lg video,
+#vod-series-player-video-lg object{
+  position:fixed !important; 
+  top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+  width:100vw !important; height:100vh !important;
+  object-fit:cover !important;           /* TAM EKRAN KAPSAMA */
+  background:#000 !important; 
+  z-index:10001 !important;
+  margin:0 !important; padding:0 !important;
+  border:none !important;
+  transform:scale(1) !important;         /* Samsung TV scale fix */
+}
+
+/* Eğer video yüklenemedi/plug-in desteklenmiyor ise arkaya poster/foto basmak için
+   container’a data-backdrop="url(...)" veya CSS var(--backdrop) verilebilir. */
+#vod-series-player-page::before{
+  content:""; position:fixed; inset:0; z-index:10000; pointer-events:none;
+  background:#000 center/cover no-repeat;
+  background-image: var(--backdrop, none);
+  opacity: .9;                            /* video yoksa arkada görünür */
+}
+#vod-series-player-page.video-playing::before{ opacity:0; }
+
+/* Samsung TV için ek zorlamalar */
+#vod-series-player-video *,
+#vod-series-player-video-lg * {
+  max-width:100vw !important;
+  max-height:100vh !important;
+}
+
+/* Samsung Tizen object elementi için özel ayarlar */
+object[type="application/avplayer"] {
+  position:fixed !important;
+  top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+  width:100vw !important; height:100vh !important;
+  z-index:10001 !important;
+}
+
+/* Samsung TV browser engine için webkit zorlaması */
+#vod-series-player-video object,
+#vod-series-player-video-lg object {
+  -webkit-transform:scale(1) !important;
+  -webkit-transform-origin:0 0 !important;
+  transform:scale(1) !important;
+  transform-origin:0 0 !important;
+}
+#vod-series-player-page.video-playing::before{ opacity:0; }
+
+/* 3. parti eklenti overlay/metinleri kapat */
+#vod-series-player-page object::before,
+#vod-series-player-page object::after,
+#vod-series-player-page video::before,
+#vod-series-player-page video::after{ display:none !important }
+
+/* --- ÜST BAR & SOL ALT BAŞLIK - ŞEFFAF ------------------------------------------- */
+#vod-series-video-title-container{
+  position:fixed !important; left:20px !important; right:20px !important; top:20px !important;
+  display:flex !important; align-items:center !important; justify-content:space-between !important;
+  padding:14px 18px !important; border-radius:10px !important; z-index:10002 !important;
+  background:rgba(0,0,0,.4) !important; color:#fff !important; transition:opacity .15s linear !important;
+}
+#vod-series-video-title-container.hide{opacity:0 !important; pointer-events:none !important}
+#vod-series-video-title, .vod-series-video-title{font-size:26px !important; font-weight:700 !important; margin:0 !important}
+.video-resolution{
+  background:rgba(255,0,0,.2); padding:8px 14px; border-radius:20px;
+  font-size:14px; font-weight:600; border:1px solid rgba(255,0,0,.4);
+}
+
+.simple-title-overlay{
+  position:fixed !important; left:60px !important; bottom:200px !important;
+  max-width:520px !important; z-index:10002 !important;
+  background:rgba(0,0,0,.4) !important; color:var(--text) !important;
+  padding:12px 18px !important; border-radius:10px !important; transition:opacity .15s linear !important;
+  font-family:Arial, sans-serif !important;
+}
+@supports (backdrop-filter: blur(4px)){
+  .simple-title-overlay{backdrop-filter:blur(4px) !important}
+}
+.simple-title-overlay.hide{opacity:0 !important; pointer-events:none !important}
+.simple-title-overlay .title-text{font-size:24px !important; font-weight:700 !important; margin:0 !important}
+.simple-title-overlay .episode-text{font-size:18px !important; margin:4px 0 0 !important; color:var(--muted) !important}
+
+/* --- ALT KONTROL ŞERİDİ + PROGRESS - ŞEFFAF ARKA PLAN ---------------------------- */
+#vod-series-video-controls-container{
+  position:fixed !important; left:0 !important; right:0 !important; bottom:0 !important;
+  width:100vw !important; z-index:10002 !important; color:#fff;
+  padding:26px 40px 18px;
+  background:linear-gradient(180deg, transparent 0%, rgba(0,0,0,.3) 100%);
+  transition:opacity .15s linear;
+}
+#vod-series-video-controls-container.hide{opacity:0 !important; pointer-events:none !important}
+
+#vod-series-progress-controls-container{margin:0 auto}
+#vod-series-progress-container{
+  margin:0 auto; position:relative; margin-top:6px;
+  padding:18px 130px; display:flex; align-items:center; justify-content:center;
+}
+#vod-series-video-progressbar-container{
+  position:absolute; left:140px; right:140px; top:50%;
+  transform:translateY(-50%); height:10px; cursor:pointer;
+  border-radius:6px; overflow:hidden; transition:height .12s linear;
+  background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.12);
+}
+#vod-series-video-progressbar-container:hover{height:14px}
+#vod-series-video-progressbar-wrapper{position:relative; width:100%; height:100%}
+.progress-amount{
+  height:100%; border-radius:5px; position:relative; background:var(--brand);
+  box-shadow:0 0 12px var(--brand-weak); transition:width .12s linear;
+}
+.progress-amount::after{
+  content:''; position:absolute; right:0; top:50%; transform:translateY(-50%);
+  width:16px; height:16px; background:#fff; border-radius:50%;
+  box-shadow:0 2px 8px rgba(0,0,0,.3); border:2px solid var(--brand);
+}
+
+/* zaman etiketleri */
+#vod-series-player-page .video-time{
+  position:absolute; top:50%; transform:translateY(-50%);
+  font-size:20px; font-weight:600; color:#fff; padding:8px 12px;
+  background:rgba(0,0,0,.4); border-radius:8px; border:1px solid rgba(255,255,255,.12);
+  width:fit-content; display:inline-block;
+}
+#vod-series-player-page .video-time:first-child{left:130px; transform:translate(-100%, -50%)}
+#vod-series-player-page .video-time:last-child{right:130px; transform:translate(100%, -50%)}
+
+/* --- BUTON SIRA & STİL (SABİT DİZİLİM) ------------------------------------------- */
+#vod-series-video-controls-wrapper{
+  display:flex !important; 
+  align-items:center !important; 
+  justify-content:center !important;
+  gap:20px !important; 
+  margin:22px 0 0 !important; 
+  padding-bottom:32px !important;
+  position:relative !important; 
+  z-index:10003 !important; 
+  flex-wrap:nowrap !important;
+}
+
+/* Alt sıradaki butonlar için ayrı container */
+.vod-series-player-bottom-label-container{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:16px !important;
+  margin-left:30px !important;
+}
+
+/* Tüm ikon kapsayıcıları - Dengeli boyutlar ve kırmızı vurgu */
+.video-control-icon{
+  width:64px !important; 
+  height:64px !important; 
+  border-radius:50% !important;
+  display:flex !important; 
+  align-items:center !important; 
+  justify-content:center !important;
+  background:rgba(0,0,0,.2) !important; 
+  border:2px solid rgba(255,255,255,.3) !important;
+  color:#fff !important; 
+  font-size:20px !important; 
+  cursor:pointer !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.3) !important; 
+  transform:translateZ(0) !important;
+  transition:all .2s ease !important;
+  -webkit-backdrop-filter:none !important; 
+  backdrop-filter:none !important; /* TV performansı */
+}
+
+/* Font Awesome ikonları - PNG yerine */
+.video-control-icon i{
+  color:#fff !important; 
+  pointer-events:none !important; 
+  font-size:inherit !important;
+  transition:all .2s ease !important;
+}
+
+/* PNG image stillerini gizle - artık kullanılmıyor */
+.video-control-icon img{ 
+  display:none !important; 
+}
+
+/* DPAD fokus/aktif tek renk */
+.video-control-icon.focused,
+.video-control-icon:focus,
+.video-control-icon.active{
+  background:var(--brand-weak) !important; 
+  border-color:var(--brand) !important;
+  box-shadow:0 0 0 3px var(--brand-weak), 0 6px 16px rgba(0,0,0,.4) !important;
+  outline:none !important; 
+  transform:scale(1.05) !important;
+}
+
+/* Hover efektleri - Font Awesome ikonlar için */
+.video-control-icon:hover,
+.video-control-icon.focused,
+.video-control-icon:focus{
+  background:var(--brand-weak) !important; 
+  border-color:var(--brand) !important;
+}
+
+.video-control-icon:hover i,
+.video-control-icon.focused i,
+.video-control-icon:focus i{
+  color:var(--brand) !important;
+  transform:scale(1.1) !important;
+}
+
+/* Merkez PLAY/PAUSE hafif büyük ve kırmızı vurgulu */
+.video-control-icon.is-center{
+  width:76px !important; 
+  height:76px !important; 
+  font-size:24px !important;
+  background:rgba(255,0,0,.2) !important;
+  border-color:var(--brand) !important;
+}
+
+/* --- DİZİLİM SIRASI (flex order) -------------------------------------------------- */
+/* Aşağıdaki sınıfları mevcut buton div’lerinize ekleyin: */
+.video-control-icon.is-prev   { order: 10; }
+.video-control-icon.is-rew    { order: 20; }
+.video-control-icon.is-center { order: 30; }   /* play/pause */
+.video-control-icon.is-ff     { order: 40; }
+.video-control-icon.is-next   { order: 50; }
+.video-control-icon.is-cc     { order: 60; }
+.video-control-icon.is-audio  { order: 70; }
+
+/* “İzle / Favori / Fragman” gibi aksiyon hapları (detay ve player içinde aynı stil) */
+.action-pill{
+  display:inline-flex; align-items:center; gap:10px; padding:12px 18px;
+  background:var(--brand-weak); color:#fff; border:2px solid var(--brand);
+  border-radius:14px; font-weight:700; letter-spacing:.2px;
+  transition:transform .12s linear, box-shadow .12s linear, background .12s linear, border-color .12s linear;
+}
+.action-pill .icon{width:20px; height:20px; display:inline-block}
+.action-pill.focused{box-shadow:0 0 0 3px var(--brand-weak); transform:scale(1.02)}
+
+/* --- MODALLER / YARDIMCI ---------------------------------------------------------- */
+#vod-series-player-page .video-loader{
+  position:fixed !important; left:50% !important; top:50% !important; transform:translate(-50%,-50%) !important;
+  z-index:10003 !important; background:var(--panel) !important; padding:20px !important; border-radius:10px !important;
+}
+#vod-series-player-page .video-loader .buffer-progress{margin-top:10px !important; font-size:16px !important; color:#fff !important}
+#vod-series-player-page .video-error{
+  position:fixed !important; left:50% !important; top:50% !important; transform:translate(-50%,-50%) !important;
+  z-index:10003 !important; color:#fff !important; padding:20px !important; border-radius:10px !important; text-align:center !important; font-size:18px !important;
+}
+
+/* Rangeslider */
+.rangeslider .rangeslider__handle{border:3px solid transparent}
+.rangeslider.active .rangeslider__handle{border:3px solid var(--brand)}
+
+/* Sezon şeritleri */
+#player-seasons-container{
+  width:90%; margin:10px auto 0; text-align:center; white-space:nowrap;
+  overflow-y:hidden; position:relative; transition:max-height .12s linear; max-height:unset;
+}
+#player-seasons-container.expanded{max-height:fit-content}
+.player-season-item{
+  height:100px; width:250px; display:inline-block; position:relative;
+  margin-right:20px; border-radius:10px; overflow:hidden; background:#2b2f3a;
+  transition:transform .12s linear, box-shadow .12s linear, background .12s linear;
+}
+.player-season-item.focused,.player-season-item.active{
+  background:var(--brand-weak); box-shadow:0 0 0 3px var(--brand-weak);
+}
+.player-episode-title-container{position:absolute; inset:auto 0 0 0; top:50%; transform:translateY(-50%)}
+.player-episode-title{
+  text-align:center; font-size:20px; padding:0 6px; overflow:hidden; text-overflow:ellipsis; white-space:normal;
+}
+.player-season-item.active .player-episode-title{color:#fff}
+
+/* Next episode prompt */
+.next-episode-prompt{
+  position:fixed !important; left:50% !important; top:50% !important; transform:translate(-50%,-50%) !important;
+  z-index:10004 !important; background:var(--panel) !important; border-radius:14px !important;
+  padding:28px !important; color:#fff !important; text-align:center !important;
+  min-width:400px !important; max-width:600px !important; border:1px solid var(--panel-b) !important;
+}
+@supports (backdrop-filter: blur(8px)){
+  .next-episode-prompt{backdrop-filter:blur(8px) !important}
+}
+.next-episode-prompt .prompt-content h3{font-size:28px !important; margin:0 0 14px !important; font-weight:700 !important}
+.next-episode-prompt .episode-title{font-size:20px !important; margin:0 0 18px !important; color:#e6e9ef !important; line-height:1.4 !important}
+.next-episode-prompt .prompt-buttons{display:flex !important; justify-content:center !important; gap:16px !important; margin:18px 0 !important}
+.next-episode-prompt .prompt-buttons button{
+  padding:12px 22px !important; font-size:16px !important; border:0 !important;
+  border-radius:8px !important; cursor:pointer !important; transition:all .12s linear !important; font-weight:600 !important;
+}
+.next-episode-prompt .btn-play-next{background:var(--brand) !important; color:#fff !important}
+.next-episode-prompt .btn-play-next.focused{box-shadow:0 0 0 3px var(--brand-weak)}
+.next-episode-prompt .btn-go-back{background:#3a3f4a !important; color:#fff !important}
+.next-episode-prompt .btn-go-back.focused{box-shadow:0 0 0 3px rgba(255,255,255,.18)}
+.next-episode-prompt .auto-countdown{font-size:16px !important; color:#c9d1de !important; margin-top:12px !important}
+.next-episode-prompt .countdown{font-weight:700 !important; color:var(--brand) !important}
+
+/* --- ERİŞİLEBİLİRLİK -------------------------------------------------------------- */
+@media (prefers-contrast: high){
+  .video-control-icon{background:#fff !important; color:#000 !important; border:2px solid #000 !important}
+  .video-control-icon.focused{box-shadow:0 0 0 3px #fff !important}
+}
+
+/* --- TEMAYA GÖRE KONTEYNER -------------------------------------------------------- */
+#vod-series-player-page .player-container{
+  position:fixed !important; inset:0 !important; width:100vw !important; height:100vh !important;
+  background:#000 !important; background-image:none !important; z-index:10000 !important;
+}
+
+/* --- TV BOYUTLARI - Dengeli responsive tasarım ---------------------------------------- */
+@media screen and (min-width:1920px){
+  .video-control-icon{width:68px; height:68px; font-size:22px}
+  .video-control-icon.is-center{width:80px; height:80px; font-size:26px}
+  #vod-series-video-controls-wrapper{gap:24px !important;}
+}
+@media screen and (max-width:1366px){
+  .video-control-icon{width:56px; height:56px; font-size:18px}
+  .video-control-icon.is-center{width:68px; height:68px; font-size:22px}
+  #vod-series-video-controls-wrapper{gap:16px !important;}
+}
+
+/* Samsung TV Series 6 & 9 için 4K optimizasyon */
+@media screen and (min-width:3840px){
+  .video-control-icon{width:72px; height:72px; font-size:24px}
+  .video-control-icon.is-center{width:88px; height:88px; font-size:28px}
+  #vod-series-video-controls-wrapper{gap:28px !important;}
+}
+
+/* ================== SAMSUNG TV VIEWPORT & FULLSCREEN FIX ================== */
+/* Samsung Tizen TV için tam ekran zorlaması */
+@media screen and (min-device-width: 1920px) {
+  #vod-series-player-page {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+    width: 100% !important; height: 100% !important;
+    max-width: 100vw !important; max-height: 100vh !important;
+  }
+  
+  #vod-series-player-video,
+  #vod-series-player-video-lg {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+    width: 100% !important; height: 100% !important;
+    max-width: 100vw !important; max-height: 100vh !important;
+  }
+  
+  #vod-series-player-video video,
+  #vod-series-player-video object,
+  #vod-series-player-video-lg video,
+  #vod-series-player-video-lg object {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+    width: 100% !important; height: 100% !important;
+    max-width: 100vw !important; max-height: 100vh !important;
+    object-fit: cover !important;
+  }
+}

@@ -1,0 +1,12 @@
+/* ==== homepage-themes.css – TIZEN 6/9 SAFE (minified style) ==== */
+:root{--current-theme-bg:#1a2433;--current-theme-menu:rgba(26,36,51,0.9);--current-theme-card:rgba(15,20,25,0.8);--current-theme-accent:#3282b8}
+body.theme-original_iptv{background:linear-gradient(135deg,#1a2433 0%,#1d2d44 100%)}
+body.theme-royal_purple{background:linear-gradient(135deg,#2d1b34 0%,#4a2c57 100%)}
+.home-container,.container-fluid,.main-content{background:var(--current-theme-bg)!important;transition:background .3s ease}
+.card,.movie-card,.series-card,.channel-card{background:var(--current-theme-card)!important;border-color:var(--current-theme-accent)!important;transition:all .3s ease}
+.navbar,.sidebar,.menu-container,.top-menu{background:var(--current-theme-menu)!important;transition:background .3s ease}
+.btn-primary,.btn-accent{background-color:var(--current-theme-accent)!important;border-color:var(--current-theme-accent)!important}
+.card:hover,.movie-card:hover,.series-card:hover,.channel-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)!important;transform:translateY(-2px)}
+.card:focus,.movie-card:focus,.series-card:focus,.channel-card:focus{outline:2px solid var(--current-theme-accent)!important;outline-offset:2px}
+.movies-grid,.series-grid,.channels-grid{gap:12px}
+@media (max-width:1200px){.movies-grid,.series-grid,.channels-grid{gap:8px}}

@@ -1,0 +1,42 @@
+/* ==== language-selector.css – TIZEN 6/9 SAFE (minified style) ==== */
+.language-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:20px;max-height:400px;overflow:hidden;background:rgba(0,0,0,0.1);border-radius:12px}
+.language-option{display:flex;flex-direction:column;align-items:center;padding:16px 12px;background:rgba(255,255,255,0.1);border:2px solid transparent;border-radius:10px;cursor:pointer;transition:all .3s ease;min-height:100px;justify-content:center;position:relative}
+.language-option:hover,.language-option.hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.2)}
+.language-option.active{background:rgba(0,123,255,0.2);border-color:#007bff;box-shadow:0 6px 20px rgba(0,123,255,0.3)}
+.language-option.active:hover{background:rgba(0,123,255,0.3);border-color:#0056b3}
+.language-option .flag{font-size:32px;margin-bottom:8px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2))}
+.language-option .name{font-size:13px;font-weight:600;color:#fff;text-align:center;margin-bottom:4px;line-height:1.2}
+.language-option .native{font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);text-align:center;line-height:1.2}
+.language-option.active .name{color:#fff;font-weight:700}
+.language-option.active .native{color:rgba(255,255,255,0.9)}
+.setting-item-section-item.language-option{display:flex;flex-direction:row;align-items:center;padding:15px 20px;margin-bottom:8px;background:rgba(255,255,255,0.05);border:2px solid transparent;border-radius:8px;cursor:pointer;transition:all .3s ease;min-height:70px}
+.setting-item-section-item.language-option:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);transform:translateX(5px)}
+.setting-item-section-item.language-option.active{background:rgba(0,212,170,0.15);border-color:#00d4aa;box-shadow:0 0 20px rgba(0,212,170,0.3)}
+.setting-item-section-item.language-option.active:hover{background:rgba(0,212,170,0.25);border-color:#00b894}
+.language-flag{font-size:28px;margin-right:15px;line-height:1;flex-shrink:0}
+.language-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.language-name{font-size:16px;font-weight:600;color:#fff;margin-bottom:2px;line-height:1.2}
+.language-english{font-size:13px;color:rgba(255,255,255,0.7);font-weight:400;line-height:1.2}
+.language-status{flex-shrink:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.language-status .fa-check{font-size:16px;color:#00d4aa}
+.setting-item-section-item.language-option.active .language-name{color:#00d4aa}
+.setting-item-section-item.language-option.active .language-english{color:rgba(0,212,170,0.8)}
+.language-option.loading{opacity:.6;pointer-events:none}
+.language-option.loading::after{content:"";position:absolute;top:50%;right:15px;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top:2px solid #00d4aa;border-radius:50%;animation:spin 1s linear infinite;transform:translateY(-50%)}
+@media (max-width:768px){.language-selector-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;padding:15px}.language-option{padding:12px 8px;min-height:80px}.language-option .flag{font-size:24px;margin-bottom:6px}.language-option .name{font-size:11px}.language-option .native{font-size:9px}}
+@media (max-width:480px){.language-selector-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;padding:10px}.language-option{padding:10px 6px;min-height:70px}.language-option .flag{font-size:20px;margin-bottom:4px}.language-option .name{font-size:10px;margin-bottom:2px}.language-option .native{font-size:8px}}
+@media (max-width:1200px){.language-flag{font-size:24px;margin-right:12px}.language-name{font-size:15px}.language-english{font-size:12px}}
+@media (max-width:800px){.setting-item-section-item.language-option{padding:12px 15px;min-height:60px}.language-flag{font-size:22px;margin-right:10px}.language-name{font-size:14px}.language-english{font-size:11px}}
+.language-selector-grid{animation:fadeInUp .5s ease-out}
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+.language-option{animation:languageChange .3s ease-out;animation-fill-mode:both}
+@keyframes languageChange{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+[data-word_code]{transition:opacity .2s ease-in-out}
+[data-word_code].updating{opacity:.7}
+.language-option:focus{outline:2px solid #007bff;outline-offset:2px}
+.language-selector-title{font-size:18px;font-weight:600;color:#fff;text-align:center;margin-bottom:20px;text-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.language-selector-container{background:rgba(0,0,0,0.8);border-radius:15px;padding:25px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+/* TV focus */
+.language-option.tv-focus,.setting-item-section-item.language-option.tv-focus{outline:0;box-shadow:0 0 0 3px rgba(116,185,255,.6)}
+/* Hareket azaltma */
+@media (prefers-reduced-motion:reduce){.language-option,.language-selector-grid{animation:none!important;transition:none!important}}

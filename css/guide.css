@@ -1,0 +1,41 @@
+#guide-page{color:#fff}
+#guide-page .page-top-info-container{margin:0 50px}
+#guide-page-information-container{padding:20px}
+#guide-page .player-container{width:30vw;height:30vh;display:inline-block;vertical-align:middle;background-color:#111;z-index:999;position:relative}
+#guide-page .player-container.expanded{position:fixed;left:0;top:0;width:100%;height:100%}
+.guide-channel-information-container{display:inline-block;height:30vh;width:65vw;vertical-align:middle;margin-left:30px;background:rgba(17,17,17,.69);padding:30px}
+.guide-channel-image-container{width:120px;text-align:center}
+#guide-channel-icon{width:100%}
+.guide-channel-information-wrapper{}
+#guide-programe-info-container{white-space:nowrap}
+#guide-program-time{font-size:30px;font-weight:400;display:inline-block;vertical-align:middle;width:20%;text-align:right}
+#guide-programme-name{font-size:35px;margin-bottom:0;font-weight:700;vertical-align:middle;display:inline-block;color:#F0841F;width:80%}
+#guide-programme-description{font-size:20px;font-weight:400;margin-bottom:20px;margin-top:10px}
+#guide-datetime-container{width:100%;border-top:2px solid #a800a5;border-bottom:2px solid #a800a5;background:#3a0375}
+#guide-programme-date{background:rgba(40,39,40,.81);margin-bottom:3px}
+#guide-time-container{width:100%;white-space:nowrap;overflow:hidden;background:rgba(40,39,40,.81);font-size:0;letter-spacing:0;word-spacing:0;margin-bottom:3px}
+.guide-time{padding:10px;color:#ddd;font-weight:700;text-align:center;position:relative;box-sizing:border-box;font-size:25px}
+.guide-time i{position:absolute;bottom:0;left:50%;font-size:12px;transform:translateX(-50%);color:#ff180b}
+.guide-channel-item-wrapper{padding:5px 10px;background:rgba(40,39,40,.81);border-radius:3px;margin-bottom:3px;height:50px;font-size:25px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.guide-channel-item-wrapper.active{background:#FB820F}
+.guide-channel-item-wrapper *{font-weight:400}
+.guide-channel-number{width:80px;display:inline-block;text-align:center;font-weight:400}
+.guide-channel-icon{width:30px;vertical-align:middle;margin-right:5px}
+#guide-channels-container{height:640px;overflow-y:scroll}
+#guide-programme-time-container{overflow-x:hidden;display:inline-block;vertical-align:top;width:70%}
+#guide-programmes-container{height:640px;margin-top:0;padding-top:0;overflow-y:scroll}
+.guide-programme-wrapper{width:100%;overflow-x:hidden;white-space:nowrap;text-align:center;margin-bottom:3px;height:50px;letter-spacing:0;word-spacing:0;font-size:0}
+.guide-programme-item-wrapper{height:50px;font-size:25px;padding:5px 10px;background:rgba(40,39,40,.81);border-radius:3px;display:inline-block;overflow:hidden;position:relative;font-weight:400}
+.inline-block{display:inline-block}
+.guide-programme-item-wrapper.active{background:#FB820F}
+#current-time-bar{position:absolute;top:0;height:100%;width:3px;border-right:3px solid #FB820F}
+#guide-video-information-wrapper{background-color:rgba(0,0,0,.7);position:fixed;bottom:0;left:0;width:100%;padding:30px 0;z-index:1200;display:none}
+#guide-screen-channel-logo{position:absolute;right:10px;top:-10px;height:100px}
+#guide-video-program-description{width:calc(100% - 110px);margin-bottom:10px}
+#guide-video-information-progress{height:10px;overflow:hidden;background-color:#00ffb4;width:50%;margin:20px 40px}
+#guide-video-information-progress span{display:block;background:#cc0000;height:100%;width:0}
+#guide-video-programs-container{color:#fff;width:50%;margin:0 40px!important}
+#guide-video-channel-name .channel-name{margin-right:10px}
+#guide-video-current-program,#guide-video-next-program{padding:15px}
+#guide-video-current-program{background:#9d00ff}
+#guide-video-next-program{background:#6c0fb3}

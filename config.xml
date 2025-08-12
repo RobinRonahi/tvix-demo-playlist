@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns:tizen="http://tizen.org/ns/widgets"
+        xmlns="http://www.w3.org/ns/widgets"
+        id="com.galaplayer.protv"
+        version="1.0.3"
+        viewmodes="maximized">
+    <access origin="*" subdomains="true"/>
+    <tizen:application id="com.galaplayer.protv.GalaTV" package="com.galaplayer.protv" required_version="9.0"/>
+    <author href="https://galaplayer.com" email="info@galaplayer.com">GalaTV Team</author>
+    <content src="index.html"/>
+    <description>GalaTV Pro - Premium IPTV and VOD Player for Samsung TV</description>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <icon src="app_launcher.png"/>
+    <name>GalaTV Pro</name>
+    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.audio"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.display"/>
+    <tizen:profile name="tv-samsung"/>
+    <tizen:setting screen-orientation="landscape"
+                   context-menu="enable"
+                   background-support="disable"
+                   encryption="disable"
+                   install-location="auto"
+                   hwkey-event="enable"/>
+</widget>

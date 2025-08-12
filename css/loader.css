@@ -1,0 +1,83 @@
+/* ==== loader.css – TIZEN 6/9 SAFE (minified style) ==== */
+#loader{position:fixed;top:0;left:0;height:100vh;width:100vw;background:#000;z-index:99999;transition:opacity .3s ease;display:flex;align-items:center;justify-content:center}
+#loading-page{background:radial-gradient(ellipse at center,rgba(30,30,46,.9) 0%,rgba(16,16,24,.95) 40%,rgba(0,0,0,1) 100%);position:fixed;top:0;left:0;height:100vh;width:100vw;display:flex;align-items:center;justify-content:center;z-index:9999}
+.loader-image-container{text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.1) 0%,rgba(255,255,255,.05) 100%);/* Samsung TV: backdrop-filter kaldırıldı */border-radius:24px;padding:50px 60px;border:2px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;min-width:400px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#loading-logo-image{max-width:350px;max-height:140px;margin-bottom:30px;filter:brightness(1.2) contrast(1.1)}
+#loading-text{color:#fff;font-size:20px;font-weight:600;margin-top:25px;letter-spacing:1px;text-align:center}
+.modern-spinner{width:80px;height:80px;margin:30px auto;position:relative;animation:rotate 2s linear infinite}
+.modern-spinner::before,.modern-spinner::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;border:4px solid transparent}
+.modern-spinner::before{border-top-color:#ff3333;border-right-color:#ff3333;animation:spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite}
+.modern-spinner::after{border-bottom-color:#cc0000;border-left-color:#cc0000;animation:spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite reverse}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@media screen and (max-width:1920px){.modern-spinner{animation:rotate 2.5s linear infinite}}
+@media screen and (min-width:3840px){.modern-spinner{animation:rotate 1.8s linear infinite}.loader-image-container{padding:60px 70px;min-width:450px}#loading-logo-image{max-width:400px;max-height:160px}}
+@media screen and (max-width:768px){.loader-image-container{padding:35px 40px;width:85%;min-width:auto}#loading-logo-image{max-width:280px;max-height:110px}.modern-spinner{width:60px;height:60px}}
+.loading-issue-item{background:rgba(255,255,255,.08);border-radius:16px;padding:25px;margin:15px auto;color:#fff;text-align:center;max-width:600px}
+.loading-issue-text{font-size:16px;color:rgba(255,255,255,.85)}
+.loading-issue-btn{background:#ff3333;color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:14px;margin:10px auto;display:block;transition:background .3s ease}
+.loading-issue-btn:hover{background:#e62e2e}
+.issue-gala-player-image{max-width:150px;max-height:50px;margin:0 auto 20px;display:block}
+.issue-gala-player-text{font-size:18px;font-weight:600;color:#fff;margin-bottom:20px}
+.loading-issue-logo-container{margin-bottom:20px}
+.loading-issue-message-container{margin-bottom:20px}
+.loading-issue-btn-container{display:flex;flex-direction:row;align-items:center;gap:10px;justify-content:center}
+.device-info-table{margin:20px 0}
+.device-info-row{margin-bottom:10px;font-size:14px;color:rgba(255,255,255,.7)}
+.loading-more-info-container{margin-top:15px}
+.loading-more-info-item{margin-bottom:8px;font-size:13px;color:rgba(255,255,255,.6)}
+.hide{display:none!important}
+#loading-subtitle{color:rgba(255,255,255,.7);font-size:14px;margin-top:10px;text-align:center}
+.gif-loader-container{margin:20px 0}
+.loading-gif{width:60px;height:60px;border-radius:8px}
+/* TV focus desteği */
+.loading-issue-btn:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(116,185,255,.6)}
+.loading-issue-btn.tv-focus{outline:0;box-shadow:0 0 0 3px rgba(116,185,255,.6)}
+/* Hareket azaltma modu */
+@media (prefers-reduced-motion:reduce){.modern-spinner,.modern-spinner::before,.modern-spinner::after{animation:none!important;transition:none!important}}
+
+/* Loading Dots Animasyon */
+#loading-dots-overlay {
+  position: fixed; 
+  left: 0; 
+  top: 0; 
+  width: 100vw; 
+  height: 100vh;
+  background: rgba(0,0,0,0.25); 
+  z-index: 9999; 
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.loading-dots { 
+  display: flex; 
+  gap: 8px; 
+}
+
+.loading-dots span {
+  display: inline-block; 
+  width: 12px; 
+  height: 12px; 
+  border-radius: 50%;
+  background: #fff; 
+  opacity: 0.85; 
+  animation: loading-dots-bounce 1.4s infinite both;
+}
+
+.loading-dots span:nth-child(2) { 
+  animation-delay: 0.2s; 
+}
+
+.loading-dots span:nth-child(3) { 
+  animation-delay: 0.4s; 
+}
+
+@keyframes loading-dots-bounce {
+  0%, 80%, 100% { 
+    transform: scale(0.7); 
+  }
+  40% { 
+    transform: scale(1.3); 
+  }
+}

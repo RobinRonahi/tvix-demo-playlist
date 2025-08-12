@@ -1,0 +1,36 @@
+{
+    "id": "GalaPlayer.GalaTV",
+    "title": "Gala TV Pro",
+    "main": "index.html",
+    "type": "web",
+    "version": "1.0.3",
+    "vendor": "Yestech",
+    "description": "Professional M3U IPTV Player for Samsung Smart TV with advanced streaming capabilities and certified bug fixes",
+    "icon": "app_launcher.png",
+    "largeIcon": "images/app_launcher_lg.png",
+    "bgColor": "#1a1a1a",
+    "resolution": "1920x1080",
+    "platform": "tizen",
+    "engine": "web",
+    "runtime": "web",
+    "framework": "none",
+    "hybrid": false,
+    "native": false,
+    "cordova": false,
+    "phonegap": false,
+    "widget": false,
+    "webApp": true,
+    "tizen-application": {
+        "package": "GalaPlayer",
+        "required_version": "9.0"
+    },
+    "appType": "web",
+    "categories": ["Entertainment", "Multimedia", "Video"],
+    "supportedFeatures": [
+        "http://tizen.org/feature/tv",
+        "http://tizen.org/feature/network.internet",
+        "http://tizen.org/feature/multimedia.player"
+    ],
+    "allowDeviceKeyEvents": true,
+    "disableBackHistoryAPI": true
+}

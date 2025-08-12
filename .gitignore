@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE/Editor files
+.project
+.settings/
+.tproject
+*.swp
+*.swo
+*~
+
+# Certificate files (güvenlik için)
+Certificate/
+*.p12
+*.pwd
+
+# Build files
+*.wgt
+
+# Temporary files
+*.tmp
+*.temp
+
+# Logs
+*.log

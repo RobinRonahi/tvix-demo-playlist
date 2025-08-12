@@ -1,0 +1,35 @@
+/* ==== THEME SYSTEM – TIZEN 6/9 SAFE (refactored & compact) ==== */
+/* Provides per-theme variable assignment to avoid repetition and enable semantic reuse. */
+:root{--theme-original-bg:#1a2433;--theme-original-menu:rgba(26,36,51,.9);--theme-original-card:rgba(15,20,25,.8);--theme-original-accent:#3282b8;--theme-purple-bg:#2d1b34;--theme-purple-menu:rgba(45,27,52,.9);--theme-purple-card:rgba(50,32,57,.8);--theme-purple-accent:#9c27b0}
+/* Base transition for major containers */
+body,.menu-container,.navbar,.sidebar,.card,.movie-card,#main-menu-container,.settings-sidebar,.settings-main-content,.home-page-content,.setting-item-section-container,#home-page,#channel-page,#vod-series-page,#setting-page,.page-type-1,.stream-page-content-part,.side-bar,.right-container,.player-container{transition:background .3s ease,color .3s ease,border-color .3s ease}
+/* THEME ORIGINAL (IPTV) – assign scoped tokens */
+body.theme-original_iptv{--theme-bg:var(--theme-original-bg);--theme-menu:var(--theme-original-menu);--theme-card:var(--theme-original-card);--theme-accent:var(--theme-original-accent);background:linear-gradient(135deg,var(--theme-bg) 0%,#1d2d44 100%)!important}
+body.theme-original_iptv .menu-container,body.theme-original_iptv .navbar,body.theme-original_iptv .sidebar,body.theme-original_iptv #main-menu-container,body.theme-original_iptv .settings-sidebar,body.theme-original_iptv .settings-main-content,body.theme-original_iptv .series-main-content,body.theme-original_iptv .series-seasons-sidebar{background:var(--theme-menu)!important}
+body.theme-original_iptv #home-page,body.theme-original_iptv #channel-page,body.theme-original_iptv #vod-series-page,body.theme-original_iptv #setting-page,body.theme-original_iptv .page-type-1,body.theme-original_iptv .stream-page-content-part,body.theme-original_iptv .side-bar,body.theme-original_iptv .right-container,body.theme-original_iptv .player-container{background:rgba(26,36,51,.3)!important}
+body.theme-original_iptv .card,body.theme-original_iptv .movie-card,body.theme-original_iptv .series-card,body.theme-original_iptv .channel-card,body.theme-original_iptv .setting-item-section-container,body.theme-original_iptv .setting-menu-item-wrapper{background:var(--theme-card)!important;border-color:var(--theme-accent)!important}
+body.theme-original_iptv .home-page-content,body.theme-original_iptv .container-fluid,body.theme-original_iptv .main-content{background:rgba(26,36,51,.2)!important}
+body.theme-original_iptv #setting-page{background:var(--theme-bg)!important}
+/* THEME ROYAL PURPLE */
+body.theme-royal_purple{--theme-bg:var(--theme-purple-bg);--theme-menu:var(--theme-purple-menu);--theme-card:var(--theme-purple-card);--theme-accent:var(--theme-purple-accent);background:linear-gradient(135deg,var(--theme-bg) 0%,#4a2c57 100%)!important}
+body.theme-royal_purple .menu-container,body.theme-royal_purple .navbar,body.theme-royal_purple .sidebar,body.theme-royal_purple #main-menu-container,body.theme-royal_purple .settings-sidebar,body.theme-royal_purple .settings-main-content,body.theme-royal_purple .series-main-content,body.theme-royal_purple .series-seasons-sidebar{background:var(--theme-menu)!important}
+body.theme-royal_purple #home-page,body.theme-royal_purple #channel-page,body.theme-royal_purple #vod-series-page,body.theme-royal_purple #setting-page,body.theme-royal_purple .page-type-1,body.theme-royal_purple .stream-page-content-part,body.theme-royal_purple .side-bar,body.theme-royal_purple .right-container,body.theme-royal_purple .player-container{background:rgba(45,27,52,.3)!important}
+body.theme-royal_purple .card,body.theme-royal_purple .movie-card,body.theme-royal_purple .series-card,body.theme-royal_purple .channel-card,body.theme-royal_purple .setting-item-section-container,body.theme-royal_purple .setting-menu-item-wrapper{background:var(--theme-card)!important;border-color:var(--theme-accent)!important}
+body.theme-royal_purple .home-page-content,body.theme-royal_purple .container-fluid,body.theme-royal_purple .main-content{background:rgba(45,27,52,.2)!important}
+body.theme-royal_purple #setting-page{background:var(--theme-bg)!important}
+/* THEME OPTION PICKER COMPONENT */
+.theme-option{display:inline-block;width:200px;margin:10px;padding:15px;border:2px solid transparent;border-radius:12px;cursor:pointer;transition:all .3s ease;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+.theme-option:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(116,185,255,.6)}
+.theme-option:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.3)}
+.theme-option.active{border-color:var(--theme-accent,#3282b8);background:rgba(50,130,184,.1)}
+.theme-preview{width:100%;height:80px;border-radius:8px;margin-bottom:10px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,rgba(255,255,255,.05) 100%)}
+.theme-accent{position:absolute;bottom:0;left:0;width:100%;height:20px;background:var(--theme-accent,#3282b8)}
+.theme-info{text-align:center}
+.theme-name{font-size:14px;font-weight:600;color:#fff;margin:0 0 5px;text-shadow:0 2px 6px rgba(0,0,0,.4)}
+.theme-description{font-size:12px;color:#ccc;margin:0}
+/* THEME NOTIFICATION (success toast) */
+.theme-notification{position:fixed;top:20px;right:20px;background:rgba(40,167,69,.95);color:#fff;padding:12px 20px;border-radius:8px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;opacity:0;transform:translateX(100px);transition:all .3s ease;z-index:10000;backdrop-filter:blur(10px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.theme-notification.show{opacity:1;transform:translateX(0)}
+.theme-notification i{font-size:16px;color:#fff}
+/* REDUCED MOTION */
+@media (prefers-reduced-motion:reduce){.theme-option,.theme-notification{transition:none!important;transform:none!important}}

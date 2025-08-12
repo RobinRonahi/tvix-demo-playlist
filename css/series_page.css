@@ -1,0 +1,868 @@
+/* =========================
+   TOKENS / THEME - SAMSUNG TV OPTIMIZED
+========================= */
+:root{
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.88);
+  --muted-2:rgba(255,255,255,.78);
+  --dim:rgba(255,255,255,.65);
+  --panel:rgba(25,30,40,.85);
+  --panel-strong:rgba(0,0,0,.9);
+  --border:rgba(255,255,255,.12);
+  --border-2:rgba(255,255,255,.18);
+  --accent:#00d4ff;
+  --accent-2:#0099cc;
+  --accent-grad:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);
+  --gold:#ffb347;
+  --shadow-1:0 6px 20px rgba(0,0,0,.4);
+  --shadow-2:0 10px 30px rgba(0,0,0,.5);
+  --focus-ring:0 0 0 3px rgba(0,212,255,.6);
+  --card-hover:rgba(0,212,255,.15);
+  --gradient-bg:linear-gradient(135deg,#0a0f1a 0%,#1a1f2e 50%,#0f1419 100%);
+}
+
+/* =========================
+   PAGE WRAPPER & BACKDROP - SAMSUNG TV OPTIMIZED
+========================= */
+#series-summary-page{
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  min-height:100vh;
+  color:var(--text);
+  background:var(--gradient-bg);
+  overflow:hidden;
+  font-family:'SamsungOne','Roboto',-apple-system,BlinkMacSystemFont,sans-serif;
+  position:relative;
+  isolation:isolate;
+  will-change:transform,opacity;
+  transform:translateZ(0);
+}
+
+.series-background-img{
+  position:fixed; 
+  left:0; top:0; 
+  width:100%; height:100%;
+  object-fit:cover;
+  filter:blur(2px) brightness(.25) saturate(1.2);
+  z-index:-2; 
+  will-change:filter;
+  transform:scale(1.02);
+}
+
+.series-background-overlay{
+  position:fixed; 
+  inset:0;
+  background:linear-gradient(135deg,rgba(10,15,26,.92) 0%,rgba(26,31,46,.85) 50%,rgba(15,20,25,.95) 100%);
+  z-index:-1; 
+  will-change:background;
+}
+
+/* =========================
+   HEADER - SAMSUNG TV FOCUS SYSTEM
+========================= */
+.series-page-header{
+  grid-row:1; 
+  position:relative; 
+  z-index:10;
+  padding:25px 50px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.85) 0%,rgba(0,0,0,.5) 70%,transparent 100%);
+  backdrop-filter:blur(12px) saturate(150%);
+}
+
+.series-back-button{
+  display:inline-flex; 
+  align-items:center; 
+  gap:12px;
+  padding:10px 20px; 
+  margin-bottom:25px;
+  background:rgba(255,255,255,.08);
+  border:2px solid rgba(255,255,255,.15);
+  border-radius:25px; 
+  color:#f5f5f5; 
+  font-size:16px; 
+  font-weight:600;
+  cursor:pointer; 
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  will-change:transform,background,box-shadow;
+  backdrop-filter:blur(8px);
+}
+
+.series-back-button i{font-size:18px}
+
+.series-back-button:hover,
+.series-back-button.focused{
+  background:var(--accent-grad);
+  border-color:var(--accent);
+  transform:scale(1.06);
+  box-shadow:var(--focus-ring), 0 6px 20px rgba(0,212,255,.4);
+  color:#ffffff;
+}
+
+.series-header-info{max-width:1300px}
+
+.series-title{
+  font-size:48px; 
+  font-weight:800; 
+  color:#fff; 
+  margin:0 0 12px 0; 
+  line-height:1.15;
+  text-shadow:2px 2px 12px rgba(0,0,0,.9);
+  letter-spacing:-.5px;
+}
+
+.series-meta-info{
+  display:flex; 
+  align-items:center; 
+  gap:12px; 
+  margin-bottom:18px; 
+  font-size:17px;
+}
+
+.series-meta-item{
+  color:rgba(255,255,255,.92); 
+  font-weight:600;
+  text-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+
+.series-meta-separator{
+  color:var(--dim); 
+  font-weight:700;
+}
+
+.series-rating-display{
+  display:flex; 
+  align-items:center; 
+  gap:6px;
+}
+
+.rating-star{
+  color:var(--gold); 
+  font-size:19px;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.6));
+}
+
+#series-rating-value{
+  color:var(--gold); 
+  font-weight:700; 
+  font-size:19px;
+  text-shadow:0 1px 4px rgba(0,0,0,.6);
+}
+
+/* =========================
+   SERIES DESCRIPTION - MODERN SAMSUNG STYLE
+========================= */
+.series-description{
+  font-size:16px; 
+  line-height:1.65; 
+  color:var(--muted);
+  max-width:1100px; 
+  margin:0; 
+  text-shadow:0 1px 4px rgba(0,0,0,.6);
+  display:-webkit-box; 
+  -webkit-line-clamp:3; 
+  line-clamp:3; 
+  -webkit-box-orient:vertical;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  font-weight:400;
+}
+
+/* header içi layout - Samsung TV optimized */
+#series-summary-page .series-page-header .series-header-content{
+  display:flex; 
+  align-items:flex-start; 
+  gap:25px; 
+  padding:15px 50px 0 50px;
+}
+
+.series-header-poster{
+  width:180px; 
+  height:255px; 
+  object-fit:cover; 
+  border-radius:10px;
+  box-shadow:var(--shadow-2); 
+  flex-shrink:0;
+  border:2px solid rgba(255,255,255,.1);
+  transition:transform .3s ease;
+}
+
+.series-header-poster:hover{
+  transform:scale(1.02);
+}
+
+.series-header-info{
+  flex:1; 
+  display:flex; 
+  flex-direction:column; 
+  gap:12px;
+}
+
+.series-header-info .series-title{
+  font-size:52px; 
+  margin:0;
+}
+
+.series-header-info .series-meta-info{
+  font-size:17px; 
+  gap:12px;
+}
+
+.series-header-actions{
+  display:flex; 
+  gap:15px; 
+  margin-top:20px;
+}
+
+/* =========================
+   ACTION BUTTONS - SAMSUNG TV FOCUS OPTIMIZED (TEK SIRA)
+========================= */
+.action-button{
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  gap:10px;
+  padding:12px 24px; 
+  min-width:180px;
+  border-radius:25px; 
+  border:2px solid transparent;
+  font-size:16px; 
+  font-weight:600; 
+  letter-spacing:.6px; 
+  text-transform:uppercase;
+  cursor:pointer; 
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  will-change:transform,background,border-color,box-shadow;
+  backdrop-filter:blur(8px);
+  position:relative;
+}
+
+.action-button i{
+  font-size:18px;
+}
+
+/* Samsung TV Color Key Indicators */
+.action-button::before{
+  content:'';
+  position:absolute;
+  left:-8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:4px;
+  height:60%;
+  border-radius:2px;
+  opacity:0.8;
+}
+
+.action-button-primary{
+  background:var(--accent-grad); 
+  color:#fff; 
+  box-shadow:0 6px 20px rgba(0,212,255,.45);
+}
+
+.action-button-primary::before{
+  background:#ff0000; /* Red Key - Play */
+}
+
+.action-button-primary:hover,
+.action-button-primary.focused{
+  transform:scale(1.08); 
+  box-shadow:var(--focus-ring), 0 8px 25px rgba(0,212,255,.6);
+}
+
+.action-button-secondary{
+  background:rgba(255,255,255,.1); 
+  color:#f5f5f5; 
+  border-color:rgba(255,255,255,.25);
+}
+
+.action-button-secondary::before{
+  background:#00ff00; /* Green Key - Favorites */
+}
+
+.action-button-secondary:hover,
+.action-button-secondary.focused{
+  background:rgba(255,255,255,.18); 
+  border-color:rgba(255,255,255,.4);
+  transform:scale(1.05); 
+  box-shadow:var(--focus-ring), 0 6px 18px rgba(255,255,255,.12);
+}
+
+.action-button-trailer{
+  background:linear-gradient(135deg,#ffb347 0%, #ffa502 100%); 
+  color:#fff;
+  box-shadow:0 6px 20px rgba(255,179,71,.3);
+}
+
+.action-button-trailer::before{
+  background:#ffff00; /* Yellow Key - Trailer */
+}
+
+.action-button-trailer:hover,
+.action-button-trailer.focused{
+  transform:scale(1.05); 
+  box-shadow:var(--focus-ring), 0 8px 25px rgba(255,179,71,.5);
+}
+
+/* Hide duplicate action buttons */
+.series-header-actions .action-button:nth-child(n+4),
+.duplicate-action-button{
+  display:none !important;
+}
+
+/* =========================
+   MAIN CONTENT LAYOUT - SAMSUNG TV OPTIMIZED
+========================= */
+.series-main-content{
+  grid-row:2; 
+  display:flex; 
+  gap:30px; 
+  padding:0 50px 30px 50px;
+  min-height:0;
+}
+
+/* left: seasons sidebar - Modern Samsung Design */
+.series-seasons-sidebar{
+  width:350px; 
+  min-height:480px; 
+  flex-shrink:0;
+  background:var(--panel); 
+  border:2px solid var(--border); 
+  border-radius:15px; 
+  padding:20px 15px;
+  overflow:hidden; 
+  display:flex; 
+  flex-direction:column; 
+  transition:all .3s ease;
+  backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:var(--shadow-1);
+}
+
+.seasons-header{
+  margin-bottom:20px; 
+  padding-bottom:15px; 
+  border-bottom:2px solid var(--border-2);
+}
+
+.seasons-title{
+  font-size:22px; 
+  font-weight:700; 
+  color:#fff; 
+  margin:0 0 8px 0; 
+  display:flex; 
+  align-items:center; 
+  gap:12px;
+  text-shadow:0 2px 8px rgba(0,0,0,.6);
+}
+
+.seasons-title i{
+  color:var(--accent); 
+  font-size:20px;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.4));
+}
+
+.seasons-count{
+  font-size:14px; 
+  color:var(--muted-2);
+  font-weight:500;
+}
+
+/* =========================
+   SEASONS LIST - SAMSUNG TV FOCUS SYSTEM
+========================= */
+.seasons-list{
+  flex:1; 
+  overflow-y:auto; 
+  padding-right:8px;
+  scrollbar-width:thin; 
+  scrollbar-color:rgba(0,212,255,.4) transparent;
+}
+
+.seasons-list::-webkit-scrollbar{width:6px}
+.seasons-list::-webkit-scrollbar-track{background:transparent}
+.seasons-list::-webkit-scrollbar-thumb{
+  background-color:rgba(0,212,255,.4); 
+  border-radius:3px;
+  border:1px solid rgba(0,212,255,.2);
+}
+
+.season-item{
+  background:transparent; 
+  border:2px solid transparent; 
+  border-radius:10px;
+  margin-bottom:12px; 
+  padding:12px 15px; 
+  cursor:pointer;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative; 
+  overflow:hidden; 
+  display:flex; 
+  align-items:center;
+  will-change:transform,background,border-color,box-shadow;
+}
+
+.season-item:hover{
+  background:rgba(255,255,255,.06);
+  transform:translateX(3px);
+}
+
+.season-item.focused{
+  background:var(--card-hover);
+  border-color:rgba(0,212,255,.6);
+  box-shadow:var(--focus-ring), 0 4px 15px rgba(0,212,255,.2);
+  transform:scale(1.02) translateX(2px);
+}
+
+.season-item.active{
+  background:var(--accent-grad); 
+  border-color:transparent; 
+  color:#fff;
+  box-shadow:0 6px 20px rgba(0,212,255,.4); 
+  transform:scale(1.02);
+}
+
+.season-item.active::after{
+  content:''; 
+  position:absolute; 
+  inset:0; 
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,.08),transparent 60%);
+}
+
+.season-poster{
+  width:55px; 
+  height:78px; 
+  border-radius:6px; 
+  object-fit:cover; 
+  margin-right:15px;
+  border:1px solid var(--border-2); 
+  flex-shrink:0;
+  transition:transform .3s ease;
+}
+
+.season-item:hover .season-poster{
+  transform:scale(1.05);
+}
+/* =========================
+   SEASON INFO & EPISODES AREA - MODERN SAMSUNG STYLE
+========================= */
+.season-info{overflow:hidden}
+
+.season-name{
+  font-size:17px; 
+  font-weight:600; 
+  color:#fff; 
+  margin:0 0 6px 0;
+  text-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+
+.season-episode-count{
+  font-size:14px; 
+  color:var(--muted-2);
+  font-weight:500;
+}
+
+.season-year{display:none}
+
+/* right: episodes area - Samsung TV optimized */
+.series-episodes-area{
+  flex:1; 
+  min-height:480px; 
+  overflow:hidden; 
+  display:flex; 
+  flex-direction:column;
+  background:var(--panel); 
+  border:2px solid var(--border); 
+  border-radius:15px; 
+  padding:20px;
+  backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:var(--shadow-1);
+}
+
+.episodes-header{
+  margin-bottom:20px; 
+  padding-bottom:15px; 
+  border-bottom:2px solid var(--border-2);
+}
+
+.episodes-title{
+  font-size:22px; 
+  font-weight:700; 
+  color:#fff; 
+  margin:0 0 8px 0;
+  display:flex; 
+  align-items:center; 
+  gap:12px;
+  text-shadow:0 2px 8px rgba(0,0,0,.6);
+}
+
+.episodes-title i{
+  color:var(--accent); 
+  font-size:20px;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.4));
+}
+
+.episodes-info{
+  display:flex; 
+  align-items:center; 
+  gap:12px; 
+  font-size:14px;
+}
+
+#current-season-name{
+  color:var(--accent); 
+  font-weight:600;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);
+}
+
+.episodes-separator{color:var(--dim)}
+
+#episodes-count{
+  color:var(--muted-2);
+  font-weight:500;
+}
+
+/* =========================
+   EPISODES LIST - SAMSUNG TV FOCUS OPTIMIZED
+========================= */
+.episodes-list{
+  flex:1; 
+  overflow-y:auto; 
+  padding-right:8px;
+  scrollbar-width:thin; 
+  scrollbar-color:rgba(0,212,255,.4) transparent;
+}
+
+.episodes-list::-webkit-scrollbar{width:6px}
+.episodes-list::-webkit-scrollbar-track{background:transparent}
+.episodes-list::-webkit-scrollbar-thumb{
+  background-color:rgba(0,212,255,.4); 
+  border-radius:3px;
+  border:1px solid rgba(0,212,255,.2);
+}
+
+.no-season-selected{
+  height:100%; 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center;
+  color:rgba(255,255,255,.65); 
+  text-align:center;
+}
+
+.no-season-selected i{
+  font-size:55px; 
+  margin-bottom:15px; 
+  opacity:.7;
+  color:var(--accent);
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.4));
+}
+
+.no-season-selected p{
+  font-size:18px; 
+  margin:0;
+  font-weight:500;
+}
+
+/* =========================
+   EPISODE CARDS - MODERN SAMSUNG TV DESIGN
+========================= */
+.episode-item{
+  background:transparent; 
+  border:2px solid transparent; 
+  border-radius:10px;
+  margin-bottom:15px; 
+  padding:15px 12px; 
+  min-height:85px;
+  display:flex; 
+  gap:15px; 
+  align-items:flex-start; 
+  position:relative; 
+  z-index:1; 
+  box-sizing:border-box;
+  cursor:pointer; 
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  will-change:transform,background,border-color,box-shadow;
+}
+
+.episode-item:hover{
+  background:rgba(255,255,255,.06);
+  transform:translateX(3px);
+}
+
+.episode-item.focused{
+  background:var(--card-hover);
+  border-color:rgba(0,212,255,.6);
+  box-shadow:var(--focus-ring), 0 4px 15px rgba(0,212,255,.25);
+  transform:scale(1.01) translateX(2px);
+}
+
+.episode-thumbnail{
+  width:110px; 
+  height:62px; 
+  border-radius:8px; 
+  object-fit:cover;
+  border:1px solid var(--border-2); 
+  flex-shrink:0;
+  transition:transform .3s ease;
+}
+
+.episode-item:hover .episode-thumbnail{
+  transform:scale(1.05);
+}
+
+.episode-info{
+  flex:1; 
+  min-width:0; 
+  position:relative; 
+  overflow:hidden;
+}
+
+.episode-number{
+  font-size:13px; 
+  color:var(--accent); 
+  font-weight:600; 
+  margin:0 0 5px 0;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);
+}
+
+.episode-title{
+  font-size:16px; 
+  font-weight:600; 
+  color:#fff; 
+  margin:0 0 6px 0;
+  display:-webkit-box; 
+  -webkit-line-clamp:1; 
+  line-clamp:1; 
+  -webkit-box-orient:vertical;
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  line-height:1.3; 
+  white-space:nowrap;
+  text-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+
+.episode-description{
+  font-size:14px; 
+  color:var(--muted-2); 
+  line-height:1.5;
+  display:-webkit-box; 
+  -webkit-line-clamp:2; 
+  line-clamp:2; 
+  -webkit-box-orient:vertical;
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  margin:0;
+  font-weight:400;
+}
+
+.episode-duration{
+  font-size:13px; 
+  color:var(--dim); 
+  margin-top:8px; 
+  display:flex; 
+  align-items:center; 
+  gap:6px; 
+  align-self:flex-start;
+  font-weight:500;
+}
+
+.episode-duration i{
+  font-size:12px;
+  color:var(--accent);
+}
+
+/* =========================
+   LOADING & ANIMATIONS - SAMSUNG TV OPTIMIZED
+========================= */
+.loading-spinner{
+  display:inline-block; 
+  width:22px; 
+  height:22px; 
+  border:3px solid rgba(255,255,255,.3);
+  border-radius:50%; 
+  border-top-color:var(--accent); 
+  animation:spin 1s ease-in-out infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.loading-text{
+  color:rgba(255,255,255,.85); 
+  font-style:italic; 
+  text-align:center; 
+  padding:40px; 
+  font-size:16px;
+  font-weight:500;
+}
+
+/* =========================
+   ANIMATIONS / HELPERS - MODERN SAMSUNG STYLE
+========================= */
+.fade-in{
+  animation:fadeIn .5s cubic-bezier(.25,.8,.25,1);
+}
+
+.slide-in-left{
+  animation:slideInLeft .6s cubic-bezier(.25,.8,.25,1);
+}
+
+.slide-in-right{
+  animation:slideInRight .6s cubic-bezier(.25,.8,.25,1);
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(10px)} 
+  to{opacity:1; transform:translateY(0)}
+}
+
+@keyframes slideInLeft{
+  from{opacity:0; transform:translateX(-20px)} 
+  to{opacity:1; transform:translateX(0)}
+}
+
+@keyframes slideInRight{
+  from{opacity:0; transform:translateX(20px)} 
+  to{opacity:1; transform:translateX(0)}
+}
+
+/* Samsung TV focus system */
+.focused{
+  outline:none !important;
+}
+
+.hide{
+  display:none !important;
+}
+
+/* Samsung TV performance optimization */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:.01ms !important; 
+    animation-iteration-count:1 !important; 
+    transition-duration:.01ms !important; 
+    scroll-behavior:auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high){
+  :root{
+    --border:rgba(255,255,255,.3);
+    --border-2:rgba(255,255,255,.4);
+    --panel:rgba(0,0,0,.9);
+  }
+  
+  .season-item.focused,
+  .episode-item.focused{
+    border-color:#ffffff;
+    background:rgba(255,255,255,.1);
+  }
+}
+
+/* =========================
+   RESPONSIVE DESIGN - SAMSUNG TV 6 & 9 OPTIMIZED
+========================= */
+
+/* Samsung TV Series 6 (1920x1080) */
+@media (max-width:1920px) and (min-width:1366px){
+  .series-page-header{padding:20px 40px}
+  .series-header-content{padding:15px 40px 0 40px; gap:20px}
+  .series-header-poster{width:165px; height:235px}
+  .series-header-info .series-title{font-size:46px}
+  .series-description{font-size:15px}
+  .series-title{font-size:40px}
+  .series-main-content{gap:25px; padding:0 40px 25px 40px}
+  .series-seasons-sidebar{width:320px; padding:18px 12px}
+  .action-button{font-size:15px; padding:10px 20px; min-width:160px}
+
+  .seasons-title{font-size:20px; gap:10px}
+  .seasons-title i{font-size:18px}
+  .season-item{padding:10px 12px; margin-bottom:8px}
+  .season-poster{width:50px; height:70px; margin-right:12px}
+  .season-name{font-size:16px}
+  .season-episode-count{font-size:13px}
+
+  .episodes-title{font-size:20px; gap:10px}
+  .episodes-title i{font-size:18px}
+  .episodes-info{font-size:13px; gap:10px}
+  .episode-item{margin-bottom:12px; padding:12px 10px; gap:12px; min-height:75px}
+  .episode-thumbnail{width:95px; height:54px}
+  .episode-number{font-size:12px}
+  .episode-title{font-size:15px}
+  .episode-description{font-size:13px}
+  .episode-duration{font-size:12px; gap:4px}
+  .episode-duration i{font-size:11px}
+}
+
+/* Samsung TV Series 9 (3840x2160 - 4K) */
+@media (min-width:3840px){
+  .series-page-header{padding:50px 100px}
+  .series-header-content{padding:40px 100px 0 100px; gap:50px}
+  .series-header-poster{width:280px; height:395px}
+  .series-header-info .series-title{font-size:72px}
+  .series-header-info .series-meta-info{font-size:24px; gap:25px}
+  .series-description{font-size:22px; max-width:1400px}
+  .series-header-actions{gap:35px; margin-top:40px}
+  .action-button{padding:20px 45px; font-size:22px; min-width:280px}
+  .series-main-content{gap:60px; padding:0 100px 60px 100px}
+  .series-seasons-sidebar{width:500px; padding:35px 30px; min-height:650px}
+  .seasons-title{font-size:32px}
+  .season-item{padding:20px 25px; margin-bottom:25px}
+  .season-poster{width:80px; height:115px; margin-right:30px}
+  .season-name{font-size:26px}
+  .season-episode-count{font-size:18px}
+  .series-episodes-area{padding:35px; min-height:650px}
+  .episodes-title{font-size:32px}
+  .episodes-info{font-size:19px}
+  .episode-item{margin-bottom:30px; padding:30px 25px; gap:30px; min-height:125px}
+  .episode-thumbnail{width:160px; height:90px}
+  .episode-number{font-size:18px}
+  .episode-title{font-size:24px}
+  .episode-description{font-size:19px}
+  .episode-duration{font-size:18px}
+}
+
+/* Mobile/Tablet responsive */
+@media (max-width:1024px){
+  .series-page-header{padding:15px 25px}
+  .series-header-content{
+    flex-direction:column; align-items:center; text-align:center;
+    padding:10px 25px 0 25px; gap:12px;
+  }
+  .series-header-poster{width:135px; height:190px}
+  .series-header-info{gap:8px}
+  .series-header-info .series-title{font-size:38px}
+  .series-header-info .series-meta-info{justify-content:center}
+  .series-description{-webkit-line-clamp:2; line-clamp:2; font-size:14px}
+  .series-header-actions{justify-content:center; gap:12px; margin-top:12px}
+  .series-title{font-size:34px}
+
+  .series-main-content{flex-direction:column; gap:15px; padding:0 25px 15px 25px}
+  .series-seasons-sidebar{
+    width:100%; height:auto; max-height:160px; flex-direction:row;
+    overflow-x:auto; overflow-y:hidden; padding:12px; white-space:nowrap;
+  }
+  .seasons-header{display:none}
+  .seasons-list{display:flex; gap:12px; overflow-x:auto; overflow-y:hidden; padding-right:0; padding-bottom:8px; flex-grow:1}
+  .seasons-list::-webkit-scrollbar{height:6px}
+  .seasons-list::-webkit-scrollbar-thumb{background-color:rgba(0,212,255,.4); border-radius:3px}
+  .seasons-list::-webkit-scrollbar-track{background:rgba(255,255,255,.08)}
+  .season-item{min-width:220px; margin-bottom:0; flex-shrink:0}
+
+  .series-episodes-area{flex:1; padding:15px}
+  .action-button{font-size:13px; padding:8px 16px; min-width:130px}
+}
+
+/* Samsung TV Performance & Accessibility */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:.01ms !important; 
+    animation-iteration-count:1 !important; 
+    transition-duration:.01ms !important; 
+    scroll-behavior:auto !important;
+  }
+}

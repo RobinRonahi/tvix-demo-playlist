@@ -1,0 +1,15 @@
+#stream-category-page{padding:30px}
+#category-page-logo{padding-left:30px}
+#category-page-stream-type{font-size:48px;font-weight:bold;color:#fff;text-align:center;margin-bottom:20px}
+#stream-category-container{width:100%;margin-top:20px;height:800px;position:relative;overflow-y:auto}
+.stream-category-item-container{display:inline-block;width:50%;padding:0 15px;margin-bottom:10px;box-sizing:border-box}
+.stream-category-item-wrapper{color:#efefef;font-size:28px;background:rgba(73,82,84,.8);padding:15px;border-radius:8px;transition:all .2s ease;cursor:pointer;display:flex;align-items:center}
+.stream-category-item-wrapper:hover{transform:translateY(-2px);background:rgba(73,82,84,.9)}
+.stream-category-item-wrapper.active,
+.stream-category-item-wrapper.tv-focus,
+.stream-category-item-wrapper.focused{color:#fff;background:linear-gradient(135deg,#659adc 0%,#4a8bc2 100%);box-shadow:0 4px 18px rgba(101,154,220,.4)}
+.stream-category-icon{margin-right:20px;flex-shrink:0}
+.stream-category-icon img{height:36px;width:auto}
+.stream-category-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:15px}
+.stream-category-stream-count{flex-shrink:0;width:60px;text-align:right;margin-right:10px}
+.stream-category-count-icon{vertical-align:middle;margin-left:5px}

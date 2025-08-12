@@ -1,0 +1,585 @@
+/* ========== VOD SERIES SUMMARY – Samsung TV 6/9 Optimized ========== */
+:root{
+  --accent:#00d4ff;
+  --accent-2:#0099cc;
+  --brand:#ff5a36;
+  --panel:rgba(25,30,40,.85);
+  --panel-2:rgba(255,255,255,.08);
+  --panel-border:rgba(255,255,255,.15);
+  --text:rgba(255,255,255,.95);
+  --text-dim:rgba(255,255,255,.82);
+  --focus-ring:0 0 0 3px rgba(0,212,255,.6);
+  --shadow-strong:0 15px 35px rgba(0,0,0,.45);
+  --gradient-bg:linear-gradient(135deg,#0a0f1a 0%,#1a1f2e 50%,#0f1419 100%);
+}
+
+/* ---- Sayfa katmanı - Samsung TV optimized ---- */
+.vod-series-summary-page-contents-container{
+  position:fixed; 
+  inset:0;
+  font-size:0; 
+  white-space:nowrap;
+  padding:50px 70px 320px;
+  display:flex; 
+  align-items:flex-start; 
+  justify-content:center;
+  overflow:hidden; 
+  transform:translateZ(0); 
+  will-change:transform;
+  backdrop-filter:blur(8px);
+}
+
+/* ---- Arka plan - Modern Samsung Style ---- */
+.vod-series-background-img{
+  position:fixed; 
+  inset:0; 
+  width:100%; 
+  height:100%;
+  object-fit:cover; 
+  filter:brightness(.3) blur(2px) saturate(1.2);
+  transform:scale(1.02);
+}
+
+.vod-series-background-img-overlay{
+  position:fixed; 
+  inset:0;
+  background:linear-gradient(135deg,rgba(10,15,26,.92) 0%,rgba(26,31,46,.85) 50%,rgba(15,20,25,.95) 100%);
+}
+
+/* ---- Logo / geri butonu - Samsung TV Focus ---- */
+.vod-series-summary-logo{
+  position:fixed; 
+  top:20px; 
+  left:45px; 
+  height:32px; 
+  display:none;
+}
+
+.summary-back-button{
+  position:fixed; 
+  top:20px; 
+  left:20px; 
+  z-index:50;
+  display:flex; 
+  align-items:center; 
+  gap:8px; 
+  justify-content:center; 
+  min-width:150px;
+  padding:10px 18px; 
+  border-radius:25px; 
+  cursor:pointer;
+  color:#fff; 
+  font-size:15px; 
+  font-weight:700; 
+  text-transform:uppercase; 
+  letter-spacing:.4px;
+  background:linear-gradient(135deg, var(--accent), var(--accent-2));
+  border:2px solid rgba(255,255,255,.25); 
+  box-shadow:0 6px 20px rgba(0,212,255,.4);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  backdrop-filter:blur(8px);
+}
+
+.summary-back-button:hover,
+.summary-back-button.focused{
+  transform:translateY(-2px) scale(1.05); 
+  box-shadow:var(--focus-ring), 0 12px 30px rgba(0,212,255,.6); 
+  border-color:rgba(255,255,255,.4);
+}
+
+.summary-back-button:active{
+  transform:translateY(-1px) scale(1.02);
+}
+
+.summary-back-button i{
+  font-size:16px; 
+  margin-right:4px;
+}
+
+/* ---- Bilgi kartı - Samsung TV Optimized ---- */
+.vod-summary-information-container{
+  display:flex; 
+  gap:28px; 
+  width:min(1200px,85%); 
+  max-width:1200px;
+  align-items:flex-start; 
+  padding:25px; 
+  border-radius:18px;
+  background:var(--panel);
+  border:2px solid var(--panel-border); 
+  box-shadow:var(--shadow-strong);
+  margin:50px 0 400px; 
+  position:relative; 
+  z-index:15; 
+  color:var(--text);
+  animation:slideInUp .4s ease-out;
+  min-height:420px; 
+  white-space:normal; 
+  font-size:15px;
+  backdrop-filter:blur(20px) saturate(180%);
+}
+
+@keyframes slideInUp{
+  from{opacity:0; transform:translateY(40px)} 
+  to{opacity:1; transform:translateY(0)}
+}
+
+.vod-summary-information-left-part{
+  flex:0 0 260px; 
+  display:flex; 
+  flex-direction:column;
+}
+
+.vod-summary-information-right-part{
+  flex:1; 
+  min-height:420px; 
+  display:flex; 
+  flex-direction:column; 
+  gap:15px;
+}
+
+/* ---- Poster - Modern Samsung Style ---- */
+.vod-summary-image-wrapper{
+  position:relative; 
+  width:100%; 
+  text-align:center; 
+  border-radius:12px; 
+  overflow:hidden;
+  box-shadow:0 12px 25px rgba(0,0,0,.4);
+  border:2px solid rgba(255,255,255,.1);
+  transition:transform .3s ease;
+}
+
+.vod-summary-image-wrapper:hover{
+  transform:scale(1.02);
+}
+
+.vod-summary-image-wrapper img{
+  width:100%; 
+  height:100%; 
+  min-height:380px; 
+  max-height:480px; 
+  object-fit:cover;
+}
+
+/* ---- Üst başlık paneli / rating - Samsung TV Focus ---- */
+#vod-information-wrapper-1{
+  background:linear-gradient(135deg,rgba(10,15,26,.95),rgba(26,31,46,.90));
+  border:2px solid var(--panel-border); 
+  border-radius:12px; 
+  color:#fff;
+  padding:15px; 
+  box-shadow:0 8px 25px rgba(0,0,0,.35); 
+  margin-top:6px; 
+  position:relative;
+  backdrop-filter:blur(12px);
+}
+
+#vod-rating-container{
+  position:absolute; 
+  right:15px; 
+  top:50%; 
+  transform:translateY(-50%); 
+  margin:0;
+}
+
+.vod-series-rating-container{
+  display:flex; 
+  align-items:center; 
+  gap:10px; 
+  margin:12px 0; 
+  padding:10px; 
+  background:var(--panel-2); 
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.rating{
+  font-size:18px;
+  color:var(--text-dim);
+}
+
+.rating-mark{
+  font-size:22px; 
+  font-weight:800; 
+  color:#ffb347; 
+  text-shadow:0 1px 4px rgba(0,0,0,.6);
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,.4));
+}
+
+/* ---- Sayfa başlığı (overlay) - Samsung TV Optimized ---- */
+.vod-series-summary-name{
+  position:absolute; 
+  right:45px; 
+  top:50%; 
+  transform:translateY(-50%);
+  max-width:45%; 
+  z-index:10;
+  background:rgba(0,0,0,.8); 
+  padding:12px 20px; 
+  border-radius:12px;
+  border:2px solid rgba(0,212,255,.4); 
+  box-shadow:0 8px 25px rgba(0,0,0,.6);
+  color:#fff; 
+  font-weight:700; 
+  font-size:26px; 
+  line-height:1.3; 
+  letter-spacing:.2px;
+  backdrop-filter:blur(10px);
+}
+
+.vod-series-summary-name h2{
+  margin:0; 
+  font:inherit; 
+  color:inherit;
+  text-shadow:0 2px 8px rgba(0,0,0,.7);
+}
+
+/* ---- Özet / metin alanları - Modern Samsung Style ---- */
+#vod-summary-description,
+#series-summary-description{
+  margin:10px 0 12px; 
+  padding:14px 16px; 
+  border-radius:10px;
+  background:var(--panel-2); 
+  border-left:3px solid var(--accent);
+  color:var(--text); 
+  font-size:15px; 
+  line-height:1.6; 
+  letter-spacing:.2px;
+  display:-webkit-box; 
+  -webkit-line-clamp:6; 
+  line-clamp:6; 
+  -webkit-box-orient:vertical; 
+  overflow:hidden;
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.08);
+}
+
+#series-info-container{
+  margin-top:15px;
+}
+
+#series-summary-description{
+  -webkit-line-clamp:5; 
+  line-clamp:5;
+}
+
+/* ---- Özet satırları (etiket/değer) ---- */
+.vod-summary-item{display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.1)}
+.vod-summary-item:last-child{border-bottom:0}
+.vod-summary-item-label{font-weight:700; color:var(--accent); font-size:13px; text-transform:uppercase; letter-spacing:.8px}
+.vod-summary-item-text{color:var(--text-dim); font-size:14px; max-width:62%; text-align:right}
+
+/* ---- Sezon / bölüm listeleri ---- */
+#season-episodes-container{white-space:nowrap; margin-top:24px; height:470px}
+#season-items-container{
+  position:relative; overflow-x:auto; overflow-y:hidden; display:inline-flex; gap:8px;
+  vertical-align:top; margin-top:24px; padding:0 20px; width:100%;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+#season-items-container::-webkit-scrollbar{display:none}
+.season-item-container{
+  font-size:18px; color:#fff; padding:10px 12px;
+  background:rgba(255,255,255,.08); border:1px solid var(--panel-border);
+  border-radius:8px; text-align:center; white-space:nowrap;
+  box-shadow:0 8px 20px rgba(0,0,0,.35); transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.season-item-container:hover{transform:translateY(-2px); background:rgba(255,255,255,.1)}
+.season-item-container.active{background:var(--accent); border-color:transparent}
+
+/* ---- Bölümler ---- */
+#series-summary-episode-items-container{vertical-align:top; height:525px; overflow-y:auto; position:relative; scrollbar-width:thin}
+#episodes-part{height:100%; vertical-align:top; padding:10px 20px}
+.episode-item-wrapper{
+  font-size:16px; color:#fff; text-align:left; white-space:nowrap; width:100%;
+  overflow:hidden; text-overflow:ellipsis; background:rgba(65,55,60,.9);
+  margin:0 auto 10px; padding:12px 16px 12px 230px; position:relative; height:169px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.08); box-shadow:0 10px 22px rgba(0,0,0,.35);
+}
+.episode-item-wrapper.active{background:var(--accent); border-color:transparent}
+.episode-item-img-wrapper{position:absolute; inset:0 auto 0 0; width:200px; display:block; overflow:hidden; border-radius:10px 0 0 10px}
+.episode-item-img{width:100%; height:100%; object-fit:cover; display:block}
+.episode-item-title{font-size:22px; font-weight:700; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.episode-item-desc{
+  white-space:normal; font-weight:400; margin-top:6px; font-size:14px; color:#FFFCDF;
+  display:-webkit-box; -webkit-line-clamp:3; line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; text-align:justify;
+}
+.max-line-2{-webkit-line-clamp:2; line-clamp:2}
+.max-line-4{-webkit-line-clamp:4; line-clamp:4}
+
+/* ---- Samsung TV Action Buttons - Tek Sıra, Tekrarsız ---- */
+.vod-series-action-container{
+  display:flex; 
+  gap:12px; 
+  flex-wrap:wrap; 
+  margin-bottom:20px;
+  justify-content:flex-start;
+}
+
+.vod-action-btn{
+  border:2px solid rgba(255,255,255,.2); 
+  border-radius:25px;
+  background:linear-gradient(135deg,var(--accent) 0%, var(--accent-2) 100%);
+  color:#fff; 
+  font-size:14px; 
+  font-weight:700; 
+  letter-spacing:.6px; 
+  text-transform:uppercase;
+  padding:10px 20px; 
+  cursor:pointer; 
+  transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+  box-shadow:0 6px 20px rgba(0,212,255,.3);
+  backdrop-filter:blur(8px);
+  position:relative;
+}
+
+.vod-action-btn:hover,
+.vod-action-btn:focus,
+.vod-action-btn.focused{
+  transform:translateY(-2px) scale(1.05); 
+  box-shadow:var(--focus-ring), 0 10px 28px rgba(0,212,255,.5);
+  border-color:rgba(255,255,255,.4);
+}
+
+/* Samsung TV Color Key Indicators */
+.vod-action-btn::before{
+  content:'';
+  position:absolute;
+  left:-8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:4px;
+  height:60%;
+  border-radius:2px;
+  opacity:0.8;
+}
+
+#vod-watch-movie-button{
+  background:linear-gradient(135deg,#ff6b6b 0%, #ee5a24 100%); 
+  box-shadow:0 6px 20px rgba(255,107,107,.3);
+}
+
+#vod-watch-movie-button::before{
+  background:#ff0000; /* Red Key */
+}
+
+#vod-watch-movie-button:hover,
+#vod-watch-movie-button.focused{
+  box-shadow:var(--focus-ring), 0 10px 30px rgba(255,107,107,.5);
+}
+
+#vod-add-favourite-button{
+  background:linear-gradient(135deg,#10ac84 0%, #00d2d3 100%); 
+  box-shadow:0 6px 20px rgba(16,172,132,.3);
+}
+
+#vod-add-favourite-button::before{
+  background:#00ff00; /* Green Key */
+}
+
+#vod-add-favourite-button:hover,
+#vod-add-favourite-button.focused{
+  box-shadow:var(--focus-ring), 0 10px 30px rgba(16,172,132,.5);
+}
+
+#vod-trailer-button{
+  background:linear-gradient(135deg,#ffb347 0%, #ffa502 100%); 
+  box-shadow:0 6px 20px rgba(255,179,71,.3);
+}
+
+#vod-trailer-button::before{
+  background:#ffff00; /* Yellow Key */
+}
+
+#vod-trailer-button:hover,
+#vod-trailer-button.focused{
+  box-shadow:var(--focus-ring), 0 10px 30px rgba(255,179,71,.5);
+}
+
+/* Hide duplicate action containers */
+.duplicate-actions,
+.secondary-action-container,
+.series-header-actions.duplicate{
+  display:none !important;
+}
+
+/* ---- Benzer içerikler şeridi (alt sabit) ---- */
+.similar-movies-section{
+  position:fixed; left:0; right:0; bottom:0; z-index:20;
+  background:rgba(8,12,18,.98);
+  border-top:3px solid rgba(102,126,234,.35);
+  padding:14px 32px 18px; max-height:260px; overflow:hidden;
+  box-shadow:0 -15px 40px rgba(0,0,0,.6);
+}
+.similar-movies-header,.similar-movies-title{display:none}
+.similar-movies-container{
+  display:flex; gap:12px; overflow-x:auto; overflow-y:hidden; padding:6px 0; height:200px;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; transform:translateZ(0);
+}
+.similar-movies-container::-webkit-scrollbar{display:none}
+.similar-movie-item{
+  flex:0 0 140px; height:200px; position:relative; cursor:pointer;
+  border-radius:14px; overflow:hidden; background:rgba(255,255,255,.08);
+  border:2px solid rgba(255,255,255,.1); box-shadow:0 8px 20px rgba(0,0,0,.4);
+  transition:transform .12s ease, box-shadow .2s ease, border-color .12s ease;
+}
+.similar-movie-item:hover{transform:translateY(-1px)}
+.similar-movie-item.focused{
+  transform:scale(1.1); border-color:var(--accent);
+  box-shadow:0 0 40px rgba(102,126,234,.85), 0 0 18px rgba(255,255,255,.55), inset 0 0 16px rgba(102,126,234,.28);
+  background:linear-gradient(135deg, rgba(102,126,234,.25), rgba(118,75,162,.25));
+  z-index:25;
+}
+.similar-movie-item[data-duplicate="true"]{display:none}
+.similar-movie-poster{width:100%; height:100%; object-fit:cover; display:block}
+.similar-movie-info,.similar-movie-title,.similar-movie-year,.similar-movie-episode,.similar-movie-rating{display:none !important}
+
+/* ---- Yardımcı başlık/bağlam (gizli) ---- */
+.category-context-display{display:none}
+.category-title-strip{display:none}
+
+/* ---- Responsive - Samsung TV Series 6 & 9 Optimized ---- */
+
+/* Samsung TV Series 6 (1920x1080) */
+@media (max-width:1920px) and (min-width:1366px){
+  .vod-series-summary-page-contents-container{padding:12px 18px 280px}
+  .vod-summary-information-container{
+    flex-direction:column; 
+    gap:20px; 
+    width:min(92%,1000px); 
+    margin-bottom:380px;
+    padding:20px;
+  }
+  .vod-summary-information-left-part{
+    flex:none; 
+    align-self:center; 
+    max-width:250px;
+  }
+  .vod-series-summary-name{
+    font-size:22px; 
+    right:25px; 
+    max-width:50%; 
+    padding:10px 16px;
+  }
+  .similar-movies-section{
+    padding:12px 18px; 
+    max-height:210px;
+  }
+  .similar-movies-container{height:180px}
+  .similar-movie-item{
+    flex:0 0 140px; 
+    height:180px;
+  }
+}
+
+/* Samsung TV Series 9 (3840x2160 - 4K) */
+@media (min-width:3840px){
+  .vod-series-summary-page-contents-container{padding:80px 120px 500px}
+  .vod-summary-information-container{
+    gap:40px; 
+    width:min(1600px,85%); 
+    margin-bottom:600px;
+    padding:40px;
+    min-height:600px;
+  }
+  .vod-summary-information-left-part{
+    flex:0 0 380px;
+  }
+  .vod-summary-image-wrapper img{
+    min-height:550px; 
+    max-height:650px;
+  }
+  .vod-series-summary-name{
+    font-size:36px; 
+    padding:18px 28px;
+    right:60px;
+  }
+  #vod-summary-description,
+  #series-summary-description{
+    font-size:20px;
+    padding:20px 22px;
+    -webkit-line-clamp:8; 
+    line-clamp:8;
+  }
+  .vod-action-btn{
+    font-size:18px;
+    padding:15px 30px;
+  }
+  .similar-movies-section{
+    padding:20px 40px; 
+    max-height:320px;
+  }
+  .similar-movies-container{height:260px}
+  .similar-movie-item{
+    flex:0 0 200px; 
+    height:260px;
+  }
+}
+
+/* Mobile/Tablet responsive */
+@media (max-width:1024px){
+  .vod-series-summary-page-contents-container{
+    padding:8px 12px 260px; 
+    align-items:flex-start;
+  }
+  .vod-summary-information-container{
+    padding:15px; 
+    gap:15px; 
+    width:100%; 
+    margin-bottom:340px;
+  }
+  .vod-series-action-container{
+    flex-direction:column; 
+    gap:8px;
+  }
+  .vod-action-btn{
+    width:100%; 
+    justify-content:center; 
+    padding:8px 16px; 
+    font-size:13px;
+  }
+  .vod-series-summary-name{
+    position:static; 
+    transform:none; 
+    margin:8px 0 0; 
+    text-align:center;
+    background:rgba(0,0,0,.85); 
+    max-width:100%; 
+    border-radius:10px;
+    font-size:20px;
+  }
+  .similar-movies-section{
+    max-height:190px; 
+    padding:8px 12px 12px;
+  }
+  .similar-movies-container{
+    height:150px; 
+    gap:8px;
+  }
+  .similar-movie-item{
+    flex:0 0 100px; 
+    height:150px;
+  }
+  .similar-movie-item.focused{
+    transform:scale(1.06);
+  }
+}
+
+/* Samsung TV Focus accessibility */
+.focused{
+  outline:none !important;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high){
+  :root{
+    --panel-border:rgba(255,255,255,.4);
+    --panel:rgba(0,0,0,.95);
+  }
+  
+  .vod-action-btn.focused{
+    border-color:#ffffff;
+    background:rgba(255,255,255,.15);
+  }
+}

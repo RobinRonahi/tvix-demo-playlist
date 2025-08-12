@@ -1,0 +1,55 @@
+/* ==== login.css – TIZEN 6/9 SAFE (clean & slim, full file) ==== */
+#loading-page{position:relative;background:#111a24;background-size:cover}
+#loading-page .loader-image-container{position:fixed;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);transition:.5s}
+.login-logo{width:230px;display:block;margin:0 auto}
+#loader-img{width:110px;display:block;margin:40px auto 0}
+#loading-text{font-size:20px;color:#eef3f7;text-align:center;margin-top:22px;text-transform:uppercase;padding-bottom:16px;letter-spacing:.3px}
+#login-container{position:relative;background:#111a24;color:#fff}
+#login-container .left-part-content{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center}
+#login-page-note-1{font-size:30px;text-align:center;font-weight:500}
+.login-note-txt-color-2{color:#ffe470}
+.login-page-link{color:#a8e6fa!important;text-transform:lowercase;transition:all .2s}
+.login-page-link:hover{color:#dff6ff!important;text-shadow:none}
+.login-note-2-txt{padding:8px 0}
+#login-page-note-2-container{font-size:22px;text-align:center;margin-top:48px;width:fit-content;border:1px solid rgba(255,255,255,.18);padding:22px 28px;margin-bottom:30px;border-radius:12px;background:rgba(255,255,255,.03);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+/* ===== Login buttons: slim & side-by-side ===== */
+.login-button{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin:6px 8px;width:auto;min-width:150px;max-width:42vw;white-space:nowrap;background:#5b8de0;color:#fff;font-size:16px;font-weight:500;padding:10px 16px;border-radius:10px;letter-spacing:.2px;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+.login-button:hover{background:#6a9ae8;transform:translateY(-2px)}
+.login-button .user-icon{margin-right:10px}
+.login-text-1{font-size:18px}
+#activate-link{color:#ddd;font-weight:500;text-decoration:none!important;cursor:pointer;border:1px solid rgba(107,95,193,.6);border-radius:50px;padding:8px 16px;font-size:16px;width:auto;display:inline-block;text-align:center;transition:all .2s}
+#activate-link:hover{background-color:rgba(107,95,193,.1);border-color:#7a6fd8}
+/* ===== Clean issue overlay (single tone) ===== */
+#loading-issue-container{position:fixed;left:0;top:0;width:100%;height:100%;display:none;z-index:10;background:#111a24;overflow-y:hidden}
+.loading-issue-item{position:fixed;left:50%;top:50%;width:900px;max-width:90vw;transform:translate(-50%,-50%);padding:28px 36px;border-radius:18px;color:#fff;text-transform:uppercase;font-size:24px;background:rgba(255,255,255,.04);box-shadow:0 20px 40px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12);text-shadow:none}
+.loading-issue-logo-container{margin-bottom:20px;text-align:center;position:relative}
+.issue-gala-player-text{font-family:'Gala',sans-serif;font-size:44px;color:#fff;letter-spacing:1.2px;font-weight:600;text-shadow:none;margin:6px 0 12px}
+.loading-issue-message-container{border-radius:10px;background:rgba(255,255,255,.04);padding:20px 26px;border:1px solid rgba(255,255,255,.1);box-shadow:none;position:relative}
+.loading-issue-title{font-size:30px;margin-bottom:10px;color:rgba(255,255,255,.96);font-weight:600;letter-spacing:.6px}
+.loading-issue-text{text-align:center;font-size:18px;color:rgba(255,255,255,.9);line-height:1.6;margin-bottom:16px;font-weight:400;letter-spacing:.4px;font-family:'Roboto','Antonio',sans-serif;text-shadow:none}
+/* ===== Issue buttons: side-by-side guaranteed ===== */
+.loading-issue-btn-container{margin-top:24px;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:nowrap}
+.loading-issue-btn{display:inline-flex;align-items:center;justify-content:center;font-size:16px;background:#6a9ae8;min-width:148px;border-radius:8px;margin:0;color:#fff;padding:10px 16px;border:1px solid rgba(255,255,255,.12);font-weight:500;letter-spacing:.3px;box-shadow:0 4px 12px rgba(0,0,0,.35);text-transform:none;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+.loading-issue-btn:hover{background:#7aa6f0;transform:translateY(-2px)}
+.loading-issue-btn i{margin-right:8px;font-size:18px;opacity:.95}
+/* ===== Device info (lightweight) ===== */
+.device-info-table{width:100%;border-collapse:separate;border-spacing:0}
+.device-info-row{display:flex;align-items:center;margin-bottom:8px}
+.device-info-cell{padding:4px}
+.device-info-cell:first-child{width:120px;text-align:right}
+.device-info-cell:nth-child(2){flex-grow:1;display:flex;align-items:center}
+.device-status-badge{display:inline-block;width:14px;height:14px;border-radius:50%;margin-left:10px}
+.device-status-badge.active-license{background:#3d9fe0}
+.device-status-badge.demo-license{background:#e79a3a}
+.device-status-badge.expired-license{background:#e06055}
+.device-status-badge.trial-license{background:#e7c84a}
+.device-status-text{font-size:15px;color:rgba(255,255,255,.85);margin-left:6px;text-transform:none;font-family:'Roboto',sans-serif;font-weight:400}
+.loading-issue-info-item{margin-top:12px;font-size:20px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap}
+.loading-issue-info-item span{padding:4px 8px;margin:2px 4px;font-family:'Roboto',sans-serif}
+.loading-issue-info-item-label{font-size:16px;color:rgba(255,255,255,.7);font-weight:400;letter-spacing:.3px;text-transform:none}
+.loading-issue-info-item-value{font-size:18px;font-weight:500;background:rgba(255,255,255,.06);border-radius:6px;padding:6px 12px!important;border:1px solid rgba(255,255,255,.12);font-family:'Roboto Mono',monospace;letter-spacing:.6px;box-shadow:none}
+/* ===== Focus (remote-friendly) ===== */
+.login-page-link:focus-visible,.loading-issue-btn:focus-visible,#activate-link:focus-visible,.login-button:focus-visible{outline:0;box-shadow:0 0 0 3px rgba(136,196,255,.55)}
+.loading-issue-btn.tv-focus,#activate-link.tv-focus,.login-button.tv-focus{outline:0;box-shadow:0 0 0 3px rgba(136,196,255,.55)}
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion:reduce){._rm_transitions *,._rm_transitions{transition:none!important}}

@@ -1,0 +1,178 @@
+/* ==== CATCHUP DETAIL PAGE – SAMSUNG TV OPTIMIZED ==== */
+:root {
+    --catchup-bg: #0f1217;
+    --catchup-bg-soft: #151a22;
+    --catchup-text: #e6eaf0;
+    --catchup-primary: #4da3ff;
+    --catchup-border: #273245;
+    --catchup-shadow: 0 6px 20px rgba(0,0,0,.35);
+    --catchup-radius: 12px;
+}
+
+/* Catchup Detail Container */
+.catchup-detail-container {
+    background: var(--catchup-bg);
+    color: var(--catchup-text);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Catchup Detail Header */
+.catchup-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--catchup-border);
+}
+
+.catchup-back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--catchup-bg-soft);
+    border: 2px solid var(--catchup-border);
+    border-radius: var(--catchup-radius);
+    color: var(--catchup-text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.catchup-back-button:hover,
+.catchup-back-button:focus {
+    border-color: var(--catchup-primary);
+    box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.catchup-back-button i {
+    font-size: 16px;
+}
+
+/* Catchup Detail Content */
+.catchup-detail-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.catchup-detail-poster {
+    width: 100%;
+    border-radius: var(--catchup-radius);
+    box-shadow: var(--catchup-shadow);
+}
+
+.catchup-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.catchup-detail-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--catchup-text);
+    margin: 0;
+}
+
+.catchup-detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    color: rgba(230, 234, 240, 0.7);
+}
+
+.catchup-detail-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(230, 234, 240, 0.85);
+}
+
+/* Catchup Actions */
+.catchup-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.catchup-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--catchup-primary);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.catchup-action-btn:hover,
+.catchup-action-btn:focus {
+    background: #2c7be5;
+    box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.catchup-action-btn.secondary {
+    background: transparent;
+    border-color: var(--catchup-border);
+    color: var(--catchup-text);
+}
+
+.catchup-action-btn.secondary:hover {
+    border-color: var(--catchup-primary);
+    background: rgba(77, 163, 255, 0.1);
+}
+
+/* Responsive Design for Samsung TV */
+@media (max-width: 1920px) {
+    .catchup-detail-content {
+        grid-template-columns: 250px 1fr;
+        gap: 24px;
+    }
+    
+    .catchup-detail-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .catchup-detail-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .catchup-detail-poster {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+}
+
+/* Samsung TV Focus Styles */
+.samsung-tv-optimized .catchup-back-button:focus,
+.samsung-tv-optimized .catchup-action-btn:focus {
+    outline: 3px solid var(--catchup-primary);
+    outline-offset: 2px;
+}
+
+/* Loading States */
+.catchup-detail-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: var(--catchup-text);
+}
+
+.catchup-detail-error {
+    text-align: center;
+    padding: 40px;
+    color: #ff5c5c;
+}
