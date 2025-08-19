@@ -19,7 +19,7 @@
     <tizen:metadata key="http://samsung.com/tv/metadata/category" value="Entertainment"/>
     <tizen:metadata key="http://samsung.com/tv/metadata/resolution" value="1920x1080"/>
     <tizen:metadata key="http://samsung.com/tv/metadata/prefer.index" value="index.html"/>
-    <name>TvixPlayer</name>
+    <name>Samsung</name>
     <tizen:privilege name="http://developer.samsung.com/privilege/avplay"/>
     <tizen:privilege name="http://developer.samsung.com/privilege/productinfo"/>
     <tizen:privilege name="http://developer.samsung.com/privilege/drmplay"/>
