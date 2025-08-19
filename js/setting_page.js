@@ -43,7 +43,8 @@ var setting_page = {
     $("#setting-page").removeClass("hide");
     $(".main-logo-container").hide();
     $("#main-menu-container").hide();
-    $("#home-mac-address-container").hide();
+  $("#home-mac-address-container").hide();
+  try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
 
     this.showSettingsMenu();
 
@@ -76,7 +77,7 @@ var setting_page = {
   // Yardımcı: init sırasında yakaladığımız eventleri kapatmak için
   destroy: function () {
     $(document).off(".settingsPage");
-    $(".settings-home-icon").off(".backup");
+    $(".vod-home-button").off(".backup"); // Updated selector
   },
 
   autoOpenUserAccount: function () {
@@ -148,7 +149,7 @@ var setting_page = {
         }
       });
 
-    $(".settings-home-icon")
+    $(".vod-home-button") // Updated selector
       .off("click.backup")
       .on("click.backup", function () {
         self.goBackToHome();
@@ -517,7 +518,7 @@ var setting_page = {
 
     if (window.prev_focus_dom) $(prev_focus_dom).removeClass("active");
     $(".setting-menu-item-wrapper").removeClass("active focused");
-    $(".settings-home-icon").removeClass("active focused bg-focus-1");
+    $(".vod-home-button").removeClass("focused"); // Updated selector
 
     $(this.menu_doms[index]).addClass("active");
     window.prev_focus_dom = this.menu_doms[index];
@@ -557,8 +558,8 @@ var setting_page = {
 
     if (window.prev_focus_dom) $(prev_focus_dom).removeClass("active");
     $(".setting-menu-item-wrapper").removeClass("active focused");
-    $(".settings-home-icon").addClass("active focused");
-    window.prev_focus_dom = $(".settings-home-icon")[0];
+    $(".vod-home-button").addClass("focused"); // Updated selector
+    window.prev_focus_dom = $(".vod-home-button")[0];
   },
 
   showAccountSettings: function () {
@@ -717,51 +718,53 @@ var setting_page = {
     const keyCode = e.keyCode;
     let isValid = false;
 
-    switch (keyCode) {
-      case (window.tvKey && tvKey.RIGHT) || -1:
-      case 39:
-      case 4:
-        this.handleMenuLeftRight(1);
-        isValid = true;
-        break;
+    // Samsung TV key mapping
+    var isRight = false, isLeft = false, isUp = false, isDown = false, isEnter = false, isReturn = false;
+    
+    // RIGHT keys
+    if (keyCode === 39 || keyCode === 4 || (window.tvKey && keyCode === tvKey.RIGHT)) {
+      isRight = true;
+    }
+    // LEFT keys  
+    else if (keyCode === 37 || keyCode === 3 || (window.tvKey && keyCode === tvKey.LEFT)) {
+      isLeft = true;
+    }
+    // DOWN keys
+    else if (keyCode === 40 || keyCode === 2 || (window.tvKey && keyCode === tvKey.DOWN)) {
+      isDown = true;
+    }
+    // UP keys
+    else if (keyCode === 38 || keyCode === 1 || (window.tvKey && keyCode === tvKey.UP)) {
+      isUp = true;
+    }
+    // ENTER keys
+    else if (keyCode === 13 || keyCode === 29443 || keyCode === 65376 || (window.tvKey && keyCode === tvKey.ENTER)) {
+      isEnter = true;
+    }
+    // BACK/RETURN keys
+    else if (keyCode === 27 || keyCode === 8 || keyCode === 10009 || keyCode === 65385 || 
+             (window.tvKey && (keyCode === tvKey.RETURN || keyCode === tvKey.EXIT))) {
+      isReturn = true;
+    }
 
-      case (window.tvKey && tvKey.LEFT) || -1:
-      case 37:
-      case 3:
-        this.handleMenuLeftRight(-1);
-        isValid = true;
-        break;
-
-      case (window.tvKey && tvKey.DOWN) || -1:
-      case 40:
-      case 2:
-        this.handleMenusUpDown(1);
-        isValid = true;
-        break;
-
-      case (window.tvKey && tvKey.UP) || -1:
-      case 38:
-      case 1:
-        this.handleMenusUpDown(-1);
-        isValid = true;
-        break;
-
-      case (window.tvKey && tvKey.ENTER) || -1:
-      case 13:
-      case 29443:
-      case 65376:
-        this.handleMenuClick();
-        isValid = true;
-        break;
-
-      case (window.tvKey && tvKey.RETURN) || -1:
-      case 27:
-      case 8:
-      case 10009:
-      case 65385:
-        this.goBack();
-        isValid = true;
-        break;
+    if (isRight) {
+      this.handleMenuLeftRight(1);
+      isValid = true;
+    } else if (isLeft) {
+      this.handleMenuLeftRight(-1);
+      isValid = true;
+    } else if (isDown) {
+      this.handleMenusUpDown(1);
+      isValid = true;
+    } else if (isUp) {
+      this.handleMenusUpDown(-1);
+      isValid = true;
+    } else if (isEnter) {
+      this.handleMenuClick();
+      isValid = true;
+    } else if (isReturn) {
+      this.goBack();
+      isValid = true;
     }
 
     if (isValid) {
@@ -951,7 +954,7 @@ var setting_page = {
   },
 
   initializeThemeOnLoad: function () {
-    var savedTheme = localStorage.getItem("gala_theme") || "blue";
+    var savedTheme = localStorage.getItem("tvix_theme") || "blue";
     this.applyTheme(savedTheme);
   },
 
@@ -1368,7 +1371,7 @@ var setting_page = {
   },
 
   buildThemeCard: function (theme, index) {
-    var isActive = (localStorage.getItem("gala_theme") || "original_iptv") === theme.id;
+    var isActive = (localStorage.getItem("tvix_theme") || "original_iptv") === theme.id;
     var themeName = (window.LanguageManager && LanguageManager.getText(theme.name_key)) || theme.name_key;
     return (
       '<div class="theme-option ' +
@@ -1396,7 +1399,7 @@ var setting_page = {
   },
 
   selectTheme: function (themeId, themeData) {
-    if ((localStorage.getItem("gala_theme") || "original_iptv") === themeId) {
+    if ((localStorage.getItem("tvix_theme") || "original_iptv") === themeId) {
       console.log("Same theme selected");
       return;
     }
@@ -1416,12 +1419,12 @@ var setting_page = {
     setTimeout(function () {
       $(".settings-sidebar, .settings-main-content, .setting-item-section-container").trigger("repaint");
     }, 50);
-    localStorage.setItem("gala_theme", themeId);
+    localStorage.setItem("tvix_theme", themeId);
     this.highlightSelectedTheme();
   },
 
   highlightSelectedTheme: function () {
-    var cur = localStorage.getItem("gala_theme") || "original_iptv";
+    var cur = localStorage.getItem("tvix_theme") || "original_iptv";
     $(".theme-option").removeClass("active");
     $('.theme-option[data-theme="' + cur + '"]').addClass("active");
   },
@@ -1445,7 +1448,7 @@ var setting_page = {
 
   loadSavedTheme: function () {
     try {
-      var saved = localStorage.getItem("gala_theme") || "original_iptv";
+      var saved = localStorage.getItem("tvix_theme") || "original_iptv";
       $("body").addClass("theme-" + saved);
       console.log("Saved theme loaded:", saved);
     } catch (e) {

@@ -37,6 +37,10 @@ var turn_off_page = (function () {
       this.prev_route = prev_route || (typeof current_route !== "undefined" ? current_route : "home-page");
       if (typeof current_route !== "undefined") current_route = "turn-off-page";
 
+      // Ana sayfa bottom bar'ını gizle
+      $("#home-mac-address-container").hide();
+      try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
+
       // DOM referansları
       this.menu_doms = $("#turn-off-modal button");
       if (!this.menu_doms || this.menu_doms.length === 0) {
@@ -174,9 +178,9 @@ var turn_off_page = (function () {
 
     // ---- diagnostics (opsiyonel) ----
     debugSamsungTVState: function () {
-      console.group("🔍 Samsung TV Debug State");
+      console.group("Samsung TV Debug State");
       console.log("📍 Focused Part:", this.keys.focused_part);
-      console.log("🎯 Menu Selection:", this.keys.menu_selection);
+      console.log("Menu Selection:", this.keys.menu_selection);
       console.log("🖥️ DOM Elements:", {
         modal: document.getElementById("turn-off-modal"),
         buttons: (this.menu_doms && this.menu_doms.length) || 0,
@@ -189,7 +193,7 @@ var turn_off_page = (function () {
       try {
         if (window.performance && window.performance.memory) {
           var m = window.performance.memory;
-          console.log("⚡ Samsung TV Performance:", {
+          console.log("Samsung TV Performance:", {
             usedJSHeapSize: Math.round(m.usedJSHeapSize / 1048576) + "MB",
             totalJSHeapSize: Math.round(m.totalJSHeapSize / 1048576) + "MB",
             jsHeapSizeLimit: Math.round(m.jsHeapSizeLimit / 1048576) + "MB",
@@ -220,7 +224,7 @@ var turn_off_page = (function () {
         this.keys.focused_part = "menu_selection";
       }
       this.hoverMenuItem(this.keys.menu_selection);
-      console.log("✅ Samsung TV Modal initialization complete");
+      console.log("Samsung TV Modal initialization complete");
     }
   };
 

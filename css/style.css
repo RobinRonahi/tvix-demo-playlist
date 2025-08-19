@@ -15,8 +15,160 @@
   --shadow-2:0 10px 40px rgba(0,0,0,.6);
 }
 
+/* =================== VOD HOME BUTTON =================== */
+.vod-home-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(116,185,255,0.2);
+  border: 1px solid rgba(116,185,255,0.4);
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+}
+
+.vod-home-icon:hover,
+.vod-home-icon.hover-effect {
+  background: rgba(116,185,255,0.3);
+  border-color: rgba(116,185,255,0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(116,185,255,0.3);
+}
+
+.vod-home-icon i {
+  font-size: 18px;
+  color: #74b9ff;
+}
+
+.vod-home-icon span {
+  font-weight: 500;
+}
+
+/* =================== SAMSUNG TV OPTIMIZATIONS =================== */
+@media screen and (min-width: 1920px) {
+  /* Samsung TV Large Screen Optimizations */
+  body {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  .btn {
+    min-height: 50px;
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+  
+  .card, .movie-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  
+  /* Samsung TV Remote Control Focus */
+  .focus, .btn:focus, .card:focus {
+    outline: 3px solid #74b9ff !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px rgba(116, 185, 255, 0.3) !important;
+    transform: scale(1.05);
+    z-index: 1000;
+  }
+  
+  /* Samsung TV Navigation Indicators */
+  .navigation-hint {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 9999;
+  }
+}
+
+/* Samsung TV Performance CSS */
+.samsung-tv-optimized {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.samsung-hw-accelerated {
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+/* Samsung TV Video Player Optimizations */
+.samsung-video-container {
+  position: relative;
+  background: #000;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.samsung-video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
 /* =================== GLOBAL / BASE =================== */
 body *{font-family:'Roboto',sans-serif; font-weight:400}
+
+/* =================== PLACEHOLDER IMAGES =================== */
+.movie-poster-placeholder,
+.series-poster-placeholder,
+.episode-poster-placeholder {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.movie-poster-placeholder::before {
+  content: "🎬";
+  font-size: 3em;
+  opacity: 0.6;
+  color: #fff;
+}
+
+.series-poster-placeholder::before {
+  content: "📺";
+  font-size: 3em;
+  opacity: 0.6;
+  color: #fff;
+}
+
+.episode-poster-placeholder::before {
+  content: "🎭";
+  font-size: 2.5em;
+  opacity: 0.6;
+  color: #fff;
+}
+
+.poster-error,
+.poster-missing {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+  text-align: center;
+  border-radius: 6px;
+}
 .font-size-0{font-size:0}
 .height-100{height:100vh}
 .row{margin-left:0 !important; margin-right:0 !important}
@@ -68,7 +220,7 @@ body{
   color:var(--warn); font-size:28px;
   background:rgba(0,0,0,.85);
 }
-.video-error img{width:100px; height:auto; opacity:.7}
+.video-error img{width:100vh; height:auto; opacity:.7}
 .video-error-text{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   color:#FFAB91; text-shadow:0 2px 5px rgba(0,0,0,.5);
@@ -80,7 +232,7 @@ body{
 }
 .video-loader img{
   width:150px; height:auto; position:absolute; left:50%; top:50%;
-  transform:translate(-50%,-50%); animation:spin 1.5s linear infinite;
+  transform:translate(-50%,-50%); animation:spin 3s linear infinite;
 }
 @keyframes spin{from{transform:translate(-50%,-50%) rotate(0)} to{transform:translate(-50%,-50%) rotate(360deg)}}
 

@@ -27,6 +27,13 @@ var series_summary_page = {
     $("#series-summary-page").removeClass("hide").addClass("fade-in");
     $("#vod-series-page, #home-page").addClass("hide");
 
+    // Ana sayfa bottom bar'ını gizle
+    $("#home-mac-address-container").hide();
+    try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
+    // Clock ve diğer homepage elementlerini gizle  
+    if (typeof hideHomepageElements === "function") hideHomepageElements();
+    else if (typeof toggleBottomBar === "function") toggleBottomBar(false);
+
     if (typeof toggleDeviceInfoBanner === "function") {
       toggleDeviceInfoBanner(false);
     }
@@ -289,9 +296,71 @@ var series_summary_page = {
         this.handleEnter();
         break;
 
+      // BACK tuşu - Samsung TV için kritik
       case tvKey.RETURN:
+      case tvKey.EXIT:
+      case 10009:            // Samsung TV BACK key
+      case 8:                // BACKSPACE (some Samsung models)
         this.goBack();
         break;
+
+      // Samsung TV kanal değiştirme tuşları - hızlı navigasyon
+      case tvKey.CH_UP:
+      case 427:              // CHANNEL_UP
+      case 33:               // PAGE_UP
+        if (focused === "episodes") {
+          // Bir önceki sezona git
+          if (this.keys.season_selection > 0) {
+            this.keys.season_selection--;
+            this.loadSeasonEpisodes(this.keys.season_selection);
+            this.setFocus("seasons", this.keys.season_selection);
+          }
+        } else {
+          // Sezon listesinde yukarı
+          this.navigateList(-1, "seasons");
+        }
+        break;
+
+      case tvKey.CH_DOWN:
+      case 428:              // CHANNEL_DOWN  
+      case 34:               // PAGE_DOWN
+        if (focused === "episodes") {
+          // Bir sonraki sezona git
+          if (this.keys.season_selection < this.seasons.length - 1) {
+            this.keys.season_selection++;
+            this.loadSeasonEpisodes(this.keys.season_selection);
+            this.setFocus("seasons", this.keys.season_selection);
+          }
+        } else {
+          // Sezon listesinde aşağı
+          this.navigateList(1, "seasons");
+        }
+        break;
+
+      // PLAY tuşu - doğrudan bölüm oynat
+      case 415:              // PLAY key
+      case tvKey.PLAY:
+        if (focused === "episodes") {
+          this.handleEnter(); // Seçili bölümü oynat
+        } else if (focused === "actions" && this.keys.action_selection === 0) {
+          this.handleEnter(); // Play action button
+        }
+        break;
+
+      // Samsung A6/A9 ek tuşlar
+      case 145:              // MENU key - actions'a git
+        this.setFocus("actions", 0);
+        break;
+
+      case 457:              // INFO key - ilk bölümün detayını göster
+      case 73:               // I key
+        if (this.episodes.length > 0) {
+          this.setFocus("episodes", 0);
+        }
+        break;
+
+      default:
+        console.log("Unhandled key in series_summary:", key);
     }
   },
 
@@ -364,7 +433,11 @@ var series_summary_page = {
       title: episode.title || episode.name,
       series_name:
         (this.current_series_info && this.current_series_info.info && this.current_series_info.info.name) ||
-        current_movie.name
+        current_movie.name,
+      // Add backdrop/image info for player
+      movie_image: episode.movie_image || episode.image,
+      backdrop_image: episode.backdrop_image || episode.movie_image || episode.image,
+      cover: episode.cover || episode.movie_image || episode.image
     });
 
     console.log("[SeriesSummary] current_episode set:", window.current_episode);
@@ -493,14 +566,30 @@ var series_summary_page = {
     this.hideTrailerModal();
     $("#series-summary-page").addClass("hide");
 
-    if (typeof toggleDeviceInfoBanner === "function") {
-      toggleDeviceInfoBanner(true);
-    }
-
-    if (this.prev_route === "vod-series-page" && typeof vod_series_page !== "undefined") {
+    // Önceki sayfaya göre dönüş yapısı
+    if (this.prev_route === 'home-page' || this.prev_route === 'top-menu-page') {
+      // Ana sayfaya dönüyorsa bottom bar'ı göster
+      $("#home-mac-address-container").css("display", "flex").show();
+      if (typeof showHomepageElements === "function") showHomepageElements();
+      else if (typeof toggleBottomBar === "function") toggleBottomBar(true);
+      $('#home-page').removeClass('hide');
+      window.current_route = 'home-page';
+      
+      if (typeof toggleDeviceInfoBanner === "function") {
+        toggleDeviceInfoBanner(true);
+      }
+      
+      if (typeof home_operation !== 'undefined' && home_operation.init) {
+        home_operation.init();
+      }
+    } else if (this.prev_route === "vod-series-page" && typeof vod_series_page !== "undefined") {
       console.log("[SeriesSummary] Returning to vod-series-page");
       $("#vod-series-page").removeClass("hide");
       window.current_route = "vod-series-page";
+
+      if (typeof toggleDeviceInfoBanner === "function") {
+        toggleDeviceInfoBanner(true);
+      }
 
       // Restore list position on VOD page (if stored)
       if (vod_series_page.last_watched_series) {
@@ -530,6 +619,120 @@ var series_summary_page = {
       }
     } else {
       showPage(this.prev_route || "home-page");
+    }
+  },
+
+  // Bir sonraki bölümün bilgilerini getir
+  getNextEpisodeData: function() {
+    var currentEpisodeIndex = window._lastEpisodeIndex || this.keys.episode_selection || 0;
+    var currentSeasonIndex = window._lastSeasonIndex || this.keys.season_selection || 0;
+    
+    // Aynı sezondaki bir sonraki bölümü kontrol et
+    if (this.episodes && currentEpisodeIndex < this.episodes.length - 1) {
+      var nextEpisode = this.episodes[currentEpisodeIndex + 1];
+      if (nextEpisode) {
+        return {
+          title: nextEpisode.title || nextEpisode.name,
+          stream_url: nextEpisode.stream_url || nextEpisode.url,
+          season_number: nextEpisode.season_number,
+          episode_number: nextEpisode.episode_number,
+          id: nextEpisode.id,
+          info: nextEpisode.info,
+          cover: nextEpisode.info && nextEpisode.info.movie_image
+        };
+      }
+    }
+    
+    // Bir sonraki sezonun ilk bölümünü kontrol et
+    if (this.seasons && currentSeasonIndex < this.seasons.length - 1) {
+      var nextSeason = this.seasons[currentSeasonIndex + 1];
+      if (nextSeason && nextSeason.episodes && nextSeason.episodes.length > 0) {
+        var firstEpisode = nextSeason.episodes[0];
+        return {
+          title: firstEpisode.title || firstEpisode.name,
+          stream_url: firstEpisode.stream_url || firstEpisode.url,
+          season_number: firstEpisode.season_number,
+          episode_number: firstEpisode.episode_number,
+          id: firstEpisode.id,
+          info: firstEpisode.info,
+          cover: firstEpisode.info && firstEpisode.info.movie_image
+        };
+      }
+    }
+    
+    return null; // Daha fazla bölüm yok
+  },
+
+  // Episode çalma fonksiyonu
+  playEpisode: function(episode) {
+    if (!episode) {
+      console.error('[SeriesSummary] No episode provided');
+      return;
+    }
+
+    console.log('[SeriesSummary] Playing episode:', episode);
+    
+    // Episode bilgilerini current_movie'ye aktar
+    var episodeMovie = {
+      stream_id: episode.id || episode.stream_id,
+      name: episode.title || episode.name,
+      stream_url: episode.stream_url || episode.url,
+      cover: episode.cover || episode.info && episode.info.movie_image,
+      series_id: current_movie.series_id,
+      episode_info: episode,
+      title: episode.title || episode.name,
+      // Series ana bilgilerini de episode'a ekle
+      series_title: current_movie.name || current_movie.title,
+      season_number: episode.season_number || episode.season,
+      episode_number: episode.episode_number || episode.episode_num
+    };
+
+    // Global current_movie'yi güncelle
+    window.current_movie = episodeMovie;
+    
+    // Episode bilgilerini global current_episode'a aktar
+    window.current_episode = {
+      title: episode.title || episode.name,
+      name: episode.title || episode.name,
+      season: episode.season_number || episode.season,
+      season_number: episode.season_number || episode.season,
+      episode_num: episode.episode_number || episode.episode_num,
+      episode_number: episode.episode_number || episode.episode_num,
+      id: episode.id || episode.stream_id,
+      stream_url: episode.stream_url || episode.url
+    };
+
+    console.log('[SeriesSummary] Episode data prepared:', {
+      episodeMovie: episodeMovie,
+      current_episode: window.current_episode
+    });
+
+    // VOD Series Player'ı başlat
+    if (typeof vod_series_player_page !== 'undefined' && vod_series_player_page.init) {
+      try {
+        vod_series_player_page.init(episodeMovie, 'series', 'series-summary-page', episode.stream_url);
+        console.log('[SeriesSummary] VOD Series Player started successfully');
+      } catch (error) {
+        console.error('[SeriesSummary] Error starting VOD Series Player:', error);
+        this.fallbackToBasicPlayer(episodeMovie);
+      }
+    } else {
+      console.warn('[SeriesSummary] VOD Series Player not available, trying fallback');
+      this.fallbackToBasicPlayer(episodeMovie);
+    }
+  },
+
+  fallbackToBasicPlayer: function(episodeMovie) {
+    // Temel player ile fallback
+    if (typeof media_player !== 'undefined') {
+      try {
+        console.log('[SeriesSummary] Using basic media player fallback');
+        media_player.close();
+        media_player.open(episodeMovie.stream_url);
+        media_player.play();
+      } catch (error) {
+        console.error('[SeriesSummary] Fallback player also failed:', error);
+      }
     }
   },
 

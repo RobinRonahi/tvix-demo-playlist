@@ -23,7 +23,7 @@
 #loading-issue-container{position:fixed;left:0;top:0;width:100%;height:100%;display:none;z-index:10;background:#111a24;overflow-y:hidden}
 .loading-issue-item{position:fixed;left:50%;top:50%;width:900px;max-width:90vw;transform:translate(-50%,-50%);padding:28px 36px;border-radius:18px;color:#fff;text-transform:uppercase;font-size:24px;background:rgba(255,255,255,.04);box-shadow:0 20px 40px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.12);text-shadow:none}
 .loading-issue-logo-container{margin-bottom:20px;text-align:center;position:relative}
-.issue-gala-player-text{font-family:'Gala',sans-serif;font-size:44px;color:#fff;letter-spacing:1.2px;font-weight:600;text-shadow:none;margin:6px 0 12px}
+.issue-tvix-player-text{font-family:'Roboto',sans-serif;font-size:44px;color:#fff;letter-spacing:1.2px;font-weight:600;text-shadow:none;margin:6px 0 12px}
 .loading-issue-message-container{border-radius:10px;background:rgba(255,255,255,.04);padding:20px 26px;border:1px solid rgba(255,255,255,.1);box-shadow:none;position:relative}
 .loading-issue-title{font-size:30px;margin-bottom:10px;color:rgba(255,255,255,.96);font-weight:600;letter-spacing:.6px}
 .loading-issue-text{text-align:center;font-size:18px;color:rgba(255,255,255,.9);line-height:1.6;margin-bottom:16px;font-weight:400;letter-spacing:.4px;font-family:'Roboto','Antonio',sans-serif;text-shadow:none}

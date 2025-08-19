@@ -1,13 +1,106 @@
 "use strict";
 
 /**
- * mediaPlayer.js
- * - ES5 only (Samsung A6/A9 safe)
- * - English logs/comments
- * - Does NOT overwrite global `platform`; uses internal fallback path
- * - Guards all Tizen/webapis calls
- * - Limits loaders/errors to the current player container
+ * Samsung TV Enhanced Media Player
+ * - Optimized for Samsung Tizen TV platform with hardware acceleration
+ * - ES5 compatible for Samsung A6/A9 TVs
+ * - Enhanced AVPlay integration and HTML5 fallback
+ * - Samsung TV specific remote control handling
+ * - Hardware accelerated video playback
  */
+
+// Samsung TV AVPlay Integration and Optimization
+var SamsungTVMediaEnhancements = {
+    isAVPlayAvailable: false,
+    
+    init: function() {
+        try {
+            // Check for Samsung TV AVPlay API
+            if (typeof webapis !== "undefined" && webapis.avplay) {
+                this.isAVPlayAvailable = true;
+                console.log("Samsung TV: AVPlay API detected and initialized");
+                this.setupAVPlayOptimizations();
+            } else {
+                console.log("Samsung TV: Using HTML5 with Samsung optimizations");
+                this.setupHTML5Optimizations();
+            }
+        } catch (error) {
+            console.error("Samsung TV: Media enhancement initialization error:", error);
+        }
+    },
+    
+    setupAVPlayOptimizations: function() {
+        try {
+            // Samsung TV hardware decoder preferences
+            if (webapis.avplay.setStreamingProperty) {
+                webapis.avplay.setStreamingProperty("ADAPTIVE_STREAMING", "true");
+                webapis.avplay.setStreamingProperty("SET_MODE_4K", "true");
+                webapis.avplay.setStreamingProperty("WIDEVINE", "true");
+                console.log("Samsung TV: AVPlay streaming properties configured");
+            }
+        } catch (error) {
+            console.warn("Samsung TV: AVPlay optimization setup error:", error);
+        }
+    },
+    
+    setupHTML5Optimizations: function() {
+        // Apply Samsung TV optimizations to all video elements
+        var videos = document.querySelectorAll("video");
+        for (var i = 0; i < videos.length; i++) {
+            var video = videos[i];
+            
+            // Samsung TV hardware acceleration attributes
+            video.setAttribute("webkit-playsinline", "true");
+            video.setAttribute("playsinline", "true");
+            video.style.transform = "translate3d(0,0,0)";
+            video.style.willChange = "transform";
+            video.classList.add("samsung-hw-accelerated");
+            
+            console.log("Samsung TV: HTML5 video optimizations applied");
+        }
+    },
+    
+    enhanceVideoElement: function(videoElement) {
+        if (!videoElement) return;
+        
+        try {
+            // Samsung TV specific video enhancements
+            videoElement.classList.add("samsung-tv-optimized");
+            videoElement.setAttribute("preload", "metadata");
+            
+            // Hardware acceleration
+            videoElement.style.transform = "translateZ(0)";
+            videoElement.style.backfaceVisibility = "hidden";
+            
+            // Samsung TV event listeners
+            videoElement.addEventListener("loadstart", function() {
+                console.log("Samsung TV: Video load started");
+            });
+            
+            videoElement.addEventListener("canplay", function() {
+                console.log("Samsung TV: Video can play");
+            });
+            
+            videoElement.addEventListener("error", function(e) {
+                console.error("Samsung TV: Video error:", e);
+            });
+            
+        } catch (error) {
+            console.error("Samsung TV: Video element enhancement error:", error);
+        }
+    }
+};
+
+// Initialize Samsung TV enhancements
+if (typeof document !== "undefined") {
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function() {
+            SamsungTVMediaEnhancements.init();
+        });
+    } else {
+        SamsungTVMediaEnhancements.init();
+    }
+}
 
 var media_player;
 
@@ -19,7 +112,7 @@ function initMediaPlayer() {
     
     // Samsung webapis simulation for development environment
     if (isSamsung && !hasWebApis && typeof window !== 'undefined') {
-        console.log('🔧 Creating Samsung webapis simulation for development...');
+        console.log('Creating Samsung webapis simulation for development...');
         
         // Create webapis mock for development
         window.webapis = window.webapis || {};
@@ -40,7 +133,7 @@ function initMediaPlayer() {
             getState: function() { return 'IDLE'; }
         };
         hasWebApis = true;
-        console.log('✅ Samsung webapis simulation created successfully!');
+        console.log('Samsung webapis simulation created successfully!');
     }
     
     var useSamsung = isSamsung && hasWebApis;
@@ -48,7 +141,7 @@ function initMediaPlayer() {
     if (isSamsung && !hasWebApis) {
         console.warn('webapis.avplay not available; using HTML5 fallback on Samsung');
     } else if (isSamsung && hasWebApis) {
-        console.log('🎯 Samsung webapis.avplay is ready!');
+        console.log('Samsung webapis.avplay is ready!');
     }
 
     if (useSamsung) {
@@ -207,6 +300,13 @@ function initMediaPlayer() {
                             $p.find('.video-loader .buffer-progress').remove();
                             // Ensure rect in case layout changed while buffering
                             that.setDisplayArea();
+                            
+                            // Hide offline screen when buffering completes
+                            if (that.parent_id === 'vod-series-player-page' && 
+                                typeof vod_series_player_page !== 'undefined' && 
+                                vod_series_player_page.hideOfflineScreen) {
+                                vod_series_player_page.hideOfflineScreen();
+                            }
                         },
                         onstreamcompleted: function () {
                             console.log("Samsung: stream completed");
@@ -281,7 +381,14 @@ function initMediaPlayer() {
                 };
                 console.error("Samsung error detail:", map[type] || ('Unknown: ' + type));
 
+                // Show offline screen for connection errors
                 if (type === 'PLAYER_ERROR_CONNECTION_FAILED' || type === 'PLAYER_ERROR_INVALID_URI') {
+                    if (this.parent_id === 'vod-series-player-page' && 
+                        typeof vod_series_player_page !== 'undefined' && 
+                        vod_series_player_page.showOfflineScreen) {
+                        vod_series_player_page.showOfflineScreen();
+                    }
+                    
                     var that = this;
                     setTimeout(function () {
                         if (that.videoObj && that.videoObj.src) {
@@ -289,6 +396,13 @@ function initMediaPlayer() {
                             that.playAsync(that.videoObj.src);
                         }
                     }, 3000);
+                } else {
+                    // For other errors, show regular error message
+                    if (this.parent_id === 'vod-series-player-page' && 
+                        typeof vod_series_player_page !== 'undefined' && 
+                        vod_series_player_page.showError) {
+                        vod_series_player_page.showError(map[type] || ('Unknown: ' + type));
+                    }
                 }
             },
 
@@ -360,12 +474,28 @@ function initMediaPlayer() {
 
             this.videoObj.addEventListener("error", function (e) {
                 console.log("HTML5 player error:", e);
-                $('#' + that.parent_id).find('.video-error').show();
-                $('#' + that.parent_id).find('.video-loader').hide();
+                var $p = $('#' + that.parent_id);
+                $p.find('.video-error').show();
+                $p.find('.video-loader').hide();
+                
+                // Show offline screen for VOD series player
+                if (that.parent_id === 'vod-series-player-page' && 
+                    typeof vod_series_player_page !== 'undefined' && 
+                    vod_series_player_page.showOfflineScreen) {
+                    vod_series_player_page.showOfflineScreen();
+                }
             });
             this.videoObj.addEventListener("canplay", function () {
                 console.log("HTML5 player canplay");
-                $('#' + that.parent_id).find('.video-loader').hide();
+                var $p = $('#' + that.parent_id);
+                $p.find('.video-loader').hide();
+                
+                // Hide offline screen when video can play
+                if (that.parent_id === 'vod-series-player-page' && 
+                    typeof vod_series_player_page !== 'undefined' && 
+                    vod_series_player_page.hideOfflineScreen) {
+                    vod_series_player_page.hideOfflineScreen();
+                }
             });
             this.videoObj.addEventListener('waiting', function () {
                 $('#' + that.parent_id).find('.video-loader').show();
@@ -373,6 +503,16 @@ function initMediaPlayer() {
             this.videoObj.addEventListener('ended', function () {
                 console.log("HTML5 player ended");
                 that.state = that.STATES.STOPPED;
+                
+                // VOD series player'a stream completed bildirimi
+                if (typeof vod_series_player_page !== 'undefined' && 
+                    vod_series_player_page.handleStreamCompleted) {
+                    try {
+                        vod_series_player_page.handleStreamCompleted();
+                    } catch (e) {
+                        console.warn('Error calling handleStreamCompleted:', e);
+                    }
+                }
             });
             this.videoObj.ontimeupdate = function () {
                 that.current_time = that.videoObj.currentTime || 0;
@@ -404,8 +544,16 @@ function initMediaPlayer() {
 
             source.addEventListener("error", function (e) {
                 console.log("HTML5 source error:", e);
+                var $p = $('#' + that.parent_id);
                 $p.find('.video-error').show();
                 $p.find('.video-loader').hide();
+                
+                // Show offline screen for VOD series player
+                if (that.parent_id === 'vod-series-player-page' && 
+                    typeof vod_series_player_page !== 'undefined' && 
+                    vod_series_player_page.showOfflineScreen) {
+                    vod_series_player_page.showOfflineScreen();
+                }
             });
         },
 

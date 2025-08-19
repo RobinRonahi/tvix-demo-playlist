@@ -1,7 +1,19 @@
 "use strict";
 
 /**
- * top_menu.js (Samsung TV uyumlu / güçlendirilmiş)
+ * top_menu.js (Samsung TV uyumlu /   function safeShow(sel) { 
+    var el = document.querySelector(sel); 
+    if (el) {
+      if (sel === "#home-mac-address-container") {
+        // Bottom bar için özel stil
+        el.style.cssText = "display: flex !important; visibility: visible !important; opacity: 1 !important; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 100;";
+        el.classList.remove("hide");
+      } else {
+        el.style.display = "block";
+      }
+    }
+  }
+  function safeHide(sel) { var el = document.querySelector(sel); if (el) el.style.display = "none"; }çlendirilmiş)
  * - tvKey yoksa güvenli tuş şeması
  * - DOM referansları güvenli güncelleme
  * - Home UI görünürlük/yenileme garanti
@@ -254,7 +266,7 @@
                   setTimeout(function () {
                     if ($) $('#channel-page .player-container .video-loader').hide();
                     safeHideDots();
-                  }, 300);
+                  }, 150);
                 }
               });
             } else {
@@ -263,42 +275,46 @@
             break;
 
           case 1: // movies
-          case 2: // series
+          case 2: // series - HIZLI OPTİMİZE GEÇİŞ
             var movie_type = (keys.menu_selection === 1) ? 'vod' : 'series';
             var isSeries = keys.menu_selection === 2;
-            if (sub_route !== 'vod-series-page' || (sub_route === 'vod-series-page' && window.vod_series_page && vod_series_page.current_movie_type !== movie_type)) {
-              this.hideCurrentPage(sub_route);
-            }
-            if (sub_route === 'vod-summary-page' && keys.menu_selection === 1) {
-              if (window.vod_summary_page && typeof vod_summary_page.goBack === 'function') {
-                vod_summary_page.goBack();
-              }
+            
+            // Hızlı geçiş için basitleştirilmiş mantık
+            if (sub_route === 'vod-series-page' && window.vod_series_page && vod_series_page.current_movie_type === movie_type) {
+              // Aynı sayfa ve tip, sadece loader'ı gizle
               safeHideDots();
               return;
             }
-            if (sub_route === 'series-summary-page' && isSeries) {
-              if (window.series_summary_page && typeof series_summary_page.goBack === 'function') {
-                series_summary_page.goBack();
-              }
-              safeHideDots();
-              return;
-            }
+            
+            // Ana sayfa elementlerini hızlıca gizle
             this.hideHomepageElementsSafely();
+            
+            // Önceki sayfayı hızlıca gizle
+            if (sub_route && sub_route !== 'vod-series-page') {
+              document.getElementById(sub_route)?.classList.add('hide');
+            }
+            
+            // VOD sayfasını göster
             this.sub_route = 'vod-series-page';
-            // Asenkron init varsa callback ile hideDots
+            var vodPage = document.getElementById('vod-series-page');
+            if (vodPage) {
+              vodPage.classList.remove('hide');
+            }
+            
+            // Asenkron init - performans optimize
             if (window.vod_series_page && typeof vod_series_page.init === 'function') {
-              var cb = function(){ safeHideDots(); };
-              // Eğer init callback alıyorsa, ver. Yoksa sonra hideDots.
-              if (vod_series_page.init.length >= 2) {
-                vod_series_page.init(movie_type, null, cb);
-              } else if (vod_series_page.init.length === 2) {
-                vod_series_page.init(movie_type, cb);
-              } else {
-                vod_series_page.init(movie_type);
-                setTimeout(cb, 350);
-              }
+              // requestAnimationFrame ile smooth geçiş
+              requestAnimationFrame(function() {
+                try {
+                  vod_series_page.init(movie_type);
+                } catch (e) {
+                  console.error('VOD Series init error:', e);
+                }
+                // Kısa timeout ile loader'ı gizle
+                setTimeout(function() { safeHideDots(); }, 150);
+              });
             } else {
-              setTimeout(safeHideDots, 350);
+              setTimeout(safeHideDots, 100);
             }
             break;
 

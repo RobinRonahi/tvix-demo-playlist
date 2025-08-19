@@ -1,7 +1,7 @@
 /**
  * Turkish Language File
  * Language: Türkçe (tr)
- * Author: Gala Player Team
+ * Author: TvixPlayer Team
  */
 
 // Global language data registry
@@ -26,12 +26,12 @@ window.LANGUAGE_DATA['tr'] = {
     
     // License and trial
     'trial_expired': 'Deneme Süreniz Doldu',
-    'activation_message': 'Lütfen https://galaplayer.com/activation adresine gidin ve cihazınızı etkinleştirin.',
-    'more_info_at': 'Daha fazla bilgi için https://galaplayer.com',
-    'or_by': 'Veya info@galaplayer.com',
+    'activation_message': 'Lütfen https://tvixplayer.com/activation adresine gidin ve cihazınızı etkinleştirin.',
+    'more_info_at': 'Daha fazla bilgi için https://tvixplayer.com',
+    'or_by': 'Veya info@tvixplayer.com',
     'check_license': 'Lisans Kontrolü',
     'playlist_not_found': 'OYNATMA LİSTESİ BULUNAMADI',
-    'mylist_url': 'https://galaplayer.com/mylist',
+    'mylist_url': 'https://tvixplayer.com/mylist',
     'demo_content': 'Demo İçerik',
     'trial_days_ending': 'Deneme günleriniz şu tarihte bitecek',
     'pay_or_continue': 'küçük bir ödeme yaparak veya deneme ile devam ederek',
@@ -229,10 +229,10 @@ window.LANGUAGE_DATA['tr'] = {
     'upload_playlist_instruction': 'Oynatma listenizi yükleyin',
     'continue_demo_content': 'veya demo içerikle devam edin.',
     'trial_ending_message': 'Deneme günleriniz şu tarihte bitecek',
-    'activate_device_message': 'Lütfen https://galaplayer.com/activation adresine gidin ve cihazınızı etkinleştirin.',
+    'activate_device_message': 'Lütfen https://tvixplayer.com/activation adresine gidin ve cihazınızı etkinleştirin.',
     'continue_trial_message': 'veya deneme sürümü ile devam edin.',
     'license_trial': 'Deneme Lisansı',
-    'app_title': 'Gala Player Pro V2',
+    'app_title': 'TvixPlayer Pro V2',
     
     // VOD Series Page
     'latest_uploads': 'Son Yüklenenler',
@@ -266,6 +266,7 @@ window.LANGUAGE_DATA['tr'] = {
     'remove_fav': 'Favori Kaldır',
     'add_fav': 'Favori Ekle',
     'more_from_this_category': 'Bu Kategoriden Daha Fazla',
+    'back_to_category': 'Kategoriye Geri Dön',
     'sorry_no_trailer_available': 'Üzgünüz<br>Fragman mevcut değil',
     'remove_from_favorites': 'Favorilerden Kaldır',
     'add_to_favorites': 'Favorilere Ekle',
@@ -369,7 +370,7 @@ window.LANGUAGE_DATA['tr'] = {
     "connection": "Bağlantı",
 
     // App version ve bottom bar labels
-    "app_version_full": "Gala Player Pro V2",
+    "app_version_full": "TvixPlayer Pro V2",
     "update_list": "Listeyi Güncelle",
     "change_playlist_short": "Playlist Değiş",
     "version": "Versiyon",
@@ -630,7 +631,7 @@ window.LANGUAGE_DATA['tr'] = {
     'returning_to_series': 'Dizi listesine dönülüyor',
     
     // Alt texts and button labels
-    'gala_player_pro_alt': 'Gala Player Pro',
+    'tvix_player_pro_alt': 'TvixPlayer Pro',
     'loading_alt': 'Yükleniyor...',
     'tv_alt': 'TV',
     'live_tv_alt': 'Canlı TV',
@@ -658,7 +659,10 @@ window.LANGUAGE_DATA['tr'] = {
     'forward_alt': 'İleri Sar',
     'next_alt': 'Sonraki',
     'subtitle_alt': 'Altyazı',
-    'audio_alt': 'Ses'
+    'audio_alt': 'Ses',
+    
+    // VOD action buttons
+    'L3714': 'KATEGORİYE DÖN'
 
 };
 

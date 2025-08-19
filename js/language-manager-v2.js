@@ -1,5 +1,5 @@
 /* ============================================================
- * GalaPlayer Pro – Language Manager v2.0 (clean, no emojis)
+ * TvixPlayer Pro – Language Manager v2.0 (clean, no emojis)
  * - Dynamic language file loading
  * - IP-based language detection with browser fallback
  * - Safe merging with TR base keys for missing entries
@@ -155,7 +155,7 @@
     getSavedLanguage: function () {
       try {
         return (
-          localStorage.getItem("galaPlayerLanguage") ||
+          localStorage.getItem("tvixPlayerLanguage") ||
           (window.settings ? window.settings.language : null)
         );
       } catch (e) {
@@ -252,7 +252,7 @@
 
             // Persist
             try {
-              localStorage.setItem("galaPlayerLanguage", langCode);
+              localStorage.setItem("tvixPlayerLanguage", langCode);
               if (window.settings) {
                 window.settings.language = langCode;
                 if (typeof window.settings.saveSettings === "function") {

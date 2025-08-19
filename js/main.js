@@ -1,7 +1,7 @@
 "use strict";
 
 /* =========================================================================
-   GalaTVPro - main.js (Samsung TV compatible / cleaned)
+   TvixPlayer Pro - main.js (Samsung TV compatible / cleaned)
    - English-only comments and logs
    - ES5 for A6/A9 compatibility (no arrow functions / optional chaining)
    - Guarded Tizen/Web API calls
@@ -11,6 +11,73 @@
 /* ----------------------------- Globals ---------------------------------- */
 var lastHomeRefreshAt = 0;
 var HOME_REFRESH_THROTTLE_MS = 1500;
+
+/* ------------------------ Global Navigation Functions -------------------- */
+function goBackToCategory() {
+    console.log('Global goBackToCategory called, current_route:', window.current_route);
+    
+    try {
+        if (window.current_route === 'vod-summary-page' && typeof vod_summary_page !== 'undefined') {
+            vod_summary_page.goBackToCategory();
+        } else if (window.current_route === 'series-summary-page' && typeof series_summary_page !== 'undefined') {
+            series_summary_page.goBack();
+        } else if (window.current_route === 'vod-series-page' && typeof vod_series_page !== 'undefined') {
+            vod_series_page.goBackToCategory();
+        } else {
+            // Fallback: go to home
+            goBackToHome();
+        }
+    } catch (error) {
+        console.error('Error in global goBackToCategory:', error);
+        goBackToHome();
+    }
+}
+
+function goBackToHome() {
+    console.log('Global goBackToHome called');
+    
+    try {
+        // Hide all pages
+        $('.page-type-1, .height-100').addClass('hide');
+        
+        // Show home page
+        $('#home-page').removeClass('hide');
+        
+        // Show home elements
+        $('.main-logo-container').show();
+        $('#main-menu-container').show();
+        
+        // Bottom bar'ı zorla göster
+        $('#home-mac-address-container').css({
+            'display': 'flex !important',
+            'visibility': 'visible !important',
+            'opacity': '1 !important'
+        }).show().removeClass('hide');
+        
+        $('#top-right-clock').show();
+        
+        // Update route
+        if (typeof updateRoute === 'function') {
+            updateRoute('home-page', 'menu_selection');
+        }
+        window.current_route = 'home-page';
+        
+        // Initialize home
+        if (typeof ensureHomepageUIVisible === 'function') {
+            ensureHomepageUIVisible();
+        }
+        if (typeof safeRefreshHome === 'function') {
+            safeRefreshHome();
+        }
+        if (typeof top_menu_page !== 'undefined' && top_menu_page.init) {
+            top_menu_page.init();
+        }
+        
+        console.log('Successfully returned to home page');
+    } catch (error) {
+        console.error('Error in goBackToHome:', error);
+    }
+}
 
 /* ------------------------ Player Initialization ------------------------- */
 function initPlayer() {
@@ -421,6 +488,7 @@ function initRouteAndFocusManager() {
         });
 
         current_route = newRoute;
+    try { document.body.setAttribute('data-route', newRoute); } catch (_) {}
 
         // Reset focus states per route
         try {
@@ -472,17 +540,18 @@ function initRouteAndFocusManager() {
     };
 
     console.log('Samsung TV Route & Focus Manager initialized');
+    try { document.body.setAttribute('data-route', (typeof current_route !== 'undefined' && current_route) ? current_route : 'home-page'); } catch (_) {}
 }
 
 /* -------------------------------- Theme System -------------------------------- */
 function loadSavedTheme() {
     try {
-        var savedTheme = localStorage.getItem('gala_theme') || 'original_iptv';
+        var savedTheme = localStorage.getItem('tvix_theme') || 'original_iptv';
         var validThemes = ['original_iptv', 'royal_purple'];
         if (validThemes.indexOf(savedTheme) === -1) {
             console.log('Invalid theme detected:', savedTheme, '- switching to default');
             savedTheme = 'original_iptv';
-            localStorage.setItem('gala_theme', savedTheme);
+            localStorage.setItem('tvix_theme', savedTheme);
         }
         console.log('Loading home theme:', savedTheme);
         applyThemeToHomePage(savedTheme);
@@ -588,67 +657,77 @@ function checkDeviceStatusFromAPI() {
 /* --------------------------- Playlist Refresh -------------------------- */
 function refreshPlaylist() {
     try {
-        console.log('Playlist refresh started...');
-        var refreshBtn = $('.refresh-fab');
-        var refreshContainer = refreshBtn.closest('.fab-container');
-        var originalIcon = refreshBtn.find('i');
-        var frontLabel = refreshContainer.find('.fab-front-label');
+        console.log('Ana sayfa playlist refresh başlatılıyor...');
+        
+        // Ana sayfadaki bottom bar butonunu hedefle
+        var refreshBtn = $('.bottom-action-btn').first();
+        var refreshIcon = refreshBtn.find('.home-refresh-btn');
+        var refreshText = refreshBtn.find('span[data-word_code="update_list_text"]');
 
-        originalIcon.removeClass('fa-sync-alt').addClass('fa-spinner fa-spin');
+        // Buton stilini güncelle
         refreshBtn.css({ 'pointer-events': 'none', 'opacity': '0.7' });
-
-        if (frontLabel.length > 0) {
-            frontLabel.attr('data-word_code', 'updating_playlist');
-            if (window.LanguageManager && LanguageManager.applyTranslations) LanguageManager.applyTranslations();
+        if (refreshIcon.length > 0) {
+            refreshIcon.html('⏳');
+        }
+        if (refreshText.length > 0) {
+            refreshText.text('Güncelleniyor...');
         }
 
         setTimeout(function () {
             try {
-                if (typeof home_operation !== 'undefined' && home_operation.refreshPlaylistData) {
-                    home_operation.refreshPlaylistData();
-                }
-                if (typeof channel_page !== 'undefined' && channel_page.refreshCategories) {
-                    channel_page.refreshCategories();
-                }
-                if (typeof vod_series_page !== 'undefined' && vod_series_page.refreshContent) {
-                    vod_series_page.refreshContent();
+                // Login page üzerinden playlist yenile
+                if (typeof login_page !== 'undefined' && typeof login_page.fetchPlaylistInformation === 'function') {
+                    login_page.fetchPlaylistInformation();
+                } else if (typeof login_page !== 'undefined' && typeof login_page.reloadApp === 'function') {
+                    login_page.reloadApp();
+                } else {
+                    // Fallback: Sayfayı yenile
+                    location.reload();
+                    return;
                 }
 
-                updateDeviceInfoBanner();
-                updateClocks();
-                onPlaylistRefreshComplete();
-
+                // Başarılı güncelleme animasyonu
                 setTimeout(function () {
-                    originalIcon.removeClass('fa-spinner fa-spin').addClass('fa-check');
-                    if (frontLabel.length > 0) {
-                        frontLabel.attr('data-word_code', 'playlist_updated');
-                        if (window.LanguageManager && LanguageManager.applyTranslations) LanguageManager.applyTranslations();
+                    if (refreshIcon.length > 0) {
+                        refreshIcon.html('[OK]');
                     }
-                    console.log('Playlist successfully updated!');
+                    if (refreshText.length > 0) {
+                        refreshText.text('Güncellendi!');
+                    }
+                    console.log('Playlist başarıyla güncellendi!');
+                    
+                    // Normal duruma geri dön
                     setTimeout(function () {
-                        originalIcon.removeClass('fa-check').addClass('fa-sync-alt');
-                        if (frontLabel.length > 0) {
-                            frontLabel.attr('data-word_code', 'update_list_text');
-                            if (window.LanguageManager && LanguageManager.applyTranslations) LanguageManager.applyTranslations();
+                        if (refreshIcon.length > 0) {
+                            refreshIcon.html('[REFRESH]');
+                        }
+                        if (refreshText.length > 0) {
+                            refreshText.text('Liste Güncelle');
                         }
                         refreshBtn.css({ 'pointer-events': 'auto', 'opacity': '1' });
                     }, 2000);
                 }, 1000);
 
             } catch (refreshError) {
-                console.error('Playlist refresh error:', refreshError);
-                originalIcon.removeClass('fa-spinner fa-spin').addClass('fa-sync-alt');
-                if (frontLabel.length > 0) {
-                    frontLabel.attr('data-word_code', 'update_list_text');
-                    if (window.LanguageManager && LanguageManager.applyTranslations) LanguageManager.applyTranslations();
+                console.error('Playlist güncelleme hatası:', refreshError);
+                if (refreshIcon.length > 0) {
+                    refreshIcon.html('[ERROR]');
+                }
+                if (refreshText.length > 0) {
+                    refreshText.text('Hata!');
                 }
                 refreshBtn.css({ 'pointer-events': 'auto', 'opacity': '1' });
-                setTimeout(function () { location.reload(); }, 1000);
+                
+                // Hata durumunda sayfayı yenile
+                setTimeout(function () { 
+                    location.reload(); 
+                }, 1500);
             }
         }, 500);
 
     } catch (error) {
-        console.error('Refresh playlist function error:', error);
+        console.error('Refresh playlist fonksiyon hatası:', error);
+        location.reload();
     }
 }
 
@@ -767,6 +846,10 @@ function toggleClock(show) {
 function toggleHomepageElements(show) {
     toggleBottomBar(show);
     toggleClock(show);
+    var homeBar = document.getElementById('home-mac-address-container');
+    if (homeBar) {
+        homeBar.style.display = show ? 'flex' : 'none';
+    }
 }
 
 function showHomepageElements() {
@@ -795,19 +878,29 @@ function hideHomepageElements() {
     function forceShowHomeBottomBar(){
         try {
             if (typeof current_route === 'undefined') return;
+            
+            var el = document.getElementById('home-mac-address-container');
+            if (!el) return;
+            
+            // SADECE ana sayfada ve top menu'de göster
             if (current_route === 'home-page' || current_route === 'top-menu-page') {
-                var el = document.getElementById('home-mac-address-container');
-                if (el) {
-                    var style = window.getComputedStyle(el);
-                    if (style.display === 'none' || el.offsetParent === null) {
-                        el.style.display = 'flex';
-                        console.log('[Watchdog] Re-showing bottom panel on home');
-                    }
+                var style = window.getComputedStyle(el);
+                if (style.display === 'none' || el.offsetParent === null) {
+                    el.style.cssText = "display: flex !important; visibility: visible !important; opacity: 1 !important; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 100; align-items: center; justify-content: space-between; width: 90%; max-width: 1200px; height: 60px; background: rgba(25,48,75,.9); border-radius: 8px; border: 1px solid rgba(116,185,255,.3); padding: 0 20px;";
+                    el.classList.remove('hide');
+                    console.log('[Watchdog] Ana sayfa bottom bar zorla gösterildi');
                 }
+            } else {
+                // DİĞER TÜM SAYFALARDA ZORLA GİZLE
+                el.style.cssText = "display: none !important; visibility: hidden !important; opacity: 0 !important;";
+                el.classList.add('hide');
+                console.log('[Watchdog] Diğer sayfada bottom bar zorla gizlendi:', current_route);
             }
         } catch (e) { console.warn('Home bottom bar watchdog error', e); }
     }
     setInterval(forceShowHomeBottomBar, CHECK_INTERVAL);
+    // İlk çalıştır
+    setTimeout(forceShowHomeBottomBar, 100);
 })();
 
 /* ----------------------------- MAC Storage ----------------------------- */
@@ -863,9 +956,9 @@ function ensureMacAddressPersistence() {
 /* ----------------------------- Quick Info ------------------------------ */
 function showQuickInfo() {
     try {
-        var appName = (LanguageManager.getText && LanguageManager.getText('gala_player')) || 'Gala TV';
+        var appName = (LanguageManager.getText && LanguageManager.getText('tvix_player')) || 'TvixPlayer';
         var statusText = (LanguageManager.getText && LanguageManager.getText('active')) || 'Active';
-        var versionText = (LanguageManager.getText && LanguageManager.getText('app_version_full')) || 'Gala Player Pro V2';
+        var versionText = (LanguageManager.getText && LanguageManager.getText('app_version_full')) || 'TvixPlayer Pro V2';
         var macDisplay = typeof mac_address === 'string' && mac_address ? mac_address.substring(0, 8) + '...' : 'Samsung TV';
 
         var toast = $('#quick-info-toast');
@@ -963,12 +1056,29 @@ document.addEventListener('DOMContentLoaded', function () {
 window.availablePlaylists = [];
 
 function openPlaylistPopup() {
-    console.log('Playlist selection popup opening...');
+    console.log('Playlist seçim popup\'ı açılıyor...');
     var popup = document.getElementById('playlist-selection-popup');
-    if (!popup) { console.error('Playlist popup element not found'); return; }
+    if (!popup) { 
+        console.error('Playlist popup elementi bulunamadı'); 
+        return; 
+    }
+    
     popup.classList.remove('hide');
+    popup.style.display = 'flex';
+    
+    // Playlist listesini yükle
     loadAvailablePlaylists();
+    
+    // Klavye olaylarını dinle
     document.addEventListener('keydown', handlePopupKeyPress);
+    
+    // Popup açıldığında odağı ayarla
+    setTimeout(function() {
+        var firstPlaylistItem = popup.querySelector('.playlist-item');
+        if (firstPlaylistItem) {
+            firstPlaylistItem.focus();
+        }
+    }, 100);
 }
 
 function closePlaylistPopup() {
@@ -1010,32 +1120,41 @@ function handlePopupKeyPress(event) {
 }
 
 function loadAvailablePlaylists() {
-    console.log('Loading available playlists...');
+    console.log('Mevcut playlist\'ler yükleniyor...');
     var container = document.getElementById('playlist-list-container');
     if (!container) {
-        console.error('Playlist list container not found');
-        container = document.querySelector('.playlist-list-container');
-        if (!container) {
-            console.error('No playlist container found at all');
-            return;
-        }
+        console.error('Playlist list container bulunamadı');
+        return;
     }
 
+    // Yükleme animasyonu göster
     container.innerHTML =
-        '<div class="playlist-empty-state">' +
-        '<i class="fas fa-spinner fa-spin"></i>' +
-        '<h4 data-word_code="loading_playlists">Loading Playlists...</h4>' +
+        '<div class="playlist-loading">' +
+        '<div class="loading-spinner">⏳</div>' +
+        '<h4>Playlist\'ler yükleniyor...</h4>' +
         '</div>';
 
     setTimeout(function () {
+        // Mevcut playlist verilerini al
         var playlists = getStoredPlaylists();
-        console.log('Loaded playlists:', playlists);
+        console.log('Yüklenen playlist\'ler:', playlists);
+        
         if (playlists.length === 0) {
-            console.warn('No playlists found, checking data sources...');
-            debugPlaylistData();
+            // Playlist bulunamadı, varsayılan liste göster
+            console.warn('Playlist bulunamadı, varsayılan liste gösteriliyor...');
+            playlists = [
+                {
+                    id: 'current',
+                    name: 'Mevcut Playlist',
+                    url: (settings && settings.playlist && settings.playlist.url) || 'Bilinmiyor',
+                    isActive: true,
+                    status: 'active'
+                }
+            ];
         }
+        
         displayPlaylistList(playlists);
-    }, 500);
+    }, 300);
 }
 
 function debugPlaylistData() {

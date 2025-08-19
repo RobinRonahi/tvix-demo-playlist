@@ -29,6 +29,10 @@ var parent_confirm_page = {
             current_route = "parent-confirm-page";
         }
 
+        // Ana sayfa bottom bar'ını gizle
+        $("#home-mac-address-container").hide();
+        try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
+
         // Capture DOMs now (modal must exist in DOM)
         this.menu_doms = $(".parent-confirm-item");
 

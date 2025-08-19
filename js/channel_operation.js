@@ -123,7 +123,8 @@ var channel_page = {
     $(SELECTORS.channelSort).text(STRINGS.sortWord(sortKey));
 
     $("#home-page").addClass("hide");
-    $(SELECTORS.root).removeClass("hide");
+  $(SELECTORS.root).removeClass("hide");
+  try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
     
     // Reset channel state
     this.last_selected_channel_id = null;
@@ -180,15 +181,21 @@ this.keys.category_selection = defaultIndex;
 
     this.showCategoryChannels();
 
-    if (categories[firstIndex] && categories[firstIndex].movies && categories[firstIndex].movies.length) {
+    if (categories[defaultIndex] && categories[defaultIndex].movies && categories[defaultIndex].movies.length) {
       this.hoverChannel(0);
       this.showMovie(this.movies[0]);
     }
     this.full_screen_video = false;
     if (typeof top_menu_page !== "undefined") top_menu_page.sub_route = "channel-page";
+    
+    // Samsung A6/A9 key handling başlat
+    this.initChannelKeyHandling();
   },
 
   Exit: function () {
+    // Key handling temizle
+    this.destroyChannelKeyHandling();
+    
     try { media_player.close(); } catch (e) {}
     this.keys.focused_part = "channel_selection";
     this.full_screen_video = false;
@@ -406,8 +413,13 @@ this.keys.category_selection = defaultIndex;
     if (keys.channel_selection >= this.channel_doms.length) keys.channel_selection = 0;
     if (prevSel === keys.channel_selection) return;
 
-    // Show loader immediately for snappy feedback
-    try { $('#channel-page .player-container .video-loader').show(); } catch (_) {}
+    // Show loader briefly for feedback
+    try { 
+      $('#channel-page .player-container .video-loader').show();
+      setTimeout(function() {
+        try { $('#channel-page .player-container .video-loader').hide(); } catch (_) {}
+      }, 200);
+    } catch (_) {}
     if (this.movies[keys.channel_selection]) {
       const movie = this.movies[keys.channel_selection];
       this.current_channel_id = movie.stream_id;
@@ -1841,6 +1853,214 @@ this.keys.category_selection = defaultIndex;
       
     } catch (error) {
       console.error('Error hiding channel info modal:', error);
+    }
+  },
+
+  // Samsung A6/A9 Key Navigation System for Channel Page
+  initChannelKeyHandling: function() {
+    var self = this;
+    
+    // Remove existing event listener if any
+    if (this._channelKeyHandler) {
+      document.removeEventListener('keydown', this._channelKeyHandler);
+    }
+    
+    this._channelKeyHandler = function(event) {
+      self.handleChannelKeyEvent(event);
+    };
+    
+    document.addEventListener('keydown', this._channelKeyHandler);
+    console.log('[Channel Page] Key handling initialized for Samsung A6/A9');
+  },
+
+  destroyChannelKeyHandling: function() {
+    if (this._channelKeyHandler) {
+      document.removeEventListener('keydown', this._channelKeyHandler);
+      this._channelKeyHandler = null;
+    }
+  },
+
+  handleChannelKeyEvent: function(event) {
+    // Only handle keys when on channel-page
+    if (current_route !== 'channel-page') return;
+
+    var keyCode = event.keyCode || event.which;
+    console.log('[Channel Page] Key pressed:', keyCode, 'Focus part:', this.keys.focused_part);
+
+    // Use tvKey constants if available
+    var tvKey = window.tvKey || {};
+
+    switch (keyCode) {
+      // LEFT - Sağ-sol navigasyon
+      case tvKey.LEFT || 37:
+        this.navigateChannelLeft();
+        event.preventDefault();
+        break;
+
+      // RIGHT - Sağ-sol navigasyon
+      case tvKey.RIGHT || 39:
+        this.navigateChannelRight();
+        event.preventDefault();
+        break;
+
+      // DOWN - Aşağı inme
+      case tvKey.DOWN || 40:
+        this.navigateChannelDown();
+        event.preventDefault();
+        break;
+
+      // UP - Yukarı çıkma (arama butonuna gitmek için)
+      case tvKey.UP || 38:
+        this.navigateChannelUp();
+        event.preventDefault();
+        break;
+
+      // ENTER/OK - Seçim yapma
+      case tvKey.ENTER || 13:
+      case tvKey.ENTER_ALT || 29443:
+      case tvKey.ENTER_ALT2 || 65376:
+        this.handleChannelEnterKey();
+        event.preventDefault();
+        break;
+
+      // RETURN/BACK - Geri dönme
+      case tvKey.RETURN || 10009:
+      case tvKey.RETURN_ALT || 65385:
+      case tvKey.EXIT || 10182:
+        this.handleChannelBackKey();
+        event.preventDefault();
+        break;
+    }
+  },
+
+  navigateChannelLeft: function() {
+    if (this.keys.focused_part === "category_selection") {
+      // Kategoriler arası sola git
+      if (this.keys.category_selection > 0) {
+        this.keys.category_selection--;
+        this.hoverCategory(this.keys.category_selection);
+      }
+    } else if (this.keys.focused_part === "channel_selection") {
+      // Kanallar arası sola git (kategori seçimine geri dön)
+      this.keys.focused_part = "category_selection";
+      this.updateCategoryFocus();
+    } else if (this.keys.focused_part === "search_button") {
+      // Arama butonundan sola git
+      this.keys.focused_part = "category_selection";
+      this.updateCategoryFocus();
+      this.hideSearchButton();
+    }
+  },
+
+  navigateChannelRight: function() {
+    if (this.keys.focused_part === "category_selection") {
+      var maxCategoryIndex = this.categories.length - 1;
+      if (this.keys.category_selection < maxCategoryIndex) {
+        this.keys.category_selection++;
+        this.hoverCategory(this.keys.category_selection);
+      } else {
+        // Kategorilerden kanallara geç
+        this.keys.focused_part = "channel_selection";
+        this.updateChannelFocus();
+      }
+    } else if (this.keys.focused_part === "channel_selection") {
+      // Kanallardan arama butonuna git
+      this.keys.focused_part = "search_button";
+      this.focusSearchButton();
+    }
+  },
+
+  navigateChannelDown: function() {
+    if (this.keys.focused_part === "category_selection") {
+      // Kategorilerden kanallara in
+      this.keys.focused_part = "channel_selection";
+      this.keys.channel_selection = 0;
+      this.updateChannelFocus();
+    } else if (this.keys.focused_part === "channel_selection") {
+      // Kanallar arası aşağı git
+      var maxChannelIndex = this.movies.length - 1;
+      if (this.keys.channel_selection < maxChannelIndex) {
+        this.keys.channel_selection++;
+        this.hoverChannel(this.keys.channel_selection);
+      }
+    }
+  },
+
+  navigateChannelUp: function() {
+    if (this.keys.focused_part === "channel_selection") {
+      if (this.keys.channel_selection > 0) {
+        // Kanallar arası yukarı git
+        this.keys.channel_selection--;
+        this.hoverChannel(this.keys.channel_selection);
+      } else {
+        // İlk kanaldan kategorilere çık
+        this.keys.focused_part = "category_selection";
+        this.updateCategoryFocus();
+      }
+    } else if (this.keys.focused_part === "search_button") {
+      // Arama butonundan yukarı git
+      this.keys.focused_part = "channel_selection";
+      this.updateChannelFocus();
+      this.hideSearchButton();
+    }
+  },
+
+  updateCategoryFocus: function() {
+    // Kategori focus'u güncelle
+    this.category_doms.removeClass('tv-focused');
+    if (this.keys.category_selection < this.category_doms.length) {
+      $(this.category_doms[this.keys.category_selection]).addClass('tv-focused').focus();
+    }
+  },
+
+  updateChannelFocus: function() {
+    // Kanal focus'u güncelle
+    this.channel_doms.removeClass('tv-focused');
+    if (this.keys.channel_selection < this.channel_doms.length) {
+      $(this.channel_doms[this.keys.channel_selection]).addClass('tv-focused').focus();
+    }
+  },
+
+  focusSearchButton: function() {
+    // Arama butonuna focus
+    var searchBtn = document.getElementById('modern-search-button');
+    if (searchBtn) {
+      searchBtn.classList.add('tv-focused');
+      searchBtn.focus();
+      // Preview'ı göster ama sabit kalmasını sağla
+      this.previewModernSearch();
+    }
+  },
+
+  hideSearchButton: function() {
+    // Arama butonundan focus'u kaldır
+    var searchBtn = document.getElementById('modern-search-button');
+    if (searchBtn) {
+      searchBtn.classList.remove('tv-focused');
+      searchBtn.blur();
+      this.hidePreviewModernSearch();
+    }
+  },
+
+  handleChannelEnterKey: function() {
+    if (this.keys.focused_part === "category_selection") {
+      // Seçili kategoriye git
+      this.handleMenuClick();
+    } else if (this.keys.focused_part === "channel_selection") {
+      // Seçili kanalı çal
+      this.handleChannelClick();
+    } else if (this.keys.focused_part === "search_button") {
+      // Arama butonuna tıkla
+      this.toggleModernSearch();
+    }
+  },
+
+  handleChannelBackKey: function() {
+    // Geri tuşu basıldığında ana sayfaya dön
+    if (typeof home_page !== 'undefined' && home_page.init) {
+      this.Exit();
+      home_page.init();
+      current_route = 'home-page';
     }
   }
 };

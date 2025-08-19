@@ -1,6 +1,6 @@
-/* ==== rating.css – TIZEN 6/9 SAFE (minified style) ==== */
-.vod-series-rating-container{width:fit-content;margin:10px auto}
-.rating-mark{margin-left:10px;color:#fff;font-size:30px;font-weight:normal;display:inline-block}
-.rating{display:inline-block;unicode-bidi:bidi-override;color:#888888;font-size:30px;width:auto;margin:0;position:relative;padding:0}
+/* ==== rating.css – TIZEN 6/9 SAFE (küçültülmüş boyut) ==== */
+.vod-series-rating-container{width:fit-content;margin:8px auto}
+.rating-mark{margin-left:8px;color:#fff;font-size:18px;font-weight:normal;display:inline-block}
+.rating{display:inline-block;unicode-bidi:bidi-override;color:#888888;font-size:16px;width:auto;margin:0;position:relative;padding:0}
 .rating-upper{color:#ffff00;padding:0;position:absolute;z-index:1;top:0;left:0;overflow:hidden;white-space:nowrap}
 .rating-lower{padding:0;z-index:0;white-space:nowrap}

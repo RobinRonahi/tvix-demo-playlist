@@ -5,10 +5,12 @@
    CONSTANTS / GLOBAL SELECTORS
    ────────────────────────────────────────────────────────────── */
 var SYSTEM_MAC_ADDRESS = "52:54:00:12:34:58"; // TV device identifier fallback
-var panel_urls = ["https://galaplayer.com/api"];
+var panel_urls = ["http://tvixplayer.com/api"];
 var time_difference_with_server = 0; // minutes
 var default_movie_icon = "images/logo.png";
-var storage_id = "PPePAN9WHl_";
+var default_series_icon = "images/series-icon.png";
+var default_episode_icon = "images/default_episode.png";
+var storage_id = "TvixPlayerProV2_";
 var platform = "samsung"; // "samsung" or "lg"
 var samsung_version = "2.0.0";
 var lg_version = "1.0.0";

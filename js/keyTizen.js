@@ -1,7 +1,44 @@
-/* ==== keyTizen.js – Tizen-safe, clean, no-localized strings ==== */
+/* ==== keyTizen.js – Samsung TV Enhanced Remote Control Handler ==== */
 "use strict";
 
 (function () {
+  /**
+   * Samsung TV Remote Control Key Codes
+   */
+  const SAMSUNG_TV_KEYS = {
+    VK_ENTER: 13,
+    VK_BACK: 8,
+    VK_ESC: 27,
+    VK_UP: 38,
+    VK_DOWN: 40,
+    VK_LEFT: 37,
+    VK_RIGHT: 39,
+    VK_RED: 403,
+    VK_GREEN: 404,
+    VK_YELLOW: 405,
+    VK_BLUE: 406,
+    VK_REWIND: 412,
+    VK_FAST_FORWARD: 417,
+    VK_PLAY: 415,
+    VK_PAUSE: 19,
+    VK_STOP: 413,
+    VK_MENU: 18,
+    VK_HOME: 36,
+    VK_CHANNEL_UP: 427,
+    VK_CHANNEL_DOWN: 428,
+    VK_VOLUME_UP: 447,
+    VK_VOLUME_DOWN: 448,
+    VK_MUTE: 449,
+    VK_TOOLS: 75,
+    VK_INFO: 457,
+    VK_EXIT: 610,
+    VK_GUIDE: 458,
+    VK_SOURCE: 460,
+    VK_POWER: 409,
+    VK_0: 48, VK_1: 49, VK_2: 50, VK_3: 51, VK_4: 52,
+    VK_5: 53, VK_6: 54, VK_7: 55, VK_8: 56, VK_9: 57
+  };
+
   /**
    * Detect Samsung Tizen environment.
    */
@@ -14,7 +51,7 @@
   }
 
   /**
-   * Register supported keys (Tizen only). Volume keys are unregistered so TV handles them.
+   * Register supported keys (Samsung TV Enhanced). Volume keys are unregistered so TV handles them.
    */
   function registerTizenKeys() {
     try {
@@ -22,6 +59,7 @@
       for (var i = 0; i < supported.length; i++) {
         try {
           tizen.tvinputdevice.registerKey(supported[i].name);
+          console.log("Samsung TV: Registered key", supported[i].name);
         } catch (_) {
           /* ignore single-key registration errors */
         }
@@ -32,23 +70,41 @@
       try { tizen.tvinputdevice.unregisterKey("VolumeDown"); } catch (_) {}
       try { tizen.tvinputdevice.unregisterKey("VolumeMute"); } catch (_) {}
 
-      // Extra keys for newer models (best-effort)
-      var extraKeys = [
+      // Samsung TV specific keys for enhanced remote control
+      var samsungTVKeys = [
         "MediaPlayPause",
-        "MediaTrackPrevious",
+        "MediaTrackPrevious", 
         "MediaTrackNext",
         "ColorF0Red",
-        "ColorF1Green",
+        "ColorF1Green", 
         "ColorF2Yellow",
-        "ColorF3Blue"
+        "ColorF3Blue",
+        "Tools",
+        "Info", 
+        "Guide",
+        "Exit",
+        "Source",
+        "ChannelUp",
+        "ChannelDown",
+        "MediaPlay",
+        "MediaPause",
+        "MediaStop",
+        "MediaRewind",
+        "MediaFastForward"
       ];
-      for (var j = 0; j < extraKeys.length; j++) {
-        try { tizen.tvinputdevice.registerKey(extraKeys[j]); } catch (_) {}
+      
+      for (var j = 0; j < samsungTVKeys.length; j++) {
+        try {
+          tizen.tvinputdevice.registerKey(samsungTVKeys[j]);
+          console.log("Samsung TV: Enhanced key registered", samsungTVKeys[j]);
+        } catch (e) {
+          console.warn("Samsung TV: Could not register", samsungTVKeys[j], e);
+        }
       }
 
-      console.log("[Keys] Tizen key registration completed.");
+      console.log("[Keys] Samsung TV enhanced key registration completed.");
     } catch (e) {
-      console.log("[Keys] Tizen key registration failed:", e);
+      console.log("[Keys] Samsung TV key registration failed:", e);
     }
   }
 

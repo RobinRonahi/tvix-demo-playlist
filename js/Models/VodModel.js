@@ -23,9 +23,20 @@ var VodModel ={
         this.adult_category_ids=[];
     },
     
+    // Poster kontrolü ve placeholder ayarlama fonksiyonu
+    validateMoviePoster: function(movie) {
+        if (!movie.stream_icon || 
+            movie.stream_icon === '' || 
+            movie.stream_icon === 'images/logo.png' ||
+            movie.stream_icon.includes('logo.png')) {
+            movie.stream_icon = default_movie_icon;
+        }
+        return movie;
+    },
+    
     // Yeni eklenen getAllMovies metodu - sistemdeki tüm filmleri getirir
     getAllMovies:function() {
-        console.log('🎬 VodModel: Getting all movies for "All" category...');
+        console.log('VodModel: Getting all movies for "All" category...');
         
         // Tüm kategorilerdeki filmleri topla
         var allMovies = [];
@@ -42,7 +53,7 @@ var VodModel ={
             }
         }
         
-        console.log('🎥 Total movies found:', allMovies.length);
+        console.log('Total movies found:', allMovies.length);
         
         // Film tekrarlarını önlemek için film ID'lerine göre tekil hale getir
         var uniqueMovies = [];
@@ -56,7 +67,7 @@ var VodModel ={
             }
         }
         
-        console.log('🎯 Unique movies after deduplication:', uniqueMovies.length);
+        console.log('Unique movies after deduplication:', uniqueMovies.length);
         
         // Filmleri ekleme tarihine göre sırala (yeni eklenenler üstte)
         uniqueMovies.sort(function(a, b) {
@@ -101,7 +112,7 @@ var VodModel ={
             return bId - aId;
         });
         
-        console.log('✅ Movies sorted by date/ID, returning', uniqueMovies.length, 'movies');
+        console.log('Movies sorted by date/ID, returning', uniqueMovies.length, 'movies');
         return uniqueMovies;
     },
     setCategories:function(categories){
@@ -172,6 +183,10 @@ var VodModel ={
         return categories;
     },
     setMovies:function( movies){
+        // Her film için poster kontrolü yap
+        for (var i = 0; i < movies.length; i++) {
+            movies[i] = this.validateMoviePoster(movies[i]);
+        }
         this.movies=movies;
     },
     insertMoviesToCategories:function(){
@@ -247,7 +262,7 @@ var VodModel ={
             
             // Her kategorideki filmleri timestamp'e göre sırala (yeni eklenenler üstte)
             if(categories[i].movies && categories[i].movies.length > 0) {
-                console.log('🎬 Sorting category "' + categories[i].category_name + '" with', categories[i].movies.length, 'movies');
+                console.log('Sorting category "' + categories[i].category_name + '" with', categories[i].movies.length, 'movies');
                 categories[i].movies = that.sortMoviesByTimestamp(categories[i].movies);
             }
             

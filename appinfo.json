@@ -1,6 +1,6 @@
 {
-    "id": "GalaPlayer.GalaTV",
-    "title": "Gala TV Pro",
+    "id": "TvixPlayerProV2",
+    "title": "TvixPlayer Pro",
     "main": "index.html",
     "type": "web",
     "version": "1.0.3",
@@ -21,8 +21,8 @@
     "widget": false,
     "webApp": true,
     "tizen-application": {
-        "package": "GalaPlayer",
-        "required_version": "9.0"
+        "package": "TvixPlayerProV2",
+        "required_version": "6.5"
     },
     "appType": "web",
     "categories": ["Entertainment", "Multimedia", "Video"],

@@ -1,6 +1,6 @@
 "use strict";
 /* ============================================================
- * GalaPlayer Pro – login_operation.js (cleaned)
+ * TvixPlayer Pro – login_operation.js (cleaned)
  * - Keeps public API and behavior intact
  * - Consistent logging (English), no emojis
  * - Safer timers / fallbacks / state flags

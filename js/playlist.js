@@ -69,6 +69,10 @@ var playlist_page = {
             }
 
             $("#playlist-page").removeClass("hide");
+            
+            // Ana sayfa bottom bar'ını gizle
+            $("#home-mac-address-container").hide();
+            try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
 
             // Mark once, but allow rebuilds on future init calls
             this.initiated = true;

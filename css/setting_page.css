@@ -6,6 +6,49 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Samsun
 #setting-page.hide{display:none!important}
 /* === Header ve Navigation === */
 .settings-header{position:sticky;top:0;z-index:1000;height:64px;padding:0 16px;display:flex;align-items:center;gap:12px;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,0));border-bottom:1px solid rgba(255,255,255,.06)}
+
+/* Ana sayfa butonu - ayarlar sayfası için */
+.vod-home-button {
+  position: absolute;
+  top: 15px;
+  left: 15px;  /* Sağdan sola taşındı */
+  width: 50px;
+  height: 50px;
+  background: #34495e;
+  border: 3px solid #2c3e50;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.vod-home-button:hover,
+.vod-home-button:focus,
+.vod-home-button.focused {
+  background: #74b9ff !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.4) !important;
+  transform: scale(1.15) !important;
+  outline: none;
+}
+
+.vod-home-button i {
+  color: #ecf0f1;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.vod-home-button:hover i,
+.vod-home-button:focus i,
+.vod-home-button.focused i {
+  color: #fff !important;
+  transform: scale(1.2) !important;
+}
+
 .settings-home-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--bg-softer);border:2px solid transparent;box-shadow:none;transition:background var(--tr-fast),border-color var(--tr-fast),box-shadow var(--tr-fast),transform var(--tr-fast);cursor:pointer}
 .settings-home-icon i{font-size:22px;color:var(--text);opacity:.9;transition:all var(--tr-fast)}
 .settings-home-icon:hover,.settings-home-icon:focus,.settings-home-icon.focused,.settings-home-icon.active{background:#74b9ff!important;border-color:#fff!important;box-shadow:0 0 0 4px rgba(116,185,255,.4)!important;outline:none;transform:scale(1.1)!important}

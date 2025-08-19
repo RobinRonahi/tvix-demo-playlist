@@ -1,19 +1,19 @@
 #EXTM3U
 
-#EXTINF:-1 tvg-id="film1" tvg-name="Big Buck Bunny" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/300px-Big_buck_bunny_poster_big.jpg" group-title="🎬 Filmler",Big Buck Bunny (2008)
+#EXTINF:-1 tvg-id="channel1" tvg-name="Demo News Channel" tvg-logo="https://via.placeholder.com/300x200/FF6B6B/FFFFFF?text=DEMO+NEWS" group-title="Demo Channels",Demo News Channel
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4
+
+#EXTINF:-1 tvg-id="channel2" tvg-name="Demo Sports Channel" tvg-logo="https://via.placeholder.com/300x200/4ECDC4/FFFFFF?text=DEMO+SPORTS" group-title="Demo Channels",Demo Sports Channel
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4
+
+#EXTINF:-1 tvg-id="movie1" tvg-name="Big Buck Bunny" tvg-logo="https://peach.blender.org/wp-content/uploads/bbb-splash.png" group-title="Demo Movies",Big Buck Bunny (2008) - Open Source Film
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
 
-#EXTINF:-1 tvg-id="film2" tvg-name="Sintel" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Sintel_poster.jpg/300px-Sintel_poster.jpg" group-title="🎬 Filmler",Sintel (2010)
+#EXTINF:-1 tvg-id="movie2" tvg-name="Sintel" tvg-logo="https://durian.blender.org/wp-content/uploads/2010/06/sintel_trailer_1080p.jpg" group-title="Demo Movies",Sintel (2010) - Open Source Film
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4
 
-#EXTINF:-1 tvg-id="kanal1" tvg-name="Demo Kanal 1" tvg-logo="https://via.placeholder.com/300x200/FF6B6B/FFFFFF?text=DEMO+TV" group-title="📺 Kanallar",Demo TV Kanalı
+#EXTINF:-1 tvg-id="series1" tvg-name="Demo Tech Series S01E01" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=TECH+SERIES" group-title="Demo Series",Demo Tech Series - Season 1 Episode 1
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4
 
-#EXTINF:-1 tvg-id="kanal2" tvg-name="Demo Kanal 2" tvg-logo="https://via.placeholder.com/300x200/4ECDC4/FFFFFF?text=TEST+TV" group-title="📺 Kanallar",Test TV Kanalı
+#EXTINF:-1 tvg-id="series2" tvg-name="Demo Tech Series S01E02" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=TECH+SERIES" group-title="Demo Series",Demo Tech Series - Season 1 Episode 2
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
-
-#EXTINF:-1 tvg-id="seri1" tvg-name="Demo Serisi S01E01" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=DEMO+SERİSİ" group-title="🎭 Diziler",Demo Serisi - 1. Sezon 1. Bölüm
-http://techslides.com/demos/sample-videos/small.mp4
-
-#EXTINF:-1 tvg-id="seri2" tvg-name="Demo Serisi S01E02" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=DEMO+SERİSİ" group-title="🎭 Diziler",Demo Serisi - 1. Sezon 2. Bölüm
-https://www.w3schools.com/html/mov_bbb.mp4

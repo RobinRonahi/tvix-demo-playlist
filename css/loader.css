@@ -4,21 +4,21 @@
 .loader-image-container{text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.1) 0%,rgba(255,255,255,.05) 100%);/* Samsung TV: backdrop-filter kaldırıldı */border-radius:24px;padding:50px 60px;border:2px solid rgba(255,255,255,.1);box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;min-width:400px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #loading-logo-image{max-width:350px;max-height:140px;margin-bottom:30px;filter:brightness(1.2) contrast(1.1)}
 #loading-text{color:#fff;font-size:20px;font-weight:600;margin-top:25px;letter-spacing:1px;text-align:center}
-.modern-spinner{width:80px;height:80px;margin:30px auto;position:relative;animation:rotate 2s linear infinite}
+.modern-spinner{width:80px;height:80px;margin:30px auto;position:relative;animation:rotate 4s linear infinite}
 .modern-spinner::before,.modern-spinner::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;border-radius:50%;border:4px solid transparent}
-.modern-spinner::before{border-top-color:#ff3333;border-right-color:#ff3333;animation:spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite}
-.modern-spinner::after{border-bottom-color:#cc0000;border-left-color:#cc0000;animation:spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite reverse}
+.modern-spinner::before{border-top-color:#ff3333;border-right-color:#ff3333;animation:spin 3s cubic-bezier(0.68,-0.55,0.265,1.55) infinite}
+.modern-spinner::after{border-bottom-color:#cc0000;border-left-color:#cc0000;animation:spin 3s cubic-bezier(0.68,-0.55,0.265,1.55) infinite reverse}
 @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 @keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-@media screen and (max-width:1920px){.modern-spinner{animation:rotate 2.5s linear infinite}}
-@media screen and (min-width:3840px){.modern-spinner{animation:rotate 1.8s linear infinite}.loader-image-container{padding:60px 70px;min-width:450px}#loading-logo-image{max-width:400px;max-height:160px}}
+@media screen and (max-width:1920px){.modern-spinner{animation:rotate 4.5s linear infinite}}
+@media screen and (min-width:3840px){.modern-spinner{animation:rotate 3.5s linear infinite}.loader-image-container{padding:60px 70px;min-width:450px}#loading-logo-image{max-width:400px;max-height:160px}}
 @media screen and (max-width:768px){.loader-image-container{padding:35px 40px;width:85%;min-width:auto}#loading-logo-image{max-width:280px;max-height:110px}.modern-spinner{width:60px;height:60px}}
 .loading-issue-item{background:rgba(255,255,255,.08);border-radius:16px;padding:25px;margin:15px auto;color:#fff;text-align:center;max-width:600px}
 .loading-issue-text{font-size:16px;color:rgba(255,255,255,.85)}
 .loading-issue-btn{background:#ff3333;color:#fff;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-size:14px;margin:10px auto;display:block;transition:background .3s ease}
 .loading-issue-btn:hover{background:#e62e2e}
-.issue-gala-player-image{max-width:150px;max-height:50px;margin:0 auto 20px;display:block}
-.issue-gala-player-text{font-size:18px;font-weight:600;color:#fff;margin-bottom:20px}
+.issue-tvix-player-image{max-width:150px;max-height:50px;margin:0 auto 20px;display:block}
+.issue-tvix-player-text{font-size:18px;font-weight:600;color:#fff;margin-bottom:20px}
 .loading-issue-logo-container{margin-bottom:20px}
 .loading-issue-message-container{margin-bottom:20px}
 .loading-issue-btn-container{display:flex;flex-direction:row;align-items:center;gap:10px;justify-content:center}
@@ -62,7 +62,7 @@
   border-radius: 50%;
   background: #fff; 
   opacity: 0.85; 
-  animation: loading-dots-bounce 1.4s infinite both;
+  animation: loading-dots-bounce 2s infinite both;
 }
 
 .loading-dots span:nth-child(2) { 

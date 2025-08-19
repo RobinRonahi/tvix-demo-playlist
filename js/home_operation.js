@@ -24,8 +24,18 @@ var home_page = {
       if (modal) modal.classList.remove('active');
     } catch (_) {}
 
-    // Bottom panel + MAC area
-    $("#home-mac-address-container").css("display", "flex").show();
+    // Bottom panel + MAC area - ZORLA GÖSTER
+    $("#home-mac-address-container").css({
+        "display": "flex !important",
+        "visibility": "visible !important", 
+        "opacity": "1 !important",
+        "position": "absolute",
+        "bottom": "30px",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "z-index": "100"
+    }).show().removeClass("hide");
+    
     $("#home-info-panel, .home-bottom-bar").show();
 
     // Write MAC address
@@ -33,7 +43,7 @@ var home_page = {
       var mac =
         (typeof mac_address !== "undefined" && mac_address) ||
         (window.App && window.App.device && window.App.device.mac) ||
-        localStorage.getItem("gala.mac");
+        localStorage.getItem("tvixplayer.mac");
       if (mac) {
         $(".mac-address").text(mac);
         $("#main-mac-address").text(mac);
@@ -81,7 +91,7 @@ var home_page = {
       try {
         if (window.playlist_page && typeof playlist_page.refresh === "function") return playlist_page.refresh();
         if (typeof refreshMainList === "function") return refreshMainList();
-        $(document).trigger("gala:playlist:refresh");
+        $(document).trigger("tvix:playlist:refresh");
       } catch (err) {
         console.warn("refresh handler error:", err);
       }
@@ -95,7 +105,7 @@ var home_page = {
           return setting_page.open_playlist_select();
         if (window.setting_page && typeof setting_page.reEnter === "function")
           return setting_page.reEnter("playlist");
-        $(document).trigger("gala:playlist:openSelect");
+        $(document).trigger("tvix:playlist:openSelect");
       } catch (err) {
         console.warn("change-playlist handler error:", err);
       }
@@ -116,6 +126,27 @@ var home_page = {
     });
 
     this._eventsBound = true;
+
+    // Horizontal scroll with remote left/right on home lists
+    var that = this;
+    $(document).off('keydown.homeScroll').on('keydown.homeScroll', function(e){
+      if (current_route !== 'home-page' && current_route !== 'top-menu-page') return;
+      if (typeof tvKey === 'undefined') return; // dev/browser: handled by top_menu
+      var isRight = (e.keyCode === tvKey.RIGHT || e.keyCode === tvKey.RIGHT_ALT);
+      var isLeft  = (e.keyCode === tvKey.LEFT  || e.keyCode === tvKey.LEFT_ALT);
+      if (!isRight && !isLeft) return;
+      // Only when top menu has focus, do scroll on lists to give visual feedback
+      try {
+        var containers = document.querySelectorAll('.home-page-section-items-container');
+        if (!containers || !containers.length) return;
+        var amount = Math.floor(window.innerWidth * 0.8);
+        for (var i=0; i<containers.length; i++) {
+          var el = containers[i];
+          var target = el.scrollLeft + (isRight ? amount : -amount);
+          el.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+        }
+      } catch(_) {}
+    });
   },
 
   init: function () {
@@ -143,7 +174,35 @@ var home_page = {
     // 5) Refresh UI and bind events
     this.refreshUI();
     this.bindEventsOnce();
-    $("#home-mac-address-container").css("display", "flex").show();
+    
+    // Ana sayfa bottom bar'ını ZORLA GÖSTER
+    $("#home-mac-address-container").css({
+        "display": "flex !important",
+        "visibility": "visible !important",
+        "opacity": "1 !important",
+        "position": "absolute",
+        "bottom": "30px",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "z-index": "100"
+    }).show().removeClass("hide");
+    
+    // Ana sayfa bottom bar'ının kesinlikle görünür olduğundan emin ol
+    setTimeout(function() {
+        $("#home-mac-address-container").css({
+            "display": "flex",
+            "visibility": "visible",
+            "opacity": "1"
+        }).show();
+        
+        // MAC adresini güncelle
+        if (typeof mac_address !== "undefined" && mac_address) {
+            $(".mac-address").text(mac_address);
+            $("#main-mac-address").text(mac_address);
+        }
+        
+        console.log("Ana sayfa bottom bar zorla görünür yapıldı");
+    }, 100);
 
     // 6) Ensure banners
     if (typeof toggleDeviceInfoBanner === "function") toggleDeviceInfoBanner(true);
@@ -163,7 +222,19 @@ var home_page = {
     // Refresh and keep events
     this.refreshUI();
     this.bindEventsOnce();
-    $("#home-mac-address-container").css("display", "flex").show();
+    
+    // Bottom bar'ı ZORLA GÖSTER
+    $("#home-mac-address-container").css({
+        "display": "flex !important",
+        "visibility": "visible !important",
+        "opacity": "1 !important",
+        "position": "absolute",
+        "bottom": "30px",
+        "left": "50%",
+        "transform": "translateX(-50%)",
+        "z-index": "100"
+    }).show().removeClass("hide");
+    
     current_route = "home-page";
   },
 

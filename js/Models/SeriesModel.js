@@ -1,4 +1,9 @@
 "use strict";
+
+// Default icon definitions
+var default_series_icon = 'images/series-icon.png';
+var default_episode_icon = 'images/default_episode.png';
+
 var SeriesModel={
     movies:[],
     favourite_movie_count:200,
@@ -19,6 +24,30 @@ var SeriesModel={
         this.categories=[];
         this.latest_movies=[];
         this.adult_category_ids=[];
+    },
+    
+    // Poster kontrolü ve placeholder ayarlama fonksiyonu
+    validateSeriesPoster: function(series) {
+        if (!series.cover || 
+            series.cover === '' || 
+            series.cover === 'images/logo.png' ||
+            series.cover.includes('logo.png')) {
+            series.cover = default_series_icon;
+        }
+        
+        // Episode poster kontrolü
+        if (series.seasons && series.seasons.length > 0) {
+            for (var i = 0; i < series.seasons.length; i++) {
+                if (!series.seasons[i].cover || 
+                    series.seasons[i].cover === '' ||
+                    series.seasons[i].cover === 'images/logo.png' ||
+                    series.seasons[i].cover.includes('logo.png')) {
+                    series.seasons[i].cover = default_episode_icon;
+                }
+            }
+        }
+        
+        return series;
     },
     
     // Yeni eklenen getAllMovies metodu - sistemdeki tüm dizileri getirir
@@ -54,7 +83,7 @@ var SeriesModel={
             }
         }
         
-        console.log('🎯 Unique series after deduplication:', uniqueMovies.length);
+        console.log('Unique series after deduplication:', uniqueMovies.length);
         
         // Dizileri ekleme tarihine göre sırala (yeni eklenenler üstte)
         uniqueMovies.sort(function(a, b) {
@@ -99,7 +128,7 @@ var SeriesModel={
             return bId - aId;
         });
         
-        console.log('✅ Series sorted by date/ID, returning', uniqueMovies.length, 'series');
+        console.log('Series sorted by date/ID, returning', uniqueMovies.length, 'series');
         return uniqueMovies;
     },
     setCategories:function(categories){
@@ -170,6 +199,10 @@ var SeriesModel={
         return categories;
     },
     setMovies:function( movies){
+        // Her dizi için poster kontrolü yap
+        for (var i = 0; i < movies.length; i++) {
+            movies[i] = this.validateSeriesPoster(movies[i]);
+        }
         this.movies=movies;
     },
     insertMoviesToCategories:function(){

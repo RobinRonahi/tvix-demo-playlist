@@ -31,9 +31,17 @@ var vod_series_player_page = {
     progress_timer: null,
     title_timer: null,
     nextEpisodeTimer: null,
+    offlineDetectionTimer: null,
 
     init: function (movie, movie_type, back_url, movie_url, move_focus) {
-        console.log('VOD Series Player Page initialized');
+        console.log('[Player] VOD Series Player Page initialized with:', {
+            movie: movie,
+            movie_type: movie_type,
+            back_url: back_url,
+            movie_url: movie_url,
+            current_episode: window.current_episode
+        });
+        
         var that = this;
         this.current_movie = movie || {};
         this.current_movie_type = movie_type || 'vod';
@@ -45,18 +53,54 @@ var vod_series_player_page = {
 
         // sayfaları gizle, player tam ekran
         $('.page-container, #home-page, #vod-series-page, #series-summary-page, #vod-summary-page').addClass('hide');
-        $('#vod-series-player-page').removeClass('hide').css({
+        $('#vod-series-player-page').removeClass('hide video-playing').css({
             position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 9999, background: '#000'
         });
         current_route = 'vod-series-player-page';
 
+        // Ana sayfa bottom bar'ını gizle
+        $("#home-mac-address-container").hide();
+        try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
+        // Clock ve diğer homepage elementlerini gizle  
+        if (typeof hideHomepageElements === "function") hideHomepageElements();
+        else if (typeof toggleBottomBar === "function") toggleBottomBar(false);
+
         // dom referanslarını yenile - Font Awesome ikonlar
         this.video_control_doms = $('#vod-series-video-controls-container .video-control-icon i');
 
+        // Set backdrop image for series player
+        that.setBackdropImage();
+
         setTimeout(function () {
+            console.log('[Player] Starting delayed initialization...');
             that.initializePlayer(movie_url);
             that.showControlBar(move_focus);
             $('#vod-series-progress-container .rangeslider').removeClass('active');
+
+            // İKONLARI ZORLA GÖRÜNÜR YAP
+            $('#vod-series-video-controls-container').show().css({
+                'display': 'block !important',
+                'opacity': '1 !important',
+                'visibility': 'visible !important'
+            });
+            
+            $('#vod-series-video-controls-wrapper').show().css({
+                'display': 'flex !important',
+                'opacity': '1 !important',
+                'visibility': 'visible !important'
+            });
+            
+            $('.video-control-icon').show().css({
+                'display': 'flex !important',
+                'opacity': '1 !important',
+                'visibility': 'visible !important'
+            });
+            
+            $('#vod-series-video-meta').show().css({
+                'display': 'block !important',
+                'opacity': '1 !important',
+                'visibility': 'visible !important'
+            });
 
             // ikonları play/pause ile senkronla (3. ikon) - Font Awesome
             var playPauseIcon = $('#vod-series-video-controls-wrapper .video-control-icon.is-center i');
@@ -65,8 +109,11 @@ var vod_series_player_page = {
             }
             $('#vod-series-video-progress').css({ width: 0 });
 
+            console.log('[Player] Calling updateMovieInfo...');
             that.updateMovieInfo();
             that.startProgressUpdate();
+            
+            console.log('[Player] Controls forced visible!');
         }, 100);
 
         return true;
@@ -90,28 +137,44 @@ var vod_series_player_page = {
                 media_player.init(player_container_id, 'vod-series-player-page');
                 this.player = media_player;
 
-                // tam ekran display rect
+                // tam ekran display rect ve zorla fullscreen setup
                 if (typeof platform !== 'undefined' && platform === 'samsung' && media_player.setDisplayArea) {
                     setTimeout(function () {
-                        var videoElement = document.getElementById(player_container_id);
-                        if (videoElement) {
-                            $(videoElement).css({
-                                position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 10001
-                            });
-                        }
+                        // Force fullscreen player element
+                        that.forceFullscreenLayout();
+                        
+                        // Set Samsung display rect
                         if (typeof webapis !== 'undefined' &&
                             webapis.avplay && webapis.avplay.setDisplayRect) {
                             webapis.avplay.setDisplayRect(0, 0, window.innerWidth, window.innerHeight);
                             console.log('Display rect full screen:', window.innerWidth, 'x', window.innerHeight);
                         }
                     }, 200);
+                } else {
+                    // For non-Samsung platforms, still force fullscreen
+                    setTimeout(function () {
+                        that.forceFullscreenLayout();
+                    }, 200);
                 }
 
                 if (movie_url) {
+                    console.log('Starting video playback with URL:', movie_url);
+                    var that = this;
+                    
+                    // Set up offline detection timer
+                    this.setupOfflineDetection();
+                    
                     media_player.playAsync(movie_url);
+                    // Set up video event handlers for backdrop control
+                    that.setupVideoEventHandlers();
                 } else {
                     this.showError('No video URL available');
                 }
+
+                // Add video event listeners to hide backdrop when playing
+                setTimeout(function() {
+                    that.addVideoPlayingEvents();
+                }, 1000);
             } catch (error) {
                 console.error('Error initializing player:', error);
                 this.showError('Player initialization failed');
@@ -121,18 +184,134 @@ var vod_series_player_page = {
         }
     },
 
-    updateMovieInfo: function () {
-        if (!this.current_movie) return;
-        var baseTitle = this.current_movie.name || this.current_movie.title || 'Unknown';
-        var episodeLine = '';
-        if (this.current_movie_type === 'series' && window.current_episode) {
-            var ep = window.current_episode;
-            var sn = ep.season ? ('S' + ep.season) : '';
-            var en = ep.episode_num ? ('E' + ep.episode_num) : '';
-            var epTitle = ep.title || ep.name || '';
-            episodeLine = [sn + en, epTitle].filter(Boolean).join(' - ');
+    setupVideoEventHandlers: function () {
+        console.log('[Player] Setting up video event handlers');
+        var that = this;
+        
+        // Add event listeners to hide backdrop when video starts playing
+        if (media_player && media_player.videoObj) {
+            var video = media_player.videoObj;
+            
+            // Hide backdrop when video starts playing
+            $(video).on('playing loadstart canplay', function() {
+                console.log('[Player] Video playing - hiding backdrop');
+                $('#vod-series-player-page').addClass('video-playing');
+            });
+            
+            // Show backdrop on error or when video stops
+            $(video).on('error emptied', function() {
+                console.log('[Player] Video error/stop - showing backdrop');
+                $('#vod-series-player-page').removeClass('video-playing');
+            });
         }
-        this.showSimpleTitle(baseTitle, episodeLine);
+        
+        // For Samsung AVPlayer, listen to webapis events if available
+        if (typeof webapis !== 'undefined' && webapis.avplay) {
+            try {
+                webapis.avplay.setListener({
+                    onbufferingstart: function() {
+                        console.log('[Player] AVPlayer buffering start');
+                    },
+                    onbufferingprogress: function() {
+                        console.log('[Player] AVPlayer buffering progress');
+                    },
+                    onbufferingcomplete: function() {
+                        console.log('[Player] AVPlayer buffering complete - hiding backdrop');
+                        $('#vod-series-player-page').addClass('video-playing');
+                    },
+                    onstreamcompleted: function() {
+                        console.log('[Player] AVPlayer stream completed');
+                    },
+                    onerror: function(error) {
+                        console.log('[Player] AVPlayer error - showing backdrop');
+                        $('#vod-series-player-page').removeClass('video-playing');
+                        that.showOfflineScreen();
+                    }
+                });
+            } catch (e) {
+                console.warn('[Player] Could not set AVPlayer listeners:', e);
+            }
+        }
+    },
+
+    updateMovieInfo: function () {
+        console.log('[Player] Updating movie info:', {
+            current_movie: this.current_movie,
+            current_episode: window.current_episode,
+            movie_type: this.current_movie_type
+        });
+
+        if (!this.current_movie) {
+            console.warn('[Player] No current_movie available');
+            return;
+        }
+
+        // Series başlığını belirle
+        var seriesTitle = this.current_movie.series_title || 
+                         this.current_movie.name || 
+                         this.current_movie.title || 
+                         'Unknown Series';
+
+        var episodeLine = '';
+        var episodeTitle = '';
+
+        if (this.current_movie_type === 'series') {
+            // Episode bilgilerini çeşitli kaynaklardan topla
+            var ep = window.current_episode || this.current_movie.episode_info || this.current_movie;
+            
+            console.log('[Player] Episode data:', ep);
+
+            if (ep) {
+                // Season ve Episode numaralarını belirle
+                var seasonNum = ep.season_number || ep.season || 
+                               this.current_movie.season_number || this.current_movie.season;
+                var episodeNum = ep.episode_number || ep.episode_num || 
+                                this.current_movie.episode_number || this.current_movie.episode_num;
+
+                // Episode title'ı belirle
+                episodeTitle = ep.title || ep.name || this.current_movie.title || this.current_movie.name;
+
+                // Season/Episode formatını oluştur
+                var seasonText = seasonNum ? ('S' + seasonNum) : '';
+                var episodeText = episodeNum ? ('E' + episodeNum) : '';
+                var seText = [seasonText, episodeText].filter(Boolean).join('');
+
+                // Episode line'ı oluştur
+                if (seText && episodeTitle) {
+                    episodeLine = seText + ' - ' + episodeTitle;
+                } else if (seText) {
+                    episodeLine = seText;
+                } else if (episodeTitle) {
+                    episodeLine = episodeTitle;
+                }
+            }
+        }
+
+        console.log('[Player] Title info prepared:', {
+            seriesTitle: seriesTitle,
+            episodeLine: episodeLine,
+            episodeTitle: episodeTitle
+        });
+
+        // Meta bar'ı güncelle
+        $('#vod-meta-title').text(seriesTitle);
+        $('#vod-meta-extra').text(episodeLine);
+
+        // Title overlay'ini göster
+        this.showSimpleTitle(seriesTitle, episodeLine);
+
+        // Global updateMovieInfo helper'ını da çağır
+        if (typeof updateMovieInfo === 'function') {
+            var updateData = {
+                title: seriesTitle,
+                name: seriesTitle,
+                season_number: (window.current_episode && window.current_episode.season_number) || 
+                              this.current_movie.season_number,
+                episode_number: (window.current_episode && window.current_episode.episode_number) || 
+                               this.current_movie.episode_number
+            };
+            updateMovieInfo(updateData);
+        }
     },
 
     showSimpleTitle: function (title, episode) {
@@ -152,6 +331,169 @@ var vod_series_player_page = {
         this.title_timer = setTimeout(function () {
             $('#simple-title-overlay').addClass('hide');
         }, 5000);
+    },
+
+    forceFullscreenLayout: function () {
+        console.log('[Player] Forcing fullscreen layout');
+        
+        // Force main player page to fullscreen
+        $('#vod-series-player-page').css({
+            position: 'fixed !important',
+            top: '0 !important',
+            left: '0 !important', 
+            right: '0 !important',
+            bottom: '0 !important',
+            width: '100vw !important',
+            height: '100vh !important',
+            zIndex: '9999 !important',
+            background: '#000 !important'
+        });
+        
+        // Force both video containers to fullscreen
+        var containers = ['#vod-series-player-video', '#vod-series-player-video-lg'];
+        containers.forEach(function(containerId) {
+            var $container = $(containerId);
+            if ($container.length) {
+                $container.css({
+                    position: 'fixed !important',
+                    top: '0 !important',
+                    left: '0 !important',
+                    right: '0 !important', 
+                    bottom: '0 !important',
+                    width: '100vw !important',
+                    height: '100vh !important',
+                    zIndex: '10001 !important',
+                    background: '#000 !important'
+                });
+                
+                // Force any video/object elements inside to fullscreen
+                $container.find('video, object').css({
+                    position: 'fixed !important',
+                    top: '0 !important',
+                    left: '0 !important',
+                    right: '0 !important',
+                    bottom: '0 !important', 
+                    width: '100vw !important',
+                    height: '100vh !important',
+                    objectFit: 'cover !important',
+                    zIndex: '10001 !important'
+                });
+            }
+        });
+        
+        // Hide other page containers
+        $('.page-container, #home-page, #vod-series-page, #series-summary-page, #vod-summary-page').addClass('hide');
+        
+        // Force body to prevent scrolling
+        $('body').css({
+            overflow: 'hidden',
+            margin: '0',
+            padding: '0'
+        });
+        
+        console.log('[Player] Fullscreen layout applied');
+    },
+
+    addVideoPlayingEvents: function() {
+        var that = this;
+        console.log('[Player] Adding video playing events');
+        
+        // For Samsung TV
+        if (window.webapis && webapis.avplay) {
+            try {
+                webapis.avplay.setListener({
+                    onbufferingstart: function() {
+                        console.log('[Player] Samsung buffering start');
+                        $('#vod-series-player-page').removeClass('video-playing');
+                    },
+                    onbufferingprogress: function(percent) {
+                        console.log('[Player] Samsung buffering:', percent + '%');
+                    },
+                    onbufferingcomplete: function() {
+                        console.log('[Player] Samsung buffering complete - hiding backdrop');
+                        $('#vod-series-player-page').addClass('video-playing');
+                        that.hideBackdrop();
+                    },
+                    oncurrentplaytime: function(currentTime) {
+                        if (currentTime > 1000) { // After 1 second of play
+                            that.hideBackdrop();
+                        }
+                    }
+                });
+            } catch(e) {
+                console.log('[Player] Samsung event setup failed:', e);
+            }
+        }
+        
+        // For HTML5 video
+        var video = document.querySelector('#vod-series-player-video-lg video');
+        if (video) {
+            video.addEventListener('canplay', function() {
+                console.log('[Player] HTML5 canplay - hiding backdrop');
+                that.hideBackdrop();
+            });
+            video.addEventListener('playing', function() {
+                console.log('[Player] HTML5 playing - hiding backdrop');
+                that.hideBackdrop();
+            });
+        }
+        
+        // Fallback timer
+        setTimeout(function() {
+            if (that.player && (that.player.state === that.player.STATES.PLAYING || 
+                               (that.player.current_time && that.player.current_time > 0))) {
+                console.log('[Player] Fallback timer - hiding backdrop');
+                that.hideBackdrop();
+            }
+        }, 3000);
+    },
+
+    hideBackdrop: function() {
+        console.log('[Player] Hiding backdrop');
+        $('#vod-series-player-page').css('background-image', 'none');
+        $('#vod-series-player-page').addClass('video-playing');
+        // Also hide offline screen when video plays
+        this.hideOfflineScreen();
+        // Clear offline detection timer since video is now playing
+        if (this.offlineDetectionTimer) {
+            clearTimeout(this.offlineDetectionTimer);
+            this.offlineDetectionTimer = null;
+        }
+    },
+
+    setBackdropImage: function () {
+        console.log('[Player] Setting backdrop image');
+        
+        var backdropUrl = '';
+        
+        // Try to get backdrop from current episode first
+        if (window.current_episode) {
+            backdropUrl = window.current_episode.movie_image || 
+                         window.current_episode.backdrop_image || 
+                         window.current_episode.cover || '';
+        }
+        
+        // If no episode backdrop, try current movie/series
+        if (!backdropUrl && this.current_movie) {
+            backdropUrl = this.current_movie.backdrop_image || 
+                         this.current_movie.movie_image || 
+                         this.current_movie.cover || 
+                         this.current_movie.image || '';
+        }
+        
+        // Set CSS variable for backdrop
+        if (backdropUrl && backdropUrl.trim() !== '') {
+            console.log('[Player] Setting backdrop URL:', backdropUrl);
+            // Set backdrop directly on the page element
+            $('#vod-series-player-page').css('background-image', 'url(' + backdropUrl + ')');
+            $('#vod-series-player-page').css('background-size', 'cover');
+            $('#vod-series-player-page').css('background-position', 'center');
+        } else {
+            console.log('[Player] No backdrop image available, using default');
+            $('#vod-series-player-page').css('background-image', 'url(images/player_bg.jpg)');
+            $('#vod-series-player-page').css('background-size', 'cover');
+            $('#vod-series-player-page').css('background-position', 'center');
+        }
     },
 
     // ---- Progress ----
@@ -208,7 +550,47 @@ var vod_series_player_page = {
 
     showError: function (message) {
         console.error('Player error:', message);
-        $('#vod-series-player-page .video-error').text(message).show();
+        
+        // Show offline screen for connection/stream errors
+        if (message && (message.includes('connection') || 
+                       message.includes('network') || 
+                       message.includes('failed') ||
+                       message.includes('unavailable') ||
+                       message.toLowerCase().includes('offline'))) {
+            this.showOfflineScreen();
+        } else {
+            $('#vod-series-player-page .video-error').text(message).show();
+        }
+    },
+
+    showOfflineScreen: function () {
+        console.log('[Player] Showing offline screen');
+        // Add offline class to show the satellite dish background
+        $('#vod-series-player-page').removeClass('video-playing').addClass('offline');
+        // Hide controls during offline state
+        this.hideControlBar();
+    },
+
+    hideOfflineScreen: function () {
+        console.log('[Player] Hiding offline screen');
+        $('#vod-series-player-page').removeClass('offline no-signal connection-error');
+    },
+
+    setupOfflineDetection: function() {
+        var that = this;
+        // Clear any existing offline detection timer
+        if (this.offlineDetectionTimer) {
+            clearTimeout(this.offlineDetectionTimer);
+        }
+        
+        // Set a timer to show offline screen if video doesn't start within 15 seconds
+        this.offlineDetectionTimer = setTimeout(function() {
+            var playerPage = $('#vod-series-player-page');
+            if (!playerPage.hasClass('video-playing') && !playerPage.hasClass('offline')) {
+                console.log('[Player] Video not playing after 15 seconds, showing offline screen');
+                that.showOfflineScreen();
+            }
+        }, 15000);
     },
 
     Exit: function () { this.goBack(); },
@@ -233,6 +615,15 @@ var vod_series_player_page = {
 
         // player sayfasını gizle
         $('#vod-series-player-page').addClass('hide');
+
+        // Ana sayfa bottom bar'ını geri göster (eğer ana sayfaya döneceksek)
+        var isBackToHome = (this.back_url === 'home-page' || (!this.back_url && current_route === 'home-page'));
+        
+        if (isBackToHome || (this.back_url !== 'vod-summary-page' && this.back_url !== 'series-summary-page' && this.back_url !== 'vod-series-page')) {
+            $("#home-mac-address-container").css("display", "flex").show();
+            if (typeof showHomepageElements === "function") showHomepageElements();
+            else if (typeof toggleBottomBar === "function") toggleBottomBar(true);
+        }
 
         // türüne göre geri dön
         if (this.current_movie_type === 'series') {
@@ -422,9 +813,22 @@ var vod_series_player_page = {
     },
 
     showControlBar: function (move_focus) {
+        console.log('[Player] showControlBar called, move_focus:', move_focus);
         this.show_control = true;
-        $('#vod-series-video-controls-container').removeClass('hide');
-        $('#vod-series-video-meta').removeClass('hide');
+        $('#vod-series-video-controls-container').removeClass('hide').show();
+        $('#vod-series-video-meta').removeClass('hide').show();
+        // Force visibility with CSS
+        $('#vod-series-video-controls-container').css({
+            'display': 'block !important',
+            'opacity': '1 !important',
+            'visibility': 'visible !important'
+        });
+        $('#vod-series-video-meta').css({
+            'display': 'block !important', 
+            'opacity': '1 !important',
+            'visibility': 'visible !important'
+        });
+        console.log('[Player] Controls should be visible now');
         if (move_focus) this.hoverControlIcon(2);
         var that = this;
         clearTimeout(this.timeOut);
@@ -621,6 +1025,14 @@ var vod_series_player_page = {
         if (now - this.last_key_time < 100) return;   // key flood
         this.last_key_time = now;
 
+        // Track modal açık ise, BACK tuşu modal'ı kapat
+        if (this.keys.focused_part === 'track_modal' && 
+            (e.keyCode === tvKey.RETURN || e.keyCode === tvKey.EXIT)) {
+            $('#track-selection-modal').addClass('hide');
+            this.keys.focused_part = 'control_bar';
+            return;
+        }
+
         this.showControlBar(false);
 
         switch (e.keyCode) {
@@ -629,14 +1041,96 @@ var vod_series_player_page = {
             case tvKey.UP:         this.handleMenuUpDown(-1); break;
             case tvKey.DOWN:       this.handleMenuUpDown(1); break;
             case tvKey.ENTER:      this.handleMenuClick(); break;
+            
+            // BACK tuşu - Samsung TV için kritik
             case tvKey.RETURN:
-            case tvKey.EXIT:       this.goBack(); break;
+            case tvKey.EXIT:
+            case 10009:            // Samsung TV BACK key
+            case 8:                // BACKSPACE (some Samsung models)
+                this.goBack(); 
+                break;
+                
+            // Playback control keys
             case tvKey.PLAY:
             case tvKey.PAUSE:
-            case tvKey.PLAYPAUSE:  this.playPauseVideo(); break;
-            case tvKey.FF:         this.seekTo(30); break;
-            case tvKey.RW:         this.seekTo(-30); break;
-            default: console.log("Unhandled key in player:", e.keyCode);
+            case tvKey.PLAYPAUSE:  
+            case 415:              // PLAY key
+            case 19:               // PAUSE key  
+                this.playPauseVideo(); 
+                break;
+                
+            // Seek keys
+            case tvKey.FF:
+            case 228:              // FAST_FORWARD
+            case 39:               // RIGHT ARROW (alternative)
+                this.seekTo(30); 
+                break;
+                
+            case tvKey.RW:
+            case 227:              // REWIND  
+            case 37:               // LEFT ARROW (alternative)
+                this.seekTo(-30); 
+                break;
+                
+            // Episode navigation for series
+            case tvKey.CH_UP:
+            case 427:              // CHANNEL_UP
+            case 33:               // PAGE_UP
+                if (this.current_movie_type === 'series') {
+                    this.showNextVideo(1);  // Next episode
+                } else {
+                    this.seekTo(300);       // Skip 5 minutes for movies
+                }
+                break;
+                
+            case tvKey.CH_DOWN:
+            case 428:              // CHANNEL_DOWN  
+            case 34:               // PAGE_DOWN
+                if (this.current_movie_type === 'series') {
+                    this.showNextVideo(-1); // Previous episode
+                } else {
+                    this.seekTo(-300);      // Back 5 minutes for movies
+                }
+                break;
+                
+            // Samsung TV specific keys
+            case 10252:            // SOURCE key
+            case 145:              // MENU key
+                this.showControlBar(true);
+                break;
+                
+            // Audio/Subtitle shortcuts
+            case 460:              // SUBTITLE key
+                this.showSubtitleAudioModal('subtitle');
+                break;
+                
+            case 461:              // AUDIO key  
+                this.showSubtitleAudioModal('audio');
+                break;
+                
+            // Info key - show/hide controls
+            case 457:              // INFO key
+            case 73:               // I key
+                if (this.show_control) {
+                    this.hideControlBar();
+                } else {
+                    this.showControlBar(true);
+                }
+                break;
+                
+            // Test offline screen - Red button
+            case 403:              // RED button (for testing)
+                console.log('[Player] Testing offline screen');
+                if ($('#vod-series-player-page').hasClass('offline')) {
+                    this.hideOfflineScreen();
+                } else {
+                    this.showOfflineScreen();
+                }
+                break;
+                
+            default: 
+                console.log("Unhandled key in player:", e.keyCode);
+                break;
         }
     }
 };

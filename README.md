@@ -1,12 +1,20 @@
 # TVix Demo Playlist
 
-Bu repository TVix Player için demo M3U playlist dosyasını içerir.
+Samsung TV uygulaması için güvenli demo M3U playlist dosyası.
 
 ## Demo İçerikler
 
-- 🎬 **Filmler**: Big Buck Bunny, Sintel
-- 📺 **Kanallar**: Demo TV kanalları
-- 🎭 **Diziler**: Demo seri bölümleri
+### Demo Channels (2 Kanal)
+- Demo News Channel
+- Demo Sports Channel
+
+### Demo Movies (2 Film)
+- Big Buck Bunny - Açık kaynak film (Blender Foundation)
+- Sintel - Açık kaynak film (Blender Foundation)
+
+### Demo Series (2 Bölüm)
+- Demo Tech Series S01E01
+- Demo Tech Series S01E02
 
 ## M3U URL
 
@@ -14,10 +22,11 @@ Bu repository TVix Player için demo M3U playlist dosyasını içerir.
 https://robinronahi.github.io/tvix-demo-playlist/demo_playlist.m3u
 ```
 
-## Kullanım
+## Lisans Bilgisi
 
-Bu URL'yi TVix Player uygulamanızda playlist URL'si olarak ekleyebilirsiniz.
+Tüm içerikler Creative Commons veya açık kaynak lisansı altındadır:
+- Big Buck Bunny: Creative Commons Attribution 3.0
+- Sintel: Creative Commons Attribution 3.0
+- Diğer videolar: Google'ın örnek test videoları
 
-## Not
-
-Bu içerikler tamamen demo amaçlıdır ve tüm videolar açık kaynak/lisanssız içeriklerdir.
+Samsung uygulaması için güvenli kullanım.

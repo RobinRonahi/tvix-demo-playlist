@@ -7,6 +7,7 @@ var trailer_page = {
   is_loading: false,
   _boundDocKeyHandler: null,
   _ytReadyCheckTimer: null,
+  _autoHideTimer: null,
 
   // Güvenli tvKey haritası
   KEY: (function () {
@@ -17,7 +18,7 @@ var trailer_page = {
     };
   })(),
 
-  // ID ya da URL’den videoId çıkar
+  // ID ya da URL'den videoId çıkar
   _resolveVideoId: function (input) {
     if (!input) return "";
     // ID gibi görünüyorsa direkt dön (11 karakterli, alfasayısal/alt çizgi/-)
@@ -49,11 +50,99 @@ var trailer_page = {
     } catch (_) {}
   },
 
+  // Modern trailer UI başlatma fonksiyonu
+  _initTrailerUI: function() {
+    var self = this;
+    var container = document.getElementById("trailer-player-page");
+    if (!container) return;
+
+    // Temizle önce
+    var existingControls = document.getElementById("trailer-controls");
+    var existingInfo = document.getElementById("trailer-info");
+    var existingBack = container.querySelector(".trailer-back-button");
+    
+    if (existingControls) existingControls.remove();
+    if (existingInfo) existingInfo.remove();
+    if (existingBack) existingBack.remove();
+
+    // Modern kontrol overlay oluştur
+    var controlsOverlay = document.createElement("div");
+    controlsOverlay.className = "trailer-controls-overlay";
+    controlsOverlay.id = "trailer-controls";
+    
+    var controlButtons = document.createElement("div");
+    controlButtons.className = "trailer-control-buttons";
+    controlButtons.innerHTML = 
+      '<div class="trailer-control-btn" onclick="trailer_page.seekTo(-10)" title="10s Geri">' +
+        '<i class="fas fa-backward"></i>' +
+      '</div>' +
+      '<div class="trailer-control-btn play-pause" onclick="trailer_page.playOrPause()" title="Oynat/Duraklat">' +
+        '<i class="fas fa-play" id="trailer-play-icon"></i>' +
+      '</div>' +
+      '<div class="trailer-control-btn" onclick="trailer_page.seekTo(10)" title="10s İleri">' +
+        '<i class="fas fa-forward"></i>' +
+      '</div>';
+    
+    controlsOverlay.appendChild(controlButtons);
+
+    // Info overlay oluştur
+    var infoOverlay = document.createElement("div");
+    infoOverlay.className = "trailer-info-overlay";
+    infoOverlay.id = "trailer-info";
+    infoOverlay.innerHTML = 
+      '<div class="trailer-title" id="trailer-title">Film Fragmanı</div>' +
+      '<div class="trailer-subtitle" id="trailer-subtitle">Yükleniyor...</div>';
+
+    // Geri butonu oluştur
+    var backButton = document.createElement("div");
+    backButton.className = "trailer-back-button";
+    backButton.onclick = function() { self.goBack(); };
+    backButton.innerHTML = '<i class="fas fa-times"></i>';
+
+    // Elementleri sayfaya ekle
+    container.appendChild(controlsOverlay);
+    container.appendChild(infoOverlay);
+    container.appendChild(backButton);
+
+    // Auto-hide timer başlat
+    this._startAutoHideTimer();
+  },
+
+  // Otomatik gizleme timer'ı
+  _startAutoHideTimer: function() {
+    var self = this;
+    clearTimeout(this._autoHideTimer);
+    this._autoHideTimer = setTimeout(function() {
+      self._hideTrailerUI();
+    }, 5000); // 5 saniye sonra gizle
+  },
+
+  // UI göster
+  _showTrailerUI: function() {
+    var controls = document.getElementById("trailer-controls");
+    var info = document.getElementById("trailer-info");
+    if (controls) controls.classList.remove("hide");
+    if (info) info.classList.remove("hide");
+    this._startAutoHideTimer();
+  },
+
+  // UI gizle
+  _hideTrailerUI: function() {
+    var controls = document.getElementById("trailer-controls");
+    var info = document.getElementById("trailer-info");
+    if (controls) controls.classList.add("hide");
+    if (info) info.classList.add("hide");
+  },
+
   init: function (urlOrId, prev_route) {
     this._ensureLoader(true);
     this.is_loading = true;
     this.back_url = prev_route || "home-page";
     this.is_paused = false;
+
+    // Ana sayfa bottom bar'ını gizle
+    $("#home-mac-address-container").hide();
+    try { var el = document.getElementById('home-mac-address-container'); if (el) el.style.display = 'none'; } catch(_) {}
 
     // sayfa geçişleri
     try { document.getElementById("vod-summary-page")?.classList.add("hide"); } catch (_) {}
@@ -62,7 +151,7 @@ var trailer_page = {
     document.getElementById("trailer-player-page")?.setAttribute("style","display:block");
     if (typeof current_route !== "undefined") current_route = "trailer-page";
 
-    // container’ı tazele (eski iframe kalsın istemeyiz)
+    // container'ı tazele (eski iframe kalsın istemeyiz)
     var container = document.getElementById("trailer-player-page");
     var slot = document.getElementById("trailer-player");
     if (!slot) {
@@ -72,6 +161,9 @@ var trailer_page = {
     } else {
       slot.innerHTML = ""; // temiz slot
     }
+
+    // Modern trailer UI başlatma
+    this._initTrailerUI();
 
     var videoId = this._resolveVideoId(urlOrId);
 
@@ -137,17 +229,20 @@ var trailer_page = {
     }
     this._boundDocKeyHandler = function (e) {
       if (typeof current_route !== "undefined" && current_route !== "trailer-page") return;
-      // bazı TV’lerde event iframe’e gider; capture=true ile yakala
+      // bazı TV'lerde event iframe'e gider; capture=true ile yakala
       var K = self.KEY;
       var code = e.keyCode;
+
+      // UI'yi göster
+      self._showTrailerUI();
 
       if ([K.LEFT, K.RIGHT, K.ENTER, K.ENTER_ALT, K.ENTER_ALT2, K.RETURN, K.RETURN_ALT].includes(code)) {
         e.preventDefault(); e.stopPropagation();
       }
 
       if (code === K.RETURN || code === K.RETURN_ALT) self.goBack();
-      else if (code === K.RIGHT) self.seekTo(5);
-      else if (code === K.LEFT) self.seekTo(-5);
+      else if (code === K.RIGHT) self.seekTo(10);
+      else if (code === K.LEFT) self.seekTo(-10);
       else if (code === K.ENTER || code === K.ENTER_ALT || code === K.ENTER_ALT2) self.playOrPause();
     };
     document.addEventListener("keydown", this._boundDocKeyHandler, true);
@@ -175,12 +270,16 @@ var trailer_page = {
       clearInterval(this._ytReadyCheckTimer);
       this._ytReadyCheckTimer = null;
     }
+    if (this._autoHideTimer) {
+      clearTimeout(this._autoHideTimer);
+      this._autoHideTimer = null;
+    }
 
     // UI restore
     var page = document.getElementById("trailer-player-page");
     if (page) {
       page.style.display = "none";
-      // container’ı sıfırla
+      // container'ı sıfırla
       page.innerHTML = '<div id="trailer-player"></div>';
     }
 
@@ -205,9 +304,27 @@ var trailer_page = {
     this._ensureLoader(false);
     this.is_loading = false;
     this.is_paused = false;
+    
+    // Play icon'unu pause'a çevir
+    var playIcon = document.getElementById("trailer-play-icon");
+    if (playIcon) {
+      playIcon.className = "fas fa-pause";
+    }
   },
 
   onPlayerStateChange: function (event) {
+    // Play/pause ikonunu güncelle
+    var playIcon = document.getElementById("trailer-play-icon");
+    if (playIcon && event.data !== undefined) {
+      if (event.data === 1) { // playing
+        playIcon.className = "fas fa-pause";
+        this.is_paused = false;
+      } else if (event.data === 2) { // paused
+        playIcon.className = "fas fa-play";
+        this.is_paused = true;
+      }
+    }
+    
     // İstersen oynatma bittiğinde geri dön:
     // if (event.data === YT.PlayerState.ENDED) this.goBack();
   },
@@ -220,6 +337,9 @@ var trailer_page = {
     if (new_time < 0) new_time = 0;
     if (duration && new_time > duration) new_time = duration;
     try { this.player.seekTo(new_time, true); } catch (_) {}
+    
+    // UI'yi göster
+    this._showTrailerUI();
   },
 
   playOrPause: function () {
@@ -229,20 +349,27 @@ var trailer_page = {
       else this.player.pauseVideo();
       this.is_paused = !this.is_paused;
     } catch (_) {}
+    
+    // UI'yi göster
+    this._showTrailerUI();
   },
 
   HandleKey: function (e) {
     if (this.is_loading) return;
     var K = this.KEY;
-    switch (e.keyCode) {
-      case K.RETURN: case K.RETURN_ALT:
-        this.goBack(); break;
-      case K.RIGHT:
-        this.seekTo(5); break;
-      case K.LEFT:
-        this.seekTo(-5); break;
-      case K.ENTER: case K.ENTER_ALT: case K.ENTER_ALT2:
-        this.playOrPause(); break;
+    var code = e.keyCode;
+
+    // UI'yi göster
+    this._showTrailerUI();
+
+    if (code === K.RETURN || code === K.RETURN_ALT) {
+      this.goBack();
+    } else if (code === K.RIGHT) {
+      this.seekTo(10);
+    } else if (code === K.LEFT) {
+      this.seekTo(-10);
+    } else if (code === K.ENTER || code === K.ENTER_ALT || code === K.ENTER_ALT2) {
+      this.playOrPause();
     }
   }
 };

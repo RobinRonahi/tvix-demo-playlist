@@ -1,7 +1,26 @@
 /* ==== VOD SERIES – TIZEN 6/9 SAFE (minified style) ==== */
 *{box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-html,body{transform:translateZ(0);will-change:auto}
-#vod-series-page{background:linear-gradient(135deg,var(--bg-1,#12121c) 0%,var(--bg-2,#1a1a26) 50%,var(--bg-1,#0e0e18) 100%);min-height:100vh;position:relative;color:#fff;overflow-x:hidden;font-family:'SamsungOne','Roboto','Segoe UI',sans-serif}
+html,body{
+  transform:translateZ(0);
+  will-change:auto;
+  margin:0 !important;
+  padding:0 !important;
+  width:100% !important;
+  height:100% !important;
+  overflow-x:hidden !important;
+  box-sizing:border-box !important;
+}
+#vod-series-page{
+  background:linear-gradient(135deg,var(--bg-1,#12121c) 0%,var(--bg-2,#1a1a26) 50%,var(--bg-1,#0e0e18) 100%);
+  min-height:100vh;
+  position:relative;
+  color:#fff;
+  overflow-x:hidden;
+  font-family:'SamsungOne','Roboto','Segoe UI',sans-serif;
+  margin:0 !important;
+  padding:0 !important;
+  box-sizing:border-box !important;
+}
 .vod-series-header{height:70px;background:linear-gradient(180deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.7) 70%,transparent 100%);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;padding:0 4%;position:fixed;top:0;left:0;right:0;z-index:1000}
 .vod-series-header.scrolled{background:rgba(0,0,0,.98)}
 .header-left{display:flex;align-items:center;gap:20px}
@@ -9,18 +28,26 @@ html,body{transform:translateZ(0);will-change:auto}
 .back-to-home-icon:hover{color:#fff;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);box-shadow:0 2px 8px rgba(255,255,255,.1)}
 .back-to-home-icon i{font-size:16px;margin-right:6px}
 #vod-series-title{color:#fff;font-size:32px;font-weight:700;text-shadow:0 2px 10px rgba(0,0,0,.8);letter-spacing:-.5px}
-.stream-page-content-part{display:flex;min-height:100vh;padding:70px 25px 25px;white-space:nowrap;gap:20px}
+.stream-page-content-part{
+  display:flex;
+  min-height:100vh;
+  padding:70px 25px 0px;
+  white-space:nowrap;
+  gap:20px;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
 
 /* === Kategoriler (sol) === */
-#vod-series-categories-container{width:280px;min-width:280px;max-width:280px;background:linear-gradient(180deg,rgba(22,22,32,.85) 0%,rgba(18,18,28,.9) 50%,rgba(16,16,26,.95) 100%);border-right:2px solid rgba(120,120,140,.2);box-shadow:3px 0 15px rgba(0,0,0,.2);padding:30px 0;overflow-y:auto;overflow-x:hidden;display:inline-block;vertical-align:top;position:relative;flex-shrink:0;scrollbar-width:none;-ms-overflow-style:none}
+#vod-series-categories-container{width:280px;min-width:280px;max-width:280px;background:linear-gradient(180deg,rgba(22,22,32,.85) 0%,rgba(18,18,28,.9) 50%,rgba(16,16,26,.95) 100%);border-right:2px solid rgba(120,120,140,.2);box-shadow:3px 0 15px rgba(0,0,0,.2);padding:30px 0;overflow-y:auto;overflow-x:hidden;display:inline-block;vertical-align:top;position:relative;flex-shrink:0;scrollbar-width:none;-ms-overflow-style:none;max-height:calc(100vh - 100px)}
 #vod-series-categories-container::-webkit-scrollbar{width:0;height:0;display:none}
-.vod-series-category-item{background:linear-gradient(90deg,transparent 0%,rgba(120,120,140,.08) 100%);border:none;border-left:3px solid transparent;border-radius:0 10px 10px 0;padding:18px 24px;margin:4px 0;font-size:16px;font-weight:500;color:rgba(255,255,255,.75);transition:all .2s ease;cursor:pointer;display:flex;align-items:center;position:relative;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:52px}
-.vod-series-category-item:hover{background:linear-gradient(90deg,rgba(120,120,140,.15),rgba(100,100,120,.2));color:rgba(255,255,255,.95);border-left:3px solid var(--accent,#ff5a36);padding-left:20px;transform:translateX(6px)}
+.vod-series-category-item{background:linear-gradient(90deg,transparent 0%,rgba(120,120,140,.08) 100%);border:none;border-left:3px solid transparent;border-radius:0 10px 10px 0;padding:18px 24px;margin:4px 0;font-size:16px;font-weight:500;color:rgba(255,255,255,.75);transition:all .1s ease;cursor:pointer;display:flex;align-items:center;position:relative;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:52px}
+.vod-series-category-item:hover{background:linear-gradient(90deg,rgba(120,120,140,.15),rgba(100,100,120,.2));color:rgba(255,255,255,.95);border-left:3px solid var(--accent,#ff5a36);padding-left:20px;transform:translateX(4px)}
 .vod-series-category-item .fa-film{color:rgba(255,255,255,.7);margin-right:12px;font-size:16px;flex-shrink:0;opacity:.9}
 .category-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:8px;font-weight:500}
-.category-movie-count{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);padding:4px 8px;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0;min-width:28px;max-width:28px;height:28px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.1);transition:transform .2s ease}
-.vod-series-category-item:hover .category-movie-count{transform:scale(1.06)}
-.vod-series-category-item.active{background:rgba(150,150,170,.12);border-left:3px solid var(--accent,#ff5a36);color:#fff;padding-left:21px;box-shadow:0 0 12px rgba(150,150,170,.15)}
+.category-movie-count{background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);padding:4px 8px;border-radius:50%;font-size:11px;font-weight:700;flex-shrink:0;min-width:28px;max-width:28px;height:28px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.1);transition:transform .1s ease}
+.vod-series-category-item:hover .category-movie-count{transform:scale(1.03)}
+.vod-series-category-item.active{background:rgba(150,150,170,.12);border-left:3px solid var(--accent,#ff5a36);color:#fff;padding-left:21px;box-shadow:0 0 12px rgba(150,150,170,.15);transform:translateX(2px)}
 .vod-series-category-item.active .fa-film{color:#b0b0c0;opacity:1}
 .vod-series-category-item.active .category-movie-count{background:rgba(255,255,255,.9);color:#333;box-shadow:0 4px 15px rgba(255,255,255,.25);border:2px solid rgba(255,90,54,.4)}
 .vod-series-category-item.all-category{background:rgba(255,90,54,.08);border-bottom:1px solid rgba(255,255,255,.08)}
@@ -29,28 +56,31 @@ html,body{transform:translateZ(0);will-change:auto}
 
 /* === Arama === */
 .search-container{display:flex;align-items:center;position:relative;margin:20px 0;justify-content:center;font-size:16px}
-.search-wrapper{display:inline-block;position:relative;width:45%;max-width:500px}
-.search-input{width:100%;height:48px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);border-radius:24px;color:#fff;padding:0 20px 0 50px;font-size:15px;font-weight:500;transition:all .2s ease;outline:0;box-shadow:0 4px 20px rgba(0,0,0,.15)}
-.search-input:focus{background:rgba(255,255,255,.18);border-color:var(--accent,#ff5a36);box-shadow:0 0 0 4px rgba(255,90,54,.2),0 8px 30px rgba(255,90,54,.25);transform:scale(1.01)}
-.search-input::placeholder{color:rgba(255,255,255,.6);font-weight:400;font-size:14px}
-.search-icon-wrapper{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.7);font-size:18px;pointer-events:none;transition:all .2s ease;z-index:1}
-.search-container:hover .search-icon-wrapper,.search-input:focus~.search-icon-wrapper{color:var(--accent,#ff5a36);transform:translateY(-50%) scale(1.05)}
+.search-wrapper{display:inline-block;position:relative;width:60%;max-width:650px}
+.search-input{width:100%;height:38px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);border-radius:20px;color:#fff;padding:0 20px 0 45px;font-size:14px;font-weight:500;transition:all .1s ease;outline:0;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.search-input:focus{background:rgba(255,255,255,.18);border-color:var(--accent,#ff5a36);box-shadow:0 0 0 4px rgba(255,90,54,.2),0 8px 30px rgba(255,90,54,.25);transform:scale(1.005)}
+.search-input::placeholder{color:rgba(255,255,255,.6);font-weight:400;font-size:13px}
+.search-icon-wrapper{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.7);font-size:16px;pointer-events:none;transition:all .1s ease;z-index:1;display:flex;align-items:center;justify-content:center}
+.search-icon-wrapper i{font-size:14px;color:inherit}
+.search-container:hover .search-icon-wrapper,.search-input:focus~.search-icon-wrapper{color:var(--accent,#ff5a36);transform:translateY(-50%) scale(1.02)}
+.search-icon-wrapper.searching{animation:pulse-search 1.5s infinite}
+@keyframes pulse-search{0%,100%{opacity:.7}50%{opacity:1}}
 
 /* === İçerik alanı (sağ) === */
-.vod-series-content-area{flex:1;padding:30px 0;overflow:hidden;display:flex;flex-direction:column;width:calc(100% - 280px);min-width:0;transition:opacity .2s ease}
+.vod-series-content-area{flex:1;padding:30px 0;overflow:hidden;display:flex;flex-direction:column;width:calc(100% - 280px);min-width:0;transition:opacity .1s ease}
 .vod-series-content-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;padding:0 30px 15px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
 #vod-series-current-category{font-size:28px;font-weight:700;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .vod-series-content-stats{font-size:14px;color:rgba(255,255,255,.7);background:rgba(255,255,255,.05);padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.1)}
 
 /* === Grid === */
-#vod-series-menus-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:30px;padding:20px 30px 20px 20px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;align-items:start;width:100%}
+#vod-series-menus-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px;padding:20px 30px 20px 20px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;-ms-overflow-style:none;align-items:start;width:100%;max-height:calc(100vh - 200px);height:calc(100vh - 200px)}
 #vod-series-menus-container::-webkit-scrollbar{display:none}
-.vod-series-menu-item-container{position:relative;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;will-change:transform}
-.vod-series-menu-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;transition:all .2s ease;position:relative;box-shadow:0 4px 15px rgba(0,0,0,.2);min-height:320px}
-.vod-series-icon{width:100%;height:0;padding-bottom:160%;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#1a1a1a;border-radius:12px 12px 0 0}
-.vod-series-menu-item-container:hover .vod-series-menu-item,.vod-series-menu-item-container.active .vod-series-menu-item{transform:translateY(-8px);border-color:var(--accent,#ff5a36);box-shadow:0 14px 30px rgba(0,0,0,.45),0 0 0 2px rgba(255,90,54,.25)}
-#vod-series-page .vod-series-menu-item-title-wrapper{display:block;visibility:visible;opacity:1;position:absolute;bottom:0;left:0;right:0;padding:14px 10px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.7) 60%,rgba(0,0,0,.9) 100%);min-height:72px;border-radius:0 0 12px 12px;z-index:5}
-#vod-series-page .vod-series-menu-item-title{padding:0;background:none;min-height:auto;display:flex;align-items:center;justify-content:center;border-top:none;position:relative;overflow:hidden;font-size:14px;font-weight:600;color:#fff;line-height:1.4;text-align:center;text-overflow:ellipsis;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;max-height:40px;width:100%;letter-spacing:.3px;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.vod-series-menu-item-container{position:relative;cursor:pointer;transition:transform .1s ease;will-change:transform}
+.vod-series-menu-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;transition:all .1s ease;position:relative;box-shadow:0 4px 15px rgba(0,0,0,.2);min-height:280px}
+.vod-series-icon{width:100%;height:0;padding-bottom:140%;background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#1a1a1a;border-radius:8px 8px 0 0}
+.vod-series-menu-item-container:hover .vod-series-menu-item,.vod-series-menu-item-container.active .vod-series-menu-item{transform:translateY(-4px);border-color:var(--accent,#ff5a36);box-shadow:0 8px 20px rgba(0,0,0,.35),0 0 0 2px rgba(255,90,54,.25)}
+#vod-series-page .vod-series-menu-item-title-wrapper{display:block;visibility:visible;opacity:1;position:absolute;bottom:0;left:0;right:0;padding:12px 8px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.7) 60%,rgba(0,0,0,.9) 100%);min-height:60px;border-radius:0 0 8px 8px;z-index:5}
+#vod-series-page .vod-series-menu-item-title{padding:0;background:none;min-height:auto;display:flex;align-items:center;justify-content:center;border-top:none;position:relative;overflow:hidden;font-size:13px;font-weight:600;color:#fff;line-height:1.3;text-align:center;text-overflow:ellipsis;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;max-height:36px;width:100%;letter-spacing:.2px;text-shadow:0 2px 8px rgba(0,0,0,.8)}
 #vod-series-page .vod-series-menu-item-container:hover .vod-series-menu-item-title,#vod-series-page .vod-series-menu-item-container.active .vod-series-menu-item-title{text-shadow:0 0 8px rgba(255,255,255,.6),0 0 6px rgba(255,90,54,.6)}
 
 /* === Player alanı (liste üstü) === */
@@ -104,7 +134,18 @@ html,body{transform:translateZ(0);will-change:auto}
 @media (min-width:1600px) and (max-width:1919px){#vod-series-menus-container{grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px}}
 @media (max-width:1599px){#vod-series-menus-container{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:28px}}
 @media (max-width:1200px){.search-input{width:320px}#vod-series-categories-container{width:240px;min-width:240px;max-width:240px}#vod-series-menus-container{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px;padding:20px 25px 20px 15px}.vod-series-content-area{width:calc(100% - 240px)}}
-@media (max-width:768px){.stream-page-content-part{flex-direction:column;padding:70px 15px 0}#vod-series-categories-container{width:100%;height:150px;overflow-x:auto;overflow-y:hidden;display:flex;padding:15px 0}#vod-series-categories-container::-webkit-scrollbar{height:0}.vod-series-category-item{flex-shrink:0;margin-right:12px;margin-bottom:0;min-width:140px}#vod-series-menus-container{width:100%;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-height:calc(100vh - 300px)}}
+@media (max-width:768px){
+.stream-page-content-part{
+  flex-direction:column;
+  padding:70px 15px 0;
+  margin:0 !important;
+  box-sizing:border-box !important;
+}
+#vod-series-categories-container{width:100%;height:150px;overflow-x:auto;overflow-y:hidden;display:flex;padding:15px 0}
+#vod-series-categories-container::-webkit-scrollbar{height:0}
+.vod-series-category-item{flex-shrink:0;margin-right:12px;margin-bottom:0;min-width:140px}
+#vod-series-menus-container{width:100%;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-height:calc(100vh - 300px);height:calc(100vh - 300px)}
+}
 
 /* === Samsung TV 6/9 özel optimizasyonları === */
 @media screen and (min-width: 1920px) and (max-width: 3840px) {
