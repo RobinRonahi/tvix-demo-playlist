@@ -1,27 +1,27 @@
 # TVix Demo Playlist
 
-Samsung TV uygulaması için düzenli kategorilerde demo M3U playlist dosyası.
+Samsung TV uygulaması için logolu ve açıklamalı demo M3U playlist dosyası.
 
-## Kanallar (3 Kategori)
+## 📺 Kanallar (3 Kategori)
 
 ### News Channels
-- Demo News TV
+- **Demo News TV** - 24/7 Haber Kanalı 📺
 
 ### Sports Channels  
-- Demo Sports Channel
+- **Demo Sports Channel** - Canlı Spor Yayınları ⚽
 
 ### Music Channels
-- Demo Music TV
+- **Demo Music TV** - 7/24 Müzik Kanalı 🎵
 
-## Filmler (3 Film)
-- Big Buck Bunny (2008)
-- Sintel (2010) 
-- Tears of Steel (2012)
+## 🎬 Filmler (3 Film)
+- **Big Buck Bunny (2008)** - Komedi Animasyon Filmi 🍿
+- **Sintel (2010)** - Aksiyon Fantezi Filmi 🎬
+- **Tears of Steel (2012)** - Bilim Kurgu Filmi 🎭
 
-## Seriler (3 Bölüm)
-- Demo Tech Series S01E01
-- Demo Tech Series S01E02
-- Demo Adventure Series S01E01
+## 🎭 Seriler (3 Bölüm)
+- **Demo Tech Series S01E01** - Teknoloji ve Gelecek 📱
+- **Demo Tech Series S01E02** - Yapay Zeka ve İnsan 📱
+- **Demo Adventure Series S01E01** - Dağ Macerası 🏔️
 
 ## M3U URL
 
@@ -29,7 +29,10 @@ Samsung TV uygulaması için düzenli kategorilerde demo M3U playlist dosyası.
 https://robinronahi.github.io/tvix-demo-playlist/demo_playlist.m3u
 ```
 
-## Lisans Bilgisi
+## Özellikler
 
-Tüm içerikler Creative Commons veya açık kaynak lisansı altındadır.
-Samsung uygulaması için güvenli kullanım.
+✅ Her kanal için yuvarlak demo logoları  
+✅ Filmler için renkli poster afişleri  
+✅ Seriler için demo kapak görselleri  
+✅ Açıklayıcı başlıklar ve emoji'ler  
+✅ Samsung TV için güvenli Creative Commons içerik
