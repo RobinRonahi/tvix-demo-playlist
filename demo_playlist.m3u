@@ -1,19 +1,28 @@
 #EXTM3U
 
-#EXTINF:-1 tvg-id="channel1" tvg-name="Demo News Channel" tvg-logo="https://via.placeholder.com/300x200/FF6B6B/FFFFFF?text=DEMO+NEWS" group-title="Demo Channels",Demo News Channel
+#EXTINF:-1 tvg-id="news1" tvg-name="Demo News TV" tvg-logo="https://via.placeholder.com/300x200/FF6B6B/FFFFFF?text=NEWS+TV" group-title="News Channels",Demo News TV
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4
 
-#EXTINF:-1 tvg-id="channel2" tvg-name="Demo Sports Channel" tvg-logo="https://via.placeholder.com/300x200/4ECDC4/FFFFFF?text=DEMO+SPORTS" group-title="Demo Channels",Demo Sports Channel
+#EXTINF:-1 tvg-id="sports1" tvg-name="Demo Sports Channel" tvg-logo="https://via.placeholder.com/300x200/4ECDC4/FFFFFF?text=SPORTS+TV" group-title="Sports Channels",Demo Sports Channel
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4
 
-#EXTINF:-1 tvg-id="movie1" tvg-name="Big Buck Bunny" tvg-logo="https://peach.blender.org/wp-content/uploads/bbb-splash.png" group-title="Demo Movies",Big Buck Bunny (2008) - Open Source Film
+#EXTINF:-1 tvg-id="music1" tvg-name="Demo Music TV" tvg-logo="https://via.placeholder.com/300x200/96CEB4/FFFFFF?text=MUSIC+TV" group-title="Music Channels",Demo Music TV
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4
+
+#EXTINF:-1 tvg-id="movie1" tvg-name="Big Buck Bunny" tvg-logo="https://peach.blender.org/wp-content/uploads/bbb-splash.png" group-title="Movies",Big Buck Bunny (2008)
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
 
-#EXTINF:-1 tvg-id="movie2" tvg-name="Sintel" tvg-logo="https://durian.blender.org/wp-content/uploads/2010/06/sintel_trailer_1080p.jpg" group-title="Demo Movies",Sintel (2010) - Open Source Film
+#EXTINF:-1 tvg-id="movie2" tvg-name="Sintel" tvg-logo="https://durian.blender.org/wp-content/uploads/2010/06/sintel_trailer_1080p.jpg" group-title="Movies",Sintel (2010)
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4
 
-#EXTINF:-1 tvg-id="series1" tvg-name="Demo Tech Series S01E01" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=TECH+SERIES" group-title="Demo Series",Demo Tech Series - Season 1 Episode 1
+#EXTINF:-1 tvg-id="movie3" tvg-name="Tears of Steel" tvg-logo="https://via.placeholder.com/300x450/F38181/FFFFFF?text=TEARS+OF+STEEL" group-title="Movies",Tears of Steel (2012)
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
+
+#EXTINF:-1 tvg-id="series1" tvg-name="Demo Tech Series S01E01" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=TECH+SERIES" group-title="Series",Demo Tech Series - Season 1 Episode 1
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4
 
-#EXTINF:-1 tvg-id="series2" tvg-name="Demo Tech Series S01E02" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=TECH+SERIES" group-title="Demo Series",Demo Tech Series - Season 1 Episode 2
-http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
+#EXTINF:-1 tvg-id="series2" tvg-name="Demo Tech Series S01E02" tvg-logo="https://via.placeholder.com/300x450/45B7D1/FFFFFF?text=TECH+SERIES" group-title="Series",Demo Tech Series - Season 1 Episode 2
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4
+
+#EXTINF:-1 tvg-id="series3" tvg-name="Demo Adventure Series S01E01" tvg-logo="https://via.placeholder.com/300x450/A8E6CF/FFFFFF?text=ADVENTURE" group-title="Series",Demo Adventure Series - Season 1 Episode 1
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4
